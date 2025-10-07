@@ -1,0 +1,42 @@
+// src/main/java/com/yourapp/branchservices/repo/BranchBrandServiceReadRepository.java
+package com.car.carservices.repository;
+
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Map;
+
+@Repository
+public class BranchBrandServiceReadRepository {
+
+    private final NamedParameterJdbcTemplate jdbc;
+
+    public BranchBrandServiceReadRepository(NamedParameterJdbcTemplate jdbc) {
+        this.jdbc = jdbc;
+    }
+
+    /** Row projection (brand_id, brand_name, status, service_name) */
+    public record BrandServiceRow(Long brandId, String brandName, String status, String serviceName) {}
+
+    public List<BrandServiceRow> findBrandServicesByBranchId(long branchId) {
+        final String sql = """
+            SELECT b.brand_id, b.brand_name, b.status, s.service_name
+            FROM branch_brand_service bbs
+            JOIN brand b ON bbs.brand_id = b.brand_id
+            JOIN service_entity s ON bbs.service_id = s.service_id
+            WHERE bbs.branch_id = :branchId
+            ORDER BY b.brand_name, s.service_name
+            """;
+        return jdbc.query(
+            sql,
+            Map.of("branchId", branchId),
+            (rs, i) -> new BrandServiceRow(
+                rs.getLong("brand_id"),
+                rs.getString("brand_name"),
+                rs.getString("status"),
+                rs.getString("service_name")
+            )
+        );
+    }
+}
