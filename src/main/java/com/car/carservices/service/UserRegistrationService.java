@@ -14,16 +14,20 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserRegistrationService {
-    @Autowired
-    private UserRegistrationRepository repository;
+    @Autowired private UserRegistrationRepository repository;
+    @Autowired private UserMapper userMapper;
+    @Autowired private PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private UserMapper userMapper;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    // NEW: public helper for “check” endpoints
+    public boolean isEmailUnique(String email) {
+        return !repository.existsByEmailIgnoreCase(email);
+    }
 
     public UserRegistrationDTO save(UserRegistrationDTO dto) {
+        // NEW: uniqueness guard on create
+        if (!isEmailUnique(dto.getEmail())) {
+            throw new IllegalArgumentException("Duplicate email");
+        }
         UserRegistration entity = userMapper.toEntity(dto);
         if (entity.getPassword() != null && !entity.getPassword().isBlank()) {
             entity.setPassword(passwordEncoder.encode(entity.getPassword()));
@@ -42,13 +46,18 @@ public class UserRegistrationService {
 
     public UserRegistrationDTO update(Long id, UserRegistrationDTO dto) {
         UserRegistration existing = repository.findById(id).orElseThrow();
-        // Map all updatable fields
+
+        // NEW: uniqueness guard on update (exclude current user)
+        if (dto.getEmail() != null &&
+            repository.existsByEmailIgnoreCaseAndIdNot(dto.getEmail(), id)) {
+            throw new IllegalArgumentException("Duplicate email");
+        }
+
         existing.setFullName(dto.getFullName());
         existing.setBirthday(dto.getBirthday());
         existing.setGender(dto.getGender());
         existing.setEmail(dto.getEmail());
 
-        // Only update password if caller provided one; encode it
         if (dto.getPassword() != null && !dto.getPassword().isBlank()) {
             existing.setPassword(passwordEncoder.encode(dto.getPassword()));
         }

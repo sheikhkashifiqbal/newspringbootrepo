@@ -57,17 +57,15 @@ public class BranchController {
     }
 
     @GetMapping("/check/email")
-public ResponseEntity<Map<String, Object>> checkEmail(@RequestParam("email") String email) {
+    public ResponseEntity<Map<String, Object>> checkEmail(@RequestParam("email") String email) {
     boolean unique = service.isLoginEmailUnique(email);
-    return ResponseEntity.ok(Map.of(
+        return ResponseEntity.ok(Map.of(
         "field", "login_email",
         "value", email,
         "isUnique", unique,
         "message", unique ? "" : "Duplicate email address"
     ));
 }
-
-
 
     @PostMapping
     public ResponseEntity<?> create(@RequestBody BranchDTO dto) {
@@ -81,12 +79,6 @@ public ResponseEntity<Map<String, Object>> checkEmail(@RequestParam("email") Str
         }
     }
 
-/* 
-    @PutMapping("/{id}")
-    public ResponseEntity<BranchDTO> update(@PathVariable Long id, @RequestBody BranchDTO dto) {
-        return ResponseEntity.ok(service.update(id, dto));
-    }
-*/
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.delete(id);
