@@ -29,6 +29,10 @@ public class BranchAggregateService {
             if (r.serviceName != null && !r.serviceName.isBlank()) {
                 agg.addService(r.serviceName);
             }
+            // NEW: set stars once (all rows for a branch share the same avgStars)
+            if (agg.stars == null && r.avgStars != null) {
+                agg.stars = r.avgStars;
+            }
         }
 
         return map.values().stream()
@@ -41,6 +45,7 @@ public class BranchAggregateService {
         final String branchCoverImg;
         final String logoImg;
         final LinkedHashSet<String> services = new LinkedHashSet<>();
+        Double stars; // NEW
 
         Aggregator(String branchName, String branchCoverImg, String logoImg) {
             this.branchName = branchName;
@@ -53,7 +58,7 @@ public class BranchAggregateService {
         BranchAggregateResponse toResponse() {
             var list = new ArrayList<>(services);
             list.sort(String.CASE_INSENSITIVE_ORDER);
-            return new BranchAggregateResponse(branchName, list, branchCoverImg, logoImg);
+            return new BranchAggregateResponse(branchName, list, branchCoverImg, logoImg, stars);
         }
     }
 }

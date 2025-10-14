@@ -2,6 +2,7 @@ package com.car.carservices.repository;
 
 import com.car.carservices.entity.Company;
 import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.Optional;
 
 public interface CompanyRepository extends JpaRepository<Company, Long> {
     // Create checks (any row)
@@ -13,4 +14,7 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
     boolean existsByManagerEmailIgnoreCaseAndCompanyIdNot(String managerEmail, Long companyId);
     boolean existsByCompanyNameIgnoreCaseAndCompanyIdNot(String companyName, Long companyId);
     boolean existsByBrandNameIgnoreCaseAndCompanyIdNot(String brandName, Long companyId);
+
+    Optional<Company> findFirstByManagerEmailIgnoreCase(String managerEmail);
+
 }

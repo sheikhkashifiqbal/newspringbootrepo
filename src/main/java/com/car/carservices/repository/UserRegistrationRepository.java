@@ -11,4 +11,6 @@ public interface UserRegistrationRepository extends JpaRepository<UserRegistrati
     // NEW: case-insensitive uniqueness checks
     boolean existsByEmailIgnoreCase(String email);
     boolean existsByEmailIgnoreCaseAndIdNot(String email, Long id);
+
+    Optional<UserRegistration> findFirstByEmailIgnoreCase(String email);
 }

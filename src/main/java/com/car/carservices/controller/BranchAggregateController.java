@@ -21,6 +21,7 @@ public class BranchAggregateController {
     // GET /api/branches
     @GetMapping
     public ResponseEntity<List<BranchAggregateResponse>> getAllBranches() {
+        
         return ResponseEntity.ok(service.fetchAllBranchesWithServices());
     }
 }

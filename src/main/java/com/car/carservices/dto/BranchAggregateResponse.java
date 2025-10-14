@@ -7,15 +7,17 @@ public class BranchAggregateResponse {
     private List<String> serviceNames;
     private String branchCoverImg;
     private String logoImg;
+    private Double stars; // NEW: average stars for the branch (nullable if no ratings)
 
     public BranchAggregateResponse() {}
 
     public BranchAggregateResponse(String branchName, List<String> serviceNames,
-                                   String branchCoverImg, String logoImg) {
+                                   String branchCoverImg, String logoImg, Double stars) {
         this.branchName = branchName;
         this.serviceNames = serviceNames;
         this.branchCoverImg = branchCoverImg;
         this.logoImg = logoImg;
+        this.stars = stars;
     }
 
     public String getBranchName() { return branchName; }
@@ -29,4 +31,7 @@ public class BranchAggregateResponse {
 
     public String getLogoImg() { return logoImg; }
     public void setLogoImg(String logoImg) { this.logoImg = logoImg; }
+
+    public Double getStars() { return stars; }
+    public void setStars(Double stars) { this.stars = stars; }
 }

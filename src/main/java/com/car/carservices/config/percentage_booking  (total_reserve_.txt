@@ -1,0 +1,25 @@
+percentage_booking:  (total_reserve_service / total_available_qty) * 100
+
+total_available_qty: total qty(box or experts) * No. of slots in day
+
+No. of Slots in a day: ((Hours 10:00 to 3:00) convert in minutes)/30
+
+
+branch:
+branch_id, branch_address, branch_code, branch_cover_img, branch_manager_name, branch_manager_surname, branch_name, location, login_email, logo_img, password, company_id, status, latitude, longitude, city
+
+reservation_service_request:
+reservation_id, car_id, reservation_date, reservation_time, service_id, user_id, reservation_status, branch_id
+[total_reserve_service]
+
+
+work_days:
+work_id, branch_id, working_day, "from", "to", status
+
+
+branch_brand_service:
+id, qty, branch_id, brand_id, service_id
+
+
+
+

@@ -17,4 +17,5 @@ public class UserRegistration {
     private String gender;
     private String email;
     private String password;
+    
 }
