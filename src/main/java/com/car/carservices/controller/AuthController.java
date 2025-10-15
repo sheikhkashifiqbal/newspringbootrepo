@@ -15,8 +15,6 @@ public class AuthController {
     private final AuthService service;
     public AuthController(AuthService service){ this.service = service; }
 
-   // @PostMapping("/login")
-// com/car/carservices/controller/AuthController.java
 @PostMapping("/login")
 public ResponseEntity<?> login(@RequestBody LoginRequestDTO req) {
     try {

@@ -16,6 +16,7 @@ public class UserRegistration {
     private LocalDate birthday;
     private String gender;
     private String email;
+    private String mobile;
     private String password;
     
 }

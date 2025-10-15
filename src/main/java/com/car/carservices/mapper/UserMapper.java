@@ -13,6 +13,7 @@ public class UserMapper {
         dto.setBirthday(user.getBirthday());
         dto.setGender(user.getGender());
         dto.setEmail(user.getEmail());
+        dto.setMobile(user.getMobile());
         // Do not expose password (hashed or otherwise)
         dto.setPassword(null);
         return dto;
@@ -25,6 +26,7 @@ public class UserMapper {
         user.setBirthday(dto.getBirthday());
         user.setGender(dto.getGender());
         user.setEmail(dto.getEmail());
+        user.setMobile(dto.getMobile());
         // Raw password will be encoded in the Service layer
         user.setPassword(dto.getPassword());
         return user;

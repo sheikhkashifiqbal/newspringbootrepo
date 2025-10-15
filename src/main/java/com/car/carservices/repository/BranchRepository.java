@@ -19,6 +19,7 @@ public interface BranchRepository extends JpaRepository<Branch, Long> {
     // NEW: uniqueness checks for loginEmail (case-insensitive)
     boolean existsByLoginEmailIgnoreCase(String loginEmail);
     boolean existsByLoginEmailIgnoreCaseAndBranchIdNot(String loginEmail, Long branchId);
+    
 
     // NEW (for auth)
     Optional<Branch> findFirstByLoginEmailIgnoreCase(String loginEmail);
