@@ -19,5 +19,6 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
     boolean existsByManagerMobileIgnoreCase(String managerMobile);
 
     Optional<Company> findFirstByManagerEmailIgnoreCase(String managerEmail);
+    Optional<Company> findFirstByManagerMobileIgnoreCase(String managerMobile);
 
 }

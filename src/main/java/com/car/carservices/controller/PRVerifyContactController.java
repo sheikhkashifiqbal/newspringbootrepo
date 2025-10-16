@@ -19,12 +19,8 @@ public class PRVerifyContactController {
     }
 
     @PostMapping("/contact")
-    public ResponseEntity<?> verify(@RequestBody PRVerifyContactRequest req) {
-        String type = req.getType() == null ? "" : req.getType().trim().toLowerCase();
-        if (!type.equals("user") && !type.equals("manager")) {
-            return ResponseEntity.badRequest().body("type must be 'user' or 'manager'");
-        }
-        boolean matched = service.verify(req);
-        return ResponseEntity.ok(new PRVerifyContactResponse(matched));
+    public ResponseEntity<PRVerifyContactResponse> verify(@RequestBody PRVerifyContactRequest req) {
+        // Optional: validate type value here if you want a 400 on unexpected types
+        return ResponseEntity.ok(service.verify(req));
     }
 }

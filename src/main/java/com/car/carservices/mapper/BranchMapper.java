@@ -35,6 +35,7 @@ public class BranchMapper {
         // NEW FIELDS
         d.setCity(e.getCity());
         d.setAddress(e.getAddress());
+        d.setMobile(e.getMobile());
         return d;
     }
 
@@ -62,6 +63,7 @@ public class BranchMapper {
         // NEW FIELDS
         e.setCity(d.getCity());
         e.setAddress(d.getAddress());
+        e.setMobile(d.getMobile());
         return e;
     }
 }

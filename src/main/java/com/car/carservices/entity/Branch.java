@@ -39,4 +39,7 @@ public class Branch {
 
     @Column(name = "address")
     private String address;
+
+    @Column(name = "mobile")   // must match the DB column name
+    private String mobile;     // <-- NEW property
 }

@@ -1,0 +1,58 @@
+// src/main/java/com/car/carservices/config/PRMailConfig.java
+package com.car.carservices.config;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.mail.MailException;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+
+import java.util.Properties;
+
+@Configuration
+public class PRMailConfig {
+
+    @Bean
+    @ConditionalOnMissingBean(JavaMailSender.class)
+    public JavaMailSender javaMailSender(
+            @Value("${spring.mail.host:}") String host,
+            @Value("${spring.mail.port:0}") int port,
+            @Value("${spring.mail.username:}") String username,
+            @Value("${spring.mail.password:}") String password,
+            @Value("${spring.mail.properties.mail.smtp.auth:false}") boolean smtpAuth,
+            @Value("${spring.mail.properties.mail.smtp.starttls.enable:false}") boolean startTls
+    ) {
+        if (host != null && !host.isBlank()) {
+            JavaMailSenderImpl impl = new JavaMailSenderImpl();
+            impl.setHost(host);
+            if (port > 0) impl.setPort(port);
+            impl.setUsername(username);
+            impl.setPassword(password);
+            Properties props = impl.getJavaMailProperties();
+            props.put("mail.smtp.auth", String.valueOf(smtpAuth));
+            props.put("mail.smtp.starttls.enable", String.valueOf(startTls));
+            return impl;
+        }
+        // Fallback no-op sender so app can run without mail config (local dev)
+        return new JavaMailSender() {
+            @Override public void send(SimpleMailMessage simpleMessage) throws MailException {
+                System.out.println("[MAIL NO-OP] To=" + String.join(",", simpleMessage.getTo())
+                        + " Subject=" + simpleMessage.getSubject()
+                        + " Body=" + simpleMessage.getText());
+            }
+            @Override public void send(SimpleMailMessage... simpleMessages) throws MailException {
+                for (SimpleMailMessage m : simpleMessages) send(m);
+            }
+            // Not needed for SimpleMailMessage usage in your PRNotificationService:
+            @Override public org.springframework.mail.javamail.MimeMessagePreparator createMimeMessage() { throw new UnsupportedOperationException(); }
+            @Override public jakarta.mail.internet.MimeMessage createMimeMessage() { throw new UnsupportedOperationException(); }
+            @Override public void send(jakarta.mail.internet.MimeMessage mimeMessage) { throw new UnsupportedOperationException(); }
+            @Override public void send(jakarta.mail.internet.MimeMessage... mimeMessages) { throw new UnsupportedOperationException(); }
+            @Override public void send(org.springframework.mail.javamail.MimeMessagePreparator mimeMessagePreparator) { throw new UnsupportedOperationException(); }
+            @Override public void send(org.springframework.mail.javamail.MimeMessagePreparator... mimeMessagePreparators) { throw new UnsupportedOperationException(); }
+        };
+    }
+}

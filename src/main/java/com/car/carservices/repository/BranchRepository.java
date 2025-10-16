@@ -23,5 +23,7 @@ public interface BranchRepository extends JpaRepository<Branch, Long> {
 
     // NEW (for auth)
     Optional<Branch> findFirstByLoginEmailIgnoreCase(String loginEmail);
+    Optional<Branch> findFirstByMobileIgnoreCase(String mobile);
+    
 }
 

@@ -7,5 +7,8 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class PRVerifyContactResponse {
-    private boolean result; // true if matched per the rules, else false
+    private boolean result;          // true if matched, else false
+    private String matchedType;      // "email", "mobile", or null
+    private String matchedValue;     // the email or mobile that matched (echoed back)
+    private String code;             // 4-digit code if matched; null otherwise
 }

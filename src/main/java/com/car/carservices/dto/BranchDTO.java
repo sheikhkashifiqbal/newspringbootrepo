@@ -35,4 +35,6 @@ public class BranchDTO {
     private List<String> workDays;  // ["monday", ...]
     private String from;            // "HH:mm"
     private String to;              // "HH:mm"
+
+    private String mobile;
 }
