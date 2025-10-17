@@ -6,27 +6,34 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ReservationServiceRequestMapper {
-    public ReservationServiceRequestDTO toDTO(ReservationServiceRequest entity) {
-        ReservationServiceRequestDTO dto = new ReservationServiceRequestDTO();
-        dto.setReservationId(entity.getReservationId());
-        dto.setUserId(entity.getUserId());
-        dto.setCarId(entity.getCarId());
-      //  dto.setServiceId(entity.getServiceId());
-        dto.setReservationDate(entity.getReservationDate());
-        dto.setReservationTime(entity.getReservationTime());
-        dto.setReservationStatus(entity.getReservationStatus());
-        return dto;
+
+    public ReservationServiceRequestDTO toDTO(ReservationServiceRequest e) {
+        if (e == null) return null;
+        ReservationServiceRequestDTO d = new ReservationServiceRequestDTO();
+        d.setReservationId(e.getReservationId());
+        d.setUserId(e.getUserId());
+        d.setBrandId(e.getBrandId());
+        d.setModelId(e.getModelId());
+        d.setServiceId(e.getServiceId());
+        d.setReservationDate(e.getReservationDate());
+        d.setReservationTime(e.getReservationTime());
+        d.setReservationStatus(e.getReservationStatus());
+        // d.setBranchId(e.getBranchId());
+        return d;
     }
 
-    public ReservationServiceRequest toEntity(ReservationServiceRequestDTO dto) {
-        ReservationServiceRequest entity = new ReservationServiceRequest();
-        entity.setReservationId(dto.getReservationId());
-        entity.setUserId(dto.getUserId());
-        entity.setCarId(dto.getCarId());
-      //  entity.setServiceId(dto.getServiceId());
-        entity.setReservationDate(dto.getReservationDate());
-        entity.setReservationTime(dto.getReservationTime());
-        entity.setReservationStatus(dto.getReservationStatus());
-        return entity;
+    public ReservationServiceRequest toEntity(ReservationServiceRequestDTO d) {
+        if (d == null) return null;
+        ReservationServiceRequest e = new ReservationServiceRequest();
+        e.setReservationId(d.getReservationId());
+        e.setUserId(d.getUserId());
+        e.setBrandId(d.getBrandId());
+        e.setModelId(d.getModelId());
+        e.setServiceId(d.getServiceId());
+        e.setReservationDate(d.getReservationDate());
+        e.setReservationTime(d.getReservationTime());
+        e.setReservationStatus(d.getReservationStatus());
+        // e.setBranchId(d.getBranchId());
+        return e;
     }
 }

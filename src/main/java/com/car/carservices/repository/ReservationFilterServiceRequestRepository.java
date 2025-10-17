@@ -11,7 +11,7 @@ import java.util.List;
 public interface ReservationFilterServiceRequestRepository extends JpaRepository<ReservationServiceRequest, Long> {
 
     @Query("SELECT r FROM ReservationServiceRequest r " +
-           "WHERE r.service.serviceId IN :serviceIds " +
+           "WHERE r.serviceId IN :serviceIds " +
            "AND r.reservationTime IN :reservationTimes " +
            "AND r.reservationDate = :reservationDate")
     List<ReservationServiceRequest> filterReservations(

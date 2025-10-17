@@ -22,7 +22,8 @@ public class ReservationServiceRequestServiceImpl implements ReservationServiceR
 
     @Override
     public ReservationServiceRequestDTO create(ReservationServiceRequestDTO dto) {
-        return mapper.toDTO(repository.save(mapper.toEntity(dto)));
+        ReservationServiceRequest entity = mapper.toEntity(dto);
+        return mapper.toDTO(repository.save(entity));
     }
 
     @Override
@@ -38,12 +39,22 @@ public class ReservationServiceRequestServiceImpl implements ReservationServiceR
     @Override
     public ReservationServiceRequestDTO update(Long id, ReservationServiceRequestDTO dto) {
         ReservationServiceRequest entity = repository.findById(id).orElseThrow();
+
         entity.setUserId(dto.getUserId());
-        entity.setCarId(dto.getCarId());
-       // entity.setServiceId(dto.getServiceId());
+
+        // REPLACED: carId -> brandId + modelId
+        entity.setUserId(dto.getUserId());
+        entity.setBrandId(dto.getBrandId());
+        entity.setModelId(dto.getModelId());
+
+        // keep serviceId active (it exists in your table)
+        entity.setServiceId(dto.getServiceId());
+
         entity.setReservationDate(dto.getReservationDate());
         entity.setReservationTime(dto.getReservationTime());
         entity.setReservationStatus(dto.getReservationStatus());
+        // entity.setBranchId(dto.getBranchId()); // if you expose it
+
         return mapper.toDTO(repository.save(entity));
     }
 

@@ -20,7 +20,7 @@ public class ReservationServiceImpl implements ReservationService {
         ReservationDTO dto = new ReservationDTO();
         dto.setReservationId(entity.getReservationId());
         dto.setUserId(entity.getUserId());
-        dto.setCarId(entity.getCarId());
+        //dto.setCarId(entity.getCarId());
        // dto.setServiceId(entity.getServiceId());
         dto.setReservationDate(entity.getReservationDate());
         dto.setReservationTime(entity.getReservationTime());

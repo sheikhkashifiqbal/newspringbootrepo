@@ -8,9 +8,16 @@ import java.time.LocalTime;
 public class ReservationServiceRequestDTO {
     private Long reservationId;
     private Long userId;
-    private Long carId;
-    private Long serviceId;
+
+    // REPLACED: carId -> brandId + modelId
+    private Long brandId;   // FK -> brand.brand_id
+    private Long modelId;   // FK -> car_brand_model.id
+
+    private Long serviceId; // keep since it’s in your table
     private LocalDate reservationDate;
     private LocalTime reservationTime;
     private String reservationStatus;
+
+    // (branchId exists in table; include only if you expose it)
+    // private Long branchId;
 }
