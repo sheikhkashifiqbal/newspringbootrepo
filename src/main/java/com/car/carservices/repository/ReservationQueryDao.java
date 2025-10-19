@@ -41,6 +41,7 @@ public class ReservationQueryDao {
         FROM reservation_service_request r
         JOIN branch b ON b.branch_id = r.branch_id
         JOIN car_details cd ON cd.car_id = r.car_id
+        
         JOIN brand br ON br.brand_id = cd.brand_id
         JOIN service_entity s ON s.service_id = r.service_id
         LEFT JOIN branch_brand_service bbs
