@@ -44,6 +44,7 @@ public class ReservationServiceRequestServiceImpl implements ReservationServiceR
 
         // REPLACED: carId -> brandId + modelId
         entity.setUserId(dto.getUserId());
+        entity.setCarId(dto.getCarId());
         entity.setBrandId(dto.getBrandId());
         entity.setModelId(dto.getModelId());
 

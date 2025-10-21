@@ -3,44 +3,120 @@ package com.car.carservices.controller;
 
 import com.car.carservices.dto.LoginRequestDTO;
 import com.car.carservices.dto.LoginResponseDTO;
+import com.car.carservices.security.PRJwtService;
+import org.springframework.http.ResponseCookie;
+
+import java.util.HashMap;
+
+import org.springframework.http.HttpHeaders;
+
 import com.car.carservices.service.AuthService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
 @CrossOrigin(origins = {"http://localhost:3000","http://localhost:3001"}, allowCredentials = "true")
 public class AuthController {
 
-    private final AuthService service;
-    public AuthController(AuthService service){ this.service = service; }
+    private final PRJwtService prJwtService;
+    private final AuthService authService; // your existing service
 
+    public AuthController(PRJwtService prJwtService, AuthService authService) {
+        this.prJwtService = prJwtService;
+        this.authService = authService;
+    }
 @PostMapping("/login")
 public ResponseEntity<?> login(@RequestBody LoginRequestDTO req) {
     try {
-        LoginResponseDTO res = service.login(req);
-
+        LoginResponseDTO res = authService.login(req);
+        ResponseCookie cookie;
+        String jwtToken;
+        Map<String, Object> loginResponse;
         switch (res.getRole()) { // <— changed: decide by ACTUAL authenticated role
             case "branch_manager":
-                return ResponseEntity.ok(new java.util.LinkedHashMap<>() {{
-                    put("branch_id",  res.getBranchId());
-                    put("company_id", res.getCompanyId());
-                    put("branch_name", res.getBranchName());
-                    put("token",      res.getToken());
-                }});
+                loginResponse = new HashMap<>();
+
+                loginResponse.put("branch_id",  res.getBranchId());
+                loginResponse.put("company_id", res.getCompanyId());
+                loginResponse.put("branch_name", res.getBranchName());
+
+                jwtToken = prJwtService.createAccessToken(
+                res.getEmail(),                // subject (email or userId)
+                60 * 60                         // TTL: 15 minutes
+        );
+
+                cookie = ResponseCookie.from("access_token", jwtToken)
+                .httpOnly(true)
+                .secure(false)                  // set true in production (HTTPS)
+                .sameSite("Lax")                // or "None" + secure=true if cross-site
+                .path("/")
+                .maxAge(60 * 60)
+                .build();
+
+        // Optional: also return token in JSON for Postman/mobile
+                loginResponse.put("token", jwtToken);
+
+                return ResponseEntity.ok()
+                    .header(HttpHeaders.SET_COOKIE, cookie.toString())
+                    .body(loginResponse);
+
             case "company_manager":
-                return ResponseEntity.ok(new java.util.LinkedHashMap<>() {{
-                    put("company_id",   res.getCompanyId());
-                    put("company_name", res.getCompanyName());
-                    put("token",        res.getToken());
-                }});
+
+                loginResponse = new HashMap<>();
+                loginResponse.put("company_id",  res.getCompanyId());
+                loginResponse.put("company_name", res.getCompanyName());
+                
+                jwtToken = prJwtService.createAccessToken(
+                res.getEmail(),                // subject (email or userId)
+                60 * 60                         // TTL: 15 minutes
+        );
+
+                 cookie = ResponseCookie.from("access_token", jwtToken)
+                .httpOnly(true)
+                .secure(false)                  // set true in production (HTTPS)
+                .sameSite("Lax")                // or "None" + secure=true if cross-site
+                .path("/")
+                .maxAge(60 * 60)
+                .build();
+
+        // Optional: also return token in JSON for Postman/mobile
+                loginResponse.put("token", jwtToken);
+
+                return ResponseEntity.ok()
+                    .header(HttpHeaders.SET_COOKIE, cookie.toString())
+                    .body(loginResponse);
             case "user":
-                return ResponseEntity.ok(new java.util.LinkedHashMap<>() {{
-                    put("id",        res.getId());
-                    put("full_name", res.getFullName());
-                    put("email",     res.getEmail());
-                    put("token",     res.getToken());
-                }});
+
+            loginResponse = new HashMap<>();
+                loginResponse.put("id",  res.getId());
+                loginResponse.put("full_name", res.getFullName());
+                loginResponse.put("email", res.getEmail());
+
+                
+                jwtToken = prJwtService.createAccessToken(
+                res.getEmail(),                // subject (email or userId)
+                60 * 60                         // TTL: 15 minutes
+        );
+
+                 cookie = ResponseCookie.from("access_token", jwtToken)
+                .httpOnly(true)
+                .secure(false)                  // set true in production (HTTPS)
+                .sameSite("Lax")                // or "None" + secure=true if cross-site
+                .path("/")
+                .maxAge(60 * 60)
+                .build();
+
+        // Optional: also return token in JSON for Postman/mobile
+                loginResponse.put("token", jwtToken);
+
+                return ResponseEntity.ok()
+                    .header(HttpHeaders.SET_COOKIE, cookie.toString())
+                    .body(loginResponse);
+
             default:
                 return ResponseEntity.status(500).body("Login error");
         }
@@ -52,5 +128,20 @@ public ResponseEntity<?> login(@RequestBody LoginRequestDTO req) {
         return ResponseEntity.status(500).body("Login error");
     }
 }
+
+    // Optional: logout clears the cookie
+    @PostMapping("/logout")
+    public ResponseEntity<Void> logout() {
+        ResponseCookie delete = ResponseCookie.from("access_token", "")
+                .httpOnly(true)
+                .secure(false)                  // true in production
+                .sameSite("Lax")
+                .path("/")
+                .maxAge(0)                      // expires now
+                .build();
+        return ResponseEntity.noContent()
+                .header(HttpHeaders.SET_COOKIE, delete.toString())
+                .build();
+    }
 
 }

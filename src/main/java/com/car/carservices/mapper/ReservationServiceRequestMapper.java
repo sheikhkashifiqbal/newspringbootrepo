@@ -12,6 +12,7 @@ public class ReservationServiceRequestMapper {
         ReservationServiceRequestDTO d = new ReservationServiceRequestDTO();
         d.setReservationId(e.getReservationId());
         d.setUserId(e.getUserId());
+        d.setCarId(e.getCarId());
         d.setBrandId(e.getBrandId());
         d.setModelId(e.getModelId());
         d.setServiceId(e.getServiceId());
@@ -27,6 +28,7 @@ public class ReservationServiceRequestMapper {
         ReservationServiceRequest e = new ReservationServiceRequest();
         e.setReservationId(d.getReservationId());
         e.setUserId(d.getUserId());
+        e.setCarId(d.getCarId());
         e.setBrandId(d.getBrandId());
         e.setModelId(d.getModelId());
         e.setServiceId(d.getServiceId());

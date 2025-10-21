@@ -17,6 +17,7 @@ public class ReservationServiceRequestDTO {
     private LocalDate reservationDate;
     private LocalTime reservationTime;
     private String reservationStatus;
+    private Long carId;
 
     // (branchId exists in table; include only if you expose it)
     // private Long branchId;

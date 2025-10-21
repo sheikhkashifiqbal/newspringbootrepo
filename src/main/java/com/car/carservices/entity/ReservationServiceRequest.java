@@ -20,6 +20,9 @@ public class ReservationServiceRequest {
     @Column(name = "user_id", nullable = false)
     private Long userId;
 
+    @Column(name = "car_id")
+    private Long carId;
+
     // REPLACED: car_id -> brand_id + model_id
     @Column(name = "brand_id", nullable = false)
     private Long brandId;
