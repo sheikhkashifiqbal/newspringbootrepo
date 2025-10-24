@@ -3,9 +3,6 @@ package com.car.carservices.service;
 
 import com.car.carservices.dto.LoginRequestDTO;
 import com.car.carservices.dto.LoginResponseDTO;
-import com.car.carservices.entity.UserRegistration;
-import com.car.carservices.entity.Company;
-import com.car.carservices.entity.Branch;
 import com.car.carservices.repository.UserRegistrationRepository;
 import com.car.carservices.repository.CompanyRepository;
 import com.car.carservices.repository.BranchRepository;

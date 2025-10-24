@@ -13,6 +13,9 @@ public interface BranchRepository extends JpaRepository<Branch, Long> {
     @Query("select b from Branch b where b.company.companyId = :companyId")
     List<Branch> findByCompanyCompanyId(@Param("companyId") Long companyId);
 
+   // @Query("select b.branchId from Branch b where b.companyId = :companyId")
+    //List<Long> findBranchIdsByCompanyId(@Param("companyId") Long companyId);
+
     @Query("select b from Branch b where b.company.companyId = :companyId")
     List<Branch> findAllByCompanyId(@Param("companyId") Long companyId);
 
