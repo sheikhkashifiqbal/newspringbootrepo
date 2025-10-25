@@ -23,7 +23,7 @@ public class BranchServicesQueryService {
         // Keep per-brand aggregation with item map (id -> item)
         record Agg(String brandName, String brandStatus,
                    LinkedHashMap<Long, PRBranchServiceItem> items) {}
-        Map<Long, Agg> grouped = new LinkedHashMap<>();
+        Map<Long, Agg> grouped = new LinkedHashMap<>(); // key = brandId
 
         for (var r : rows) {
             grouped.compute(r.brandId(), (id, agg) -> {
@@ -34,7 +34,7 @@ public class BranchServicesQueryService {
                         new PRBranchServiceItem(
                             r.branchBrandServiceId(),
                             r.serviceName(),
-                            r.itemStatus() == null ? "active" : r.itemStatus().toLowerCase() // NEW
+                            r.itemStatus() == null ? "active" : r.itemStatus().toLowerCase()
                         )
                     );
                     return new Agg(r.brandName(), r.brandStatus(), map);
@@ -44,7 +44,7 @@ public class BranchServicesQueryService {
                         new PRBranchServiceItem(
                             r.branchBrandServiceId(),
                             r.serviceName(),
-                            r.itemStatus() == null ? "active" : r.itemStatus().toLowerCase() // NEW
+                            r.itemStatus() == null ? "active" : r.itemStatus().toLowerCase()
                         )
                     );
                     return agg;
@@ -52,12 +52,18 @@ public class BranchServicesQueryService {
             });
         }
 
-        return grouped.values().stream()
-            .map(a -> new BranchServicesResponse(
-                a.brandName(),
-                a.brandStatus(),
-                new ArrayList<>(a.items().values())
-            ))
+        // CHANGED: iterate entries so we can include the brandId (map key) in the DTO
+        return grouped.entrySet().stream()
+            .map(e -> {
+                Long bId = e.getKey();
+                Agg a = e.getValue();
+                return new BranchServicesResponse(
+                    bId,                         // <-- brand_id
+                    a.brandName(),               // brand_name
+                    a.brandStatus(),             // status (brand status)
+                    new ArrayList<>(a.items().values())
+                );
+            })
             .collect(Collectors.toList());
     }
 }
