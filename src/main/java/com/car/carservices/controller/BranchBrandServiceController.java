@@ -6,8 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.*;
 
+// kept your existing annotations and endpoints
 @RestController
 @CrossOrigin(origins = {"http://localhost:3000", "http://localhost:3001"})
 @RequestMapping("/api/branch-brand-services")
@@ -40,5 +41,29 @@ public class BranchBrandServiceController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    // NEW: bulk status update for all rows matching (branch_id, brand_id)
+    @PostMapping("/status")
+    public ResponseEntity<Map<String, Object>> updateStatus(@RequestBody StatusUpdateRequest req) {
+        int updated = service.updateStatusByBranchAndBrand(req.getBranch_id(), req.getBrand_id(), req.getStatus());
+        Map<String, Object> body = new HashMap<>();
+        body.put("message", "Record is updated successfully");
+        body.put("updated_count", updated);
+        return ResponseEntity.ok(body);
+    }
+
+    // Tiny request DTO (inner class)
+    public static class StatusUpdateRequest {
+        private Long branch_id;
+        private Long brand_id;
+        private String status;
+
+        public Long getBranch_id() { return branch_id; }
+        public void setBranch_id(Long branch_id) { this.branch_id = branch_id; }
+        public Long getBrand_id() { return brand_id; }
+        public void setBrand_id(Long brand_id) { this.brand_id = brand_id; }
+        public String getStatus() { return status; }
+        public void setStatus(String status) { this.status = status; }
     }
 }

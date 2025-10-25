@@ -9,4 +9,7 @@ public interface BranchBrandServiceService {
     List<BranchBrandServiceDTO> getAll();
     BranchBrandServiceDTO update(Long id, BranchBrandServiceDTO dto);
     void delete(Long id);
+
+    // NEW: bulk status update
+    int updateStatusByBranchAndBrand(Long branchId, Long brandId, String status);
 }

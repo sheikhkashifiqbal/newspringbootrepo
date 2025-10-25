@@ -32,6 +32,11 @@ public class BranchBrandServiceServiceImpl implements BranchBrandServiceService 
         ServiceEntity service = serviceRepository.findById(dto.getServiceId()).orElseThrow();
 
         BranchBrandService entity = mapper.toEntity(dto, branch, brand, service);
+
+        // normalize status
+        if (entity.getStatus() == null) entity.setStatus("active");
+        entity.setStatus(entity.getStatus().toLowerCase());
+
         repository.save(entity);
         return mapper.toDTO(entity);
     }
@@ -58,6 +63,11 @@ public class BranchBrandServiceServiceImpl implements BranchBrandServiceService 
         entity.setService(service);
         entity.setQty(dto.getQty());
 
+        // NEW: update status if present
+        if (dto.getStatus() != null) {
+            entity.setStatus(dto.getStatus().toLowerCase());
+        }
+
         repository.save(entity);
         return mapper.toDTO(entity);
     }
@@ -65,5 +75,15 @@ public class BranchBrandServiceServiceImpl implements BranchBrandServiceService 
     @Override
     public void delete(Long id) {
         repository.deleteById(id);
+    }
+
+    // NEW: bulk status update
+    @Override
+    public int updateStatusByBranchAndBrand(Long branchId, Long brandId, String status) {
+        String normalized = (status == null ? "active" : status.toLowerCase());
+        if (!normalized.equals("active") && !normalized.equals("inactive")) {
+            throw new IllegalArgumentException("status must be 'active' or 'inactive'");
+        }
+        return repository.updateStatusByBranchAndBrand(branchId, brandId, normalized);
     }
 }

@@ -14,6 +14,9 @@ public class BranchBrandServiceMapper {
         dto.setBrandId(entity.getBrand().getBrandId());
         dto.setServiceId(entity.getService().getServiceId());
         dto.setQty(entity.getQty());
+
+        // NEW
+        dto.setStatus(entity.getStatus());
         return dto;
     }
 
@@ -24,6 +27,10 @@ public class BranchBrandServiceMapper {
         entity.setBrand(brand);
         entity.setService(service);
         entity.setQty(dto.getQty());
+
+        // NEW (default to "active" if missing)
+        String st = dto.getStatus();
+        entity.setStatus(st == null ? "active" : st.toLowerCase());
         return entity;
     }
 }

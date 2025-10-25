@@ -9,4 +9,7 @@ public class BranchBrandServiceDTO {
     private Long brandId;
     private Long serviceId;
     private Integer qty;
+
+    // NEW: status of the mapping ("active" | "inactive")
+    private String status;
 }
