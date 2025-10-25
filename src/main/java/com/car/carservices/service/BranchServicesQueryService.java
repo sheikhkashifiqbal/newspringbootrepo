@@ -20,30 +20,44 @@ public class BranchServicesQueryService {
     public List<BranchServicesResponse> listBrandServicesForBranch(long branchId) {
         var rows = repo.findBrandServicesByBranchId(branchId);
 
-        // Aggregate by brand, keep insertion order, and dedupe (by id) if necessary.
-        record Agg(String brandName, String status, LinkedHashMap<Long, PRBranchServiceItem> items) {}
+        // Keep per-brand aggregation with item map (id -> item)
+        record Agg(String brandName, String brandStatus,
+                   LinkedHashMap<Long, PRBranchServiceItem> items) {}
         Map<Long, Agg> grouped = new LinkedHashMap<>();
 
         for (var r : rows) {
             grouped.compute(r.brandId(), (id, agg) -> {
                 if (agg == null) {
                     var map = new LinkedHashMap<Long, PRBranchServiceItem>();
-                    map.put(r.branchBrandServiceId(), new PRBranchServiceItem(r.branchBrandServiceId(), r.serviceName()));
-                    return new Agg(r.brandName(), r.status(), map);
+                    map.put(
+                        r.branchBrandServiceId(),
+                        new PRBranchServiceItem(
+                            r.branchBrandServiceId(),
+                            r.serviceName(),
+                            r.itemStatus() == null ? "active" : r.itemStatus().toLowerCase() // NEW
+                        )
+                    );
+                    return new Agg(r.brandName(), r.brandStatus(), map);
                 } else {
-                    // only put if not already there (dedupe)
-                    agg.items().putIfAbsent(r.branchBrandServiceId(), new PRBranchServiceItem(r.branchBrandServiceId(), r.serviceName()));
+                    agg.items().putIfAbsent(
+                        r.branchBrandServiceId(),
+                        new PRBranchServiceItem(
+                            r.branchBrandServiceId(),
+                            r.serviceName(),
+                            r.itemStatus() == null ? "active" : r.itemStatus().toLowerCase() // NEW
+                        )
+                    );
                     return agg;
                 }
             });
         }
 
         return grouped.values().stream()
-                .map(a -> new BranchServicesResponse(
-                        a.brandName(),
-                        a.status(),
-                        new ArrayList<>(a.items().values())
-                ))
-                .collect(Collectors.toList());
+            .map(a -> new BranchServicesResponse(
+                a.brandName(),
+                a.brandStatus(),
+                new ArrayList<>(a.items().values())
+            ))
+            .collect(Collectors.toList());
     }
 }
