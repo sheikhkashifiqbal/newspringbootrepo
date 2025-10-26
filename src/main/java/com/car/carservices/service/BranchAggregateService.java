@@ -24,12 +24,11 @@ public class BranchAggregateService {
         for (var r : rows) {
             Aggregator agg = map.computeIfAbsent(
                 r.branchId,
-                id -> new Aggregator(r.branchName, r.branchCoverImg, r.logoImg)
+                id -> new Aggregator(id, r.branchName, r.branchCoverImg, r.logoImg) // <-- pass id
             );
             if (r.serviceName != null && !r.serviceName.isBlank()) {
                 agg.addService(r.serviceName);
             }
-            // NEW: set stars once (all rows for a branch share the same avgStars)
             if (agg.stars == null && r.avgStars != null) {
                 agg.stars = r.avgStars;
             }
@@ -41,13 +40,15 @@ public class BranchAggregateService {
     }
 
     private static class Aggregator {
+        final Long branchId;                 // <-- NEW
         final String branchName;
         final String branchCoverImg;
         final String logoImg;
         final LinkedHashSet<String> services = new LinkedHashSet<>();
-        Double stars; // NEW
+        Double stars;
 
-        Aggregator(String branchName, String branchCoverImg, String logoImg) {
+        Aggregator(Long branchId, String branchName, String branchCoverImg, String logoImg) {
+            this.branchId = branchId;        // <-- NEW
             this.branchName = branchName;
             this.branchCoverImg = branchCoverImg;
             this.logoImg = logoImg;
@@ -58,7 +59,8 @@ public class BranchAggregateService {
         BranchAggregateResponse toResponse() {
             var list = new ArrayList<>(services);
             list.sort(String.CASE_INSENSITIVE_ORDER);
-            return new BranchAggregateResponse(branchName, list, branchCoverImg, logoImg, stars);
+            // UPDATED: include branchId
+            return new BranchAggregateResponse(branchId, branchName, list, branchCoverImg, logoImg, stars);
         }
     }
 }

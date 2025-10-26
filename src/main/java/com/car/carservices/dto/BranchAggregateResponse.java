@@ -3,22 +3,32 @@ package com.car.carservices.dto;
 import java.util.List;
 
 public class BranchAggregateResponse {
+    private Long branchId;          // <-- NEW
     private String branchName;
     private List<String> serviceNames;
     private String branchCoverImg;
     private String logoImg;
-    private Double stars; // NEW: average stars for the branch (nullable if no ratings)
+    private Double stars;
 
     public BranchAggregateResponse() {}
 
-    public BranchAggregateResponse(String branchName, List<String> serviceNames,
-                                   String branchCoverImg, String logoImg, Double stars) {
+    // UPDATED: include branchId as first param
+    public BranchAggregateResponse(Long branchId,
+                                   String branchName,
+                                   List<String> serviceNames,
+                                   String branchCoverImg,
+                                   String logoImg,
+                                   Double stars) {
+        this.branchId = branchId;
         this.branchName = branchName;
         this.serviceNames = serviceNames;
         this.branchCoverImg = branchCoverImg;
         this.logoImg = logoImg;
         this.stars = stars;
     }
+
+    public Long getBranchId() { return branchId; }      // <-- NEW
+    public void setBranchId(Long branchId) { this.branchId = branchId; } // <-- NEW
 
     public String getBranchName() { return branchName; }
     public void setBranchName(String branchName) { this.branchName = branchName; }
