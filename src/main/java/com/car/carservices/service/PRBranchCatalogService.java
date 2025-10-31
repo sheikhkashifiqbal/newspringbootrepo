@@ -21,4 +21,12 @@ public class PRBranchCatalogService {
         List<PRModelDTO> models = repo.findModelsByBranch(branchId);
         return new PRBranchCatalogResponse(brands, services, models);
     }
+    public List<PRBrandDTO> getBrandsForBranch(Long branchId) {
+    return repo.findBrandsByBranch(branchId);
+}
+
+    public List<PRServiceDTO> getServicesForBranchAndBrand(Long branchId, Long brandId) {
+        return repo.findServicesByBranchAndBrand(branchId, brandId);
+    }
+
 }

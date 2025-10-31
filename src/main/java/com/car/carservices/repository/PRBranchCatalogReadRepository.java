@@ -68,4 +68,22 @@ public class PRBranchCatalogReadRepository {
                         rs.getLong("model_id"),
                         rs.getString("model_name")));
     }
+    /** Distinct services for a branch+brand where bbs.status='active' */
+public List<PRServiceDTO> findServicesByBranchAndBrand(Long branchId, Long brandId) {
+    final String sql = """
+        SELECT DISTINCT s.service_id, s.service_name
+          FROM branch_brand_service bbs
+          JOIN service_entity s ON bbs.service_id = s.service_id
+         WHERE bbs.branch_id = :branchId
+           AND bbs.brand_id  = :brandId
+           AND bbs.status    = 'active'
+         ORDER BY s.service_name
+        """;
+    return jdbc.query(
+        sql,
+        Map.of("branchId", branchId, "brandId", brandId),
+        (rs, i) -> new PRServiceDTO(rs.getLong("service_id"), rs.getString("service_name"))
+    );
+}
+
 }

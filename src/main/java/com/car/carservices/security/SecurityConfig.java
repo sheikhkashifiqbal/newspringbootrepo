@@ -44,14 +44,14 @@ public class SecurityConfig {
                             ).permitAll()
 
                 // PROTECTED endpoints (token required)
-              //  .requestMatchers("/api/**").permitAll() 
+                .requestMatchers("/api/**").permitAll() 
               //.requestMatchers("/api/reservations/by-user/**").permitAll() 
               
-                 .requestMatchers("/api/reservations/status/cancelled/**", 
-                                    "/api/reservations/**",
-                                    "/api/reservations/by-user/**"
+                // .requestMatchers("/api/reservations/status/cancelled/**", 
+                                 //   "/api/reservations/**",
+                                   // "/api/reservations/by-user/**"
                                     
-                 ).authenticated()
+                // ).authenticated()
 
                 // everything else stays public for now (adjust to your needs)
                 .anyRequest().permitAll()
