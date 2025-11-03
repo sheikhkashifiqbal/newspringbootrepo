@@ -12,7 +12,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.List;
+//import java.util.List;
 
 public class PRJwtAuthFilter extends OncePerRequestFilter {
 
@@ -27,12 +27,13 @@ public class PRJwtAuthFilter extends OncePerRequestFilter {
         String token = headerToken(req);
         if (token == null) token = cookieToken(req, "access_token");
 
-        if (token != null && jwt.isValid(token)) {
+        if (token != null && jwt.isValid(token)
+            && SecurityContextHolder.getContext().getAuthentication() == null) {
             String subject = jwt.getSubject(token);
-            // No roles -> empty authorities => user is authenticated
-            var auth = new UsernamePasswordAuthenticationToken(subject, null, List.of());
+            var auth = new UsernamePasswordAuthenticationToken(subject, null, java.util.List.of());
             SecurityContextHolder.getContext().setAuthentication(auth);
         }
+
 
         chain.doFilter(req, res);
     }

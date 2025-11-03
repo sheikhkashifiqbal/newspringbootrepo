@@ -6,9 +6,6 @@ import com.car.carservices.dto.LoginResponseDTO;
 //import com.car.carservices.repository.BranchRepository;
 import com.car.carservices.security.PRJwtService;
 import org.springframework.http.ResponseCookie;
-
-
-
 //import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 
@@ -61,7 +58,7 @@ public ResponseEntity<?> login(@RequestBody LoginRequestDTO req) {
                 cookie = ResponseCookie.from("access_token", jwtToken)
                 .httpOnly(true)
                 .secure(false)                  // set true in production (HTTPS)
-                .sameSite("Lax")                // or "None" + secure=true if cross-site
+                .sameSite("none")                // or "None" + secure=true if cross-site
                 .path("/")
                 .maxAge(60 * 60)
                 .build();
@@ -83,27 +80,27 @@ public ResponseEntity<?> login(@RequestBody LoginRequestDTO req) {
                 
 
        List<Map<String, Object>> branchList = jdbcTemplate.query(
-    "SELECT branch_id, branch_name FROM branch WHERE company_id = ? ORDER BY branch_id",
-    (rs, rowNum) -> {
-        Map<String, Object> m = new HashMap<>();
-        m.put("branch_id",   rs.getLong("branch_id"));
-        m.put("branch_name", rs.getString("branch_name"));
-        return m;
-    },
-    res.getCompanyId()  // <-- your variable that holds the resolved company_id
-);
+            "SELECT branch_id, branch_name FROM branch WHERE company_id = ? ORDER BY branch_id",
+            (rs, rowNum) -> {
+                Map<String, Object> m = new HashMap<>();
+                m.put("branch_id",   rs.getLong("branch_id"));
+                m.put("branch_name", rs.getString("branch_name"));
+                return m;
+            },
+            res.getCompanyId()  // <-- your variable that holds the resolved company_id
+        );
 
-// put the list in the response
-loginResponse.put("branch_list", branchList);
+                // put the list in the response
+                loginResponse.put("branch_list", branchList);
 
-// set branch_id to the first element of branch_list (if present)
-if (!branchList.isEmpty()) {
-    Object idVal = branchList.get(0).get("branch_id");
-    Long firstBranchId = (idVal instanceof Number) ? ((Number) idVal).longValue() : null;
-    if (firstBranchId != null) {
-        loginResponse.put("branch_id", firstBranchId);
-    }
-}
+                // set branch_id to the first element of branch_list (if present)
+                if (!branchList.isEmpty()) {
+                    Object idVal = branchList.get(0).get("branch_id");
+                    Long firstBranchId = (idVal instanceof Number) ? ((Number) idVal).longValue() : null;
+                    if (firstBranchId != null) {
+                        loginResponse.put("branch_id", firstBranchId);
+                    }
+                }
                 jwtToken = prJwtService.createAccessToken(
                         res.getEmail(),       // subject (email or userId)
                         60 * 60               // TTL: 60 minutes
@@ -112,7 +109,7 @@ if (!branchList.isEmpty()) {
                 cookie = ResponseCookie.from("access_token", jwtToken)
                         .httpOnly(true)
                         .secure(false)        // set true in production (HTTPS)
-                        .sameSite("Lax")      // or "None" + secure=true if cross-site
+                        .sameSite("none")      // or "None" + secure=true if cross-site
                         .path("/")
                         .maxAge(60 * 60)
                         .build();
@@ -126,9 +123,9 @@ if (!branchList.isEmpty()) {
             case "user":
 
             loginResponse = new HashMap<>();
-                loginResponse.put("id",  res.getId());
-                loginResponse.put("full_name", res.getFullName());
-                loginResponse.put("email", res.getEmail());
+            loginResponse.put("id",  res.getId());
+            loginResponse.put("full_name", res.getFullName());
+            loginResponse.put("email", res.getEmail());
 
                 
                 jwtToken = prJwtService.createAccessToken(
@@ -139,7 +136,7 @@ if (!branchList.isEmpty()) {
                  cookie = ResponseCookie.from("access_token", jwtToken)
                 .httpOnly(true)
                 .secure(false)                  // set true in production (HTTPS)
-                .sameSite("Lax")                // or "None" + secure=true if cross-site
+                .sameSite("None")                // or "None" + secure=true if cross-site
                 .path("/")
                 .maxAge(60 * 60)
                 .build();
@@ -168,8 +165,8 @@ if (!branchList.isEmpty()) {
     public ResponseEntity<Void> logout() {
         ResponseCookie delete = ResponseCookie.from("access_token", "")
                 .httpOnly(true)
-                .secure(false)                  // true in production
-                .sameSite("Lax")
+                .secure(true)                  // true in production
+                .sameSite("none")
                 .path("/")
                 .maxAge(0)                      // expires now
                 .build();
