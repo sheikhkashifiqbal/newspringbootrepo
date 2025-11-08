@@ -4,6 +4,7 @@ import com.car.carservices.dto.PRSparePartBranchItem;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Array;
 import java.util.*;
 
 @Repository
@@ -27,7 +28,7 @@ public class PRSparePartSearchReadRepository {
     }
 
     public boolean modelExistsForBrand(Long brandId, String modelLike) {
-        if (modelLike == null || modelLike.isBlank()) return true; // don't block if no code
+        if (modelLike == null || modelLike.isBlank()) return true;
         final String sql = """
             SELECT 1
               FROM car_brand_model
@@ -39,7 +40,6 @@ public class PRSparePartSearchReadRepository {
         return !rows.isEmpty();
     }
 
-    /** spareparts_type from spare_parts */
     public Optional<String> sparePartType(Long sparepartsId) {
         final String sql = """
             SELECT spareparts_type
@@ -52,22 +52,41 @@ public class PRSparePartSearchReadRepository {
     }
 
     /**
-     * Branches for (brand_id, spareparts_id) with distinct states from branch_brand_spare_part,
-     * optionally filtered by city. We aggregate states per branch.
+     * Branch rows (brand_id + spareparts_id [+ city]) including:
+     *  - aggregated distinct states (from branch_brand_spare_part)
+     *  - stars_mode: mode of stars from rate_sparepart_experience across matching bbsp ids
+     *
+     * Tie-break: higher stars value wins on same frequency (ORDER BY cnt DESC, stars DESC).
      */
-    public List<Map<String,Object>> findBranchRowsWithStates(Long brandId, Long sparepartsId, String cityOpt) {
+    public List<Map<String,Object>> findBranchRowsWithStatesAndStars(Long brandId, Long sparepartsId, String cityOpt) {
         String base = """
-            SELECT b.branch_id,
-                   b.branch_name,
-                   b.logo_img,
-                   b.latitude,
-                   b.longitude,
-                   ARRAY_AGG(DISTINCT LOWER(bbsp.state)) AS states
+            SELECT
+                b.branch_id,
+                b.branch_name,
+                b.logo_img,
+                b.latitude,
+                b.longitude,
+                ARRAY_AGG(DISTINCT LOWER(bbsp.state)) AS states,
+                (
+                  SELECT r.stars
+                    FROM rate_sparepart_experience r
+                   WHERE r.branch_brand_sparepart_id IN (
+                         SELECT id
+                           FROM branch_brand_spare_part
+                          WHERE branch_id = b.branch_id
+                            AND brand_id  = :bid
+                            AND spareparts_id = :sid
+                   )
+                   GROUP BY r.stars
+                   ORDER BY COUNT(*) DESC, r.stars DESC
+                   LIMIT 1
+                ) AS stars_mode
               FROM branch_brand_spare_part bbsp
               JOIN branch b ON b.branch_id = bbsp.branch_id
              WHERE bbsp.brand_id = :bid
                AND bbsp.spareparts_id = :sid
         """;
+
         String withCity = base + " AND LOWER(b.city) = LOWER(:city) ";
         String tail = " GROUP BY b.branch_id, b.branch_name, b.logo_img, b.latitude, b.longitude ORDER BY b.branch_name ";
 
@@ -90,15 +109,23 @@ public class PRSparePartSearchReadRepository {
             row.put("logo_img", rs.getString("logo_img"));
             row.put("latitude", (Double) rs.getObject("latitude"));
             row.put("longitude", (Double) rs.getObject("longitude"));
-            // read SQL array to List<String>
-            Object arr = rs.getArray("states").getArray();
+
+            // states array -> List<String>
+            Array sqlArr = rs.getArray("states");
             List<String> states = new ArrayList<>();
-            if (arr instanceof String[] sa) {
-                for (String s : sa) if (s != null) states.add(s.toLowerCase());
-            } else if (arr instanceof Object[] oa) {
-                for (Object o : oa) if (o != null) states.add(o.toString().toLowerCase());
+            if (sqlArr != null) {
+                Object arr = sqlArr.getArray();
+                if (arr instanceof String[] sa) {
+                    for (String s : sa) if (s != null) states.add(s.toLowerCase());
+                } else if (arr instanceof Object[] oa) {
+                    for (Object o : oa) if (o != null) states.add(o.toString().toLowerCase());
+                }
             }
             row.put("states", states);
+
+            Integer stars = (Integer) rs.getObject("stars_mode");
+            row.put("stars_mode", stars); // nullable
+
             return row;
         });
     }

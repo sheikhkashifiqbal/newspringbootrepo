@@ -21,6 +21,6 @@ public class PRSparePartSearchController {
 
     @PostMapping("/search-by-vin")
     public ResponseEntity<List<PRSparePartBranchItem>> searchByVin(@RequestBody PRSparePartSearchRequest req) {
-        return ResponseEntity.ok(service.search(req)); // [] if nothing matches
+        return ResponseEntity.ok(service.search(req));
     }
 }
