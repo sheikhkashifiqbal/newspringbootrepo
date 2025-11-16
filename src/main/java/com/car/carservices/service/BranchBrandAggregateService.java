@@ -22,7 +22,7 @@ public class BranchBrandAggregateService {
         Map<Long, Agg> map = new LinkedHashMap<>();
         for (var r : rows) {
             var agg = map.computeIfAbsent(r.branchId,
-                    id -> new Agg(r.branchName, r.branchCoverImg, r.logoImg));
+                    id -> new Agg(r.branchId, r.branchName, r.branchCoverImg, r.logoImg));
             if (r.brandName != null && !r.brandName.isBlank()) {
                 agg.brandNames.add(r.brandName);
             }
@@ -37,13 +37,15 @@ public class BranchBrandAggregateService {
     }
 
     private static class Agg {
+        final long branchId;
         final String branchName;
         final String branchCoverImg;
         final String logoImg;
         final LinkedHashSet<String> brandNames = new LinkedHashSet<>();
         Double stars; // nullable
 
-        Agg(String branchName, String branchCoverImg, String logoImg) {
+        Agg(long branchId, String branchName, String branchCoverImg, String logoImg) {
+            this.branchId = branchId;
             this.branchName = branchName;
             this.branchCoverImg = branchCoverImg;
             this.logoImg = logoImg;
@@ -53,7 +55,7 @@ public class BranchBrandAggregateService {
             var brands = new ArrayList<>(brandNames);
             brands.sort(String.CASE_INSENSITIVE_ORDER);
             return new BranchBrandAggregateResponse(
-                    branchName, brands, stars, branchCoverImg, logoImg
+                    branchId, branchName, brands, stars, branchCoverImg, logoImg
             );
         }
     }

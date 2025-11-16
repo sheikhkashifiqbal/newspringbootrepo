@@ -4,10 +4,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 public class BranchBrandAggregateResponse {
-
+    @JsonProperty("branch_id")
+    private long branchId; 
     @JsonProperty("branch_name")       // snake_case as requested
-    private String branchName;
-
+    private String branchName; 
     private List<String> brandNames;   // list of brands for this branch
     private Double stars;              // nullable if no ratings
     private String branchCoverImg;
@@ -15,14 +15,18 @@ public class BranchBrandAggregateResponse {
 
     public BranchBrandAggregateResponse() {}
 
-    public BranchBrandAggregateResponse(String branchName, List<String> brandNames,
+    public BranchBrandAggregateResponse(long branchId,String branchName, List<String> brandNames,
                                         Double stars, String branchCoverImg, String logoImg) {
-        this.branchName = branchName;
+        
+        this.branchId = branchId;                                    this.branchName = branchName;
         this.brandNames = brandNames;
         this.stars = stars;
         this.branchCoverImg = branchCoverImg;
         this.logoImg = logoImg;
     }
+
+    public long getBranchId() { return branchId; }
+    public void setBranchId(long branchId) { this.branchId = branchId; }
 
     public String getBranchName() { return branchName; }
     public void setBranchName(String branchName) { this.branchName = branchName; }

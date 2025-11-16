@@ -1,4 +1,4 @@
-// src/main/java/com/yourapp/branchservices/web/BranchServicesController.java
+// src/main/java/com/car/carservices/controller/BranchServicesController.java
 package com.car.carservices.controller;
 
 import com.car.carservices.dto.BranchServicesRequest;
@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-// If you’re calling from Next.js on localhost, this helps during dev:
 @CrossOrigin(origins = {"http://localhost:3000", "http://localhost:3001"})
 @RequestMapping("/api/branch-services")
 public class BranchServicesController {
@@ -22,22 +21,24 @@ public class BranchServicesController {
     }
 
     /**
-     * Request body:
-     * { "branch_id": 1 }
-     *
-     * Response:
-     * [
-     *   { "brand_name": "Toyoto", "available_services": ["service_name", ...] },
-     *   { "brand_name": "Honda",  "available_services": ["service_name", ...] }
-     * ]
+     * JSON Request:
+     * {
+     *   "branch_id": 1,
+     *   "brand_id": 1,   (optional)
+     *   "service_id": 1  (optional)
+     * }
      */
-    //@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:3001"})
     @PostMapping("/by-branch")
     public ResponseEntity<List<BranchServicesResponse>> listByBranch(@RequestBody BranchServicesRequest req) {
         if (req.getBranchId() == null) {
             return ResponseEntity.badRequest().build();
         }
-        List<BranchServicesResponse> result = service.listBrandServicesForBranch(req.getBranchId());
+
+        List<BranchServicesResponse> result = service.listBrandServicesForBranch(
+                req.getBranchId(),
+                req.getBrandId(),
+                req.getServiceId()
+        );
         return ResponseEntity.ok(result);
     }
 }

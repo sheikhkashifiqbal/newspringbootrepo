@@ -1,16 +1,17 @@
+// src/main/java/com/car/carservices/dto/PRBranchServiceItem.java
 package com.car.carservices.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class PRBranchServiceItem {
 
-    @JsonProperty("id")           // branch_brand_service.id
+    @JsonProperty("id")
     private Long id;
 
-    @JsonProperty("service_name") // service_entity.service_name
+    @JsonProperty("service_name")
     private String serviceName;
 
-    @JsonProperty("status")       // branch_brand_service.status (NEW)
+    @JsonProperty("status")
     private String status;
 
     public PRBranchServiceItem(Long id, String serviceName, String status) {

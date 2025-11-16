@@ -6,23 +6,26 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class RateExperienceMapper {
+
     public RateExperienceDTO toDTO(RateExperience entity) {
         RateExperienceDTO dto = new RateExperienceDTO();
         dto.setRateExperienceID(entity.getRateExperienceID());
-       // dto.setBrachBrandServiceID(entity.getBrachBrandServiceID());
-       dto.setBranchBrandServiceID(entity.getBranchBrandServiceID());
+        dto.setBranchBrandServiceID(entity.getBranchBrandServiceID()); // ✅ correct
+        dto.setUserId(entity.getUserId());
         dto.setStars(entity.getStars());
         dto.setDescription(entity.getDescription());
+        dto.setDate(entity.getDate());
         return dto;
     }
 
     public RateExperience toEntity(RateExperienceDTO dto) {
         RateExperience entity = new RateExperience();
         entity.setRateExperienceID(dto.getRateExperienceID());
-        //entity.setBrachBrandServiceID(dto.getBrachBrandServiceID());
-        entity.setBranchBrandServiceID(dto.getBranchBrandServiceID());
+        entity.setBranchBrandServiceID(dto.getBranchBrandServiceID()); // ✅ correct
+        entity.setUserId(dto.getUserId());
         entity.setStars(dto.getStars());
         entity.setDescription(dto.getDescription());
+        entity.setDate(dto.getDate());
         return entity;
     }
 }

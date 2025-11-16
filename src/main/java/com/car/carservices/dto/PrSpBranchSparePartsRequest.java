@@ -1,18 +1,17 @@
-// src/main/java/com/car/carservices/dto/BranchServicesRequest.java
 package com.car.carservices.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class BranchServicesRequest {
+public class PrSpBranchSparePartsRequest {
 
     @JsonProperty("branch_id")
     private Long branchId;
 
     @JsonProperty("brand_id")
-    private Long brandId;  // optional
+    private Long brandId;
 
     @JsonProperty("service_id")
-    private Long serviceId; // optional
+    private Long serviceId; // optional, reserved for future use
 
     public Long getBranchId() { return branchId; }
     public void setBranchId(Long branchId) { this.branchId = branchId; }

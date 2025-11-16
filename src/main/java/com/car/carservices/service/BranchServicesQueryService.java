@@ -1,3 +1,4 @@
+// src/main/java/com/car/carservices/service/BranchServicesQueryService.java
 package com.car.carservices.service;
 
 import com.car.carservices.dto.PRBranchServiceItem;
@@ -17,53 +18,49 @@ public class BranchServicesQueryService {
         this.repo = repo;
     }
 
-    public List<BranchServicesResponse> listBrandServicesForBranch(long branchId) {
-        var rows = repo.findBrandServicesByBranchId(branchId);
+    public List<BranchServicesResponse> listBrandServicesForBranch(long branchId, Long brandId, Long serviceId) {
+        var rows = repo.findBrandServicesByBranchId(branchId, brandId, serviceId);
 
-        // Keep per-brand aggregation with item map (id -> item)
-        record Agg(String brandName, String brandStatus,
+        record Agg(String brandName, String brandStatus, String brandIcon,
                    LinkedHashMap<Long, PRBranchServiceItem> items) {}
-        Map<Long, Agg> grouped = new LinkedHashMap<>(); // key = brandId
+
+        Map<Long, Agg> grouped = new LinkedHashMap<>();
 
         for (var r : rows) {
             grouped.compute(r.brandId(), (id, agg) -> {
                 if (agg == null) {
                     var map = new LinkedHashMap<Long, PRBranchServiceItem>();
                     map.put(
-                        r.branchBrandServiceId(),
-                        new PRBranchServiceItem(
                             r.branchBrandServiceId(),
-                            r.serviceName(),
-                            r.itemStatus() == null ? "active" : r.itemStatus().toLowerCase()
-                        )
+                            new PRBranchServiceItem(
+                                    r.branchBrandServiceId(),
+                                    r.serviceName(),
+                                    r.itemStatus() == null ? "active" : r.itemStatus().toLowerCase()
+                            )
                     );
-                    return new Agg(r.brandName(), r.brandStatus(), map);
+                    return new Agg(r.brandName(), r.brandStatus(), r.brandIcon(), map); // ✅ includes brandIcon
                 } else {
                     agg.items().putIfAbsent(
-                        r.branchBrandServiceId(),
-                        new PRBranchServiceItem(
                             r.branchBrandServiceId(),
-                            r.serviceName(),
-                            r.itemStatus() == null ? "active" : r.itemStatus().toLowerCase()
-                        )
+                            new PRBranchServiceItem(
+                                    r.branchBrandServiceId(),
+                                    r.serviceName(),
+                                    r.itemStatus() == null ? "active" : r.itemStatus().toLowerCase()
+                            )
                     );
                     return agg;
                 }
             });
         }
 
-        // CHANGED: iterate entries so we can include the brandId (map key) in the DTO
         return grouped.entrySet().stream()
-            .map(e -> {
-                Long bId = e.getKey();
-                Agg a = e.getValue();
-                return new BranchServicesResponse(
-                    bId,                         // <-- brand_id
-                    a.brandName(),               // brand_name
-                    a.brandStatus(),             // status (brand status)
-                    new ArrayList<>(a.items().values())
-                );
-            })
-            .collect(Collectors.toList());
+                .map(e -> new BranchServicesResponse(
+                        e.getKey(),
+                        e.getValue().brandName(),
+                        e.getValue().brandIcon(), // ✅ NEW
+                        e.getValue().brandStatus(),
+                        new ArrayList<>(e.getValue().items().values())
+                ))
+                .collect(Collectors.toList());
     }
 }
