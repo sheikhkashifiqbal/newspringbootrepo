@@ -60,19 +60,43 @@ public class PRTimeSlotServiceImpl implements PRTimeSlotService {
             return new PRTimeSlotResponse(List.of(), "No service available");
         }
 
-        // 2) Capacity (qty) from branch_brand_service
-        int capacity = repo.sumCapacityQty(req.getBranch_id(), req.getBrand_id(), req.getService_id());
-        if (capacity <= 0) {
-            // No registration/qty configured => no slots
+        // 2) Capacity from branch_brand_service
+        // qty = number of boxes in the workshop
+        int qtyCapacity = repo.sumCapacityQty(
+                req.getBranch_id(),
+                req.getBrand_id(),
+                req.getService_id()
+        );
+
+        // experts = number of experts in the workshop
+        int expertsCapacity = repo.sumExperts(
+                req.getBranch_id(),
+                req.getBrand_id(),
+                req.getService_id()
+        );
+
+        // If no experts, no service can be provided
+        if (expertsCapacity <= 0) {
             return new PRTimeSlotResponse(List.of(), "No service available");
         }
 
-        // 3) Generate 30-min slots inclusive, then filter by reservation load
+        // We tolerate qtyCapacity == 0 for NON-BOX services, since they don't use boxes.
+        // For BOX services, qtyCapacity must be > 0 to ever have availability.
+
+        // 3) Determine service type for capacity rule: BOX vs NON-BOX
+        String serviceType = null;
+        if (req.getService_id() != null) {
+            serviceType = repo.findServiceType(req.getService_id());
+        }
+        if (serviceType != null) {
+            serviceType = serviceType.toUpperCase();
+        }
+
+        // 4) Generate 30-min slots inclusive, then filter using new rules
         List<String> slots = new ArrayList<>();
         LocalTime t = from;
         while (!t.isAfter(to)) { // inclusive
-            // Count existing reservations at this exact time (apply filters only if supplied)
-            int booked = repo.countReservationsAt(
+            PRSlotNativeRepo.BoxNonBoxCount counts = repo.countReservationsByTypeAt(
                     req.getBranch_id(),
                     date,
                     t,
@@ -80,13 +104,75 @@ public class PRTimeSlotServiceImpl implements PRTimeSlotService {
                     req.getService_id()
             );
 
-            if (booked < capacity) {
+            int boxReserved = counts.getBoxReserved();
+            int nonBoxReserved = counts.getNonBoxReserved();
+
+            boolean canBook;
+
+            if ("BOX".equals(serviceType)) {
+                // BOX service: needs free expert AND free box
+                canBook = canBookBox(boxReserved, nonBoxReserved, qtyCapacity, expertsCapacity);
+            } else {
+                // NON-BOX or unknown service_type: only constrained by experts
+                canBook = canBookNonBox(boxReserved, nonBoxReserved, expertsCapacity);
+            }
+
+            if (canBook) {
                 slots.add(formatHHmm(t));
             }
+
             t = t.plusMinutes(30);
         }
 
         return new PRTimeSlotResponse(slots, slots.isEmpty() ? "No service available" : "");
+    }
+
+    /**
+     * BOX service: requires both boxes and experts.
+     *
+     * Rules (for "next" reservation):
+     *  - boxReserved + 1 <= qtyCapacity
+     *  - (boxReserved + nonBoxReserved) + 1 <= expertsCapacity
+     */
+    private boolean canBookBox(int boxReserved,
+                               int nonBoxReserved,
+                               int qtyCapacity,
+                               int expertsCapacity) {
+
+        // If there are no boxes configured at all, no BOX reservation possible.
+        if (qtyCapacity <= 0) {
+            return false;
+        }
+
+        int totalReserved = boxReserved + nonBoxReserved;
+
+        // Check box availability
+        if (boxReserved >= qtyCapacity) {
+            return false;
+        }
+
+        // Check experts availability for the next reservation
+        if (totalReserved >= expertsCapacity) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * NON-BOX service: only constrained by experts.
+     *
+     * Rule (for "next" reservation):
+     *  - (boxReserved + nonBoxReserved) + 1 <= expertsCapacity
+     */
+    private boolean canBookNonBox(int boxReserved,
+                                  int nonBoxReserved,
+                                  int expertsCapacity) {
+
+        int totalReserved = boxReserved + nonBoxReserved;
+
+        // Check experts availability for the next reservation
+        return totalReserved < expertsCapacity;
     }
 
     private static String formatHHmm(LocalTime t) {
