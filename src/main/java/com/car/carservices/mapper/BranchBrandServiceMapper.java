@@ -16,6 +16,7 @@ public class BranchBrandServiceMapper {
         dto.setQty(entity.getQty());
 
         // NEW
+        dto.setExperts(entity.getExperts());
         dto.setStatus(entity.getStatus());
         return dto;
     }
@@ -27,7 +28,7 @@ public class BranchBrandServiceMapper {
         entity.setBrand(brand);
         entity.setService(service);
         entity.setQty(dto.getQty());
-
+        entity.setExperts(dto.getExperts());
         // NEW (default to "active" if missing)
         String st = dto.getStatus();
         entity.setStatus(st == null ? "active" : st.toLowerCase());

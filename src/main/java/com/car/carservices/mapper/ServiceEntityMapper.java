@@ -17,6 +17,7 @@ public class ServiceEntityMapper {
         ServiceEntity entity = new ServiceEntity();
         entity.setServiceId(dto.getServiceId());
         entity.setServiceName(dto.getServiceName());
+        entity.setServiceType(dto.getServiceType());
        // entity.setCarBrandModel(brandModelRepo.findById(dto.getBrandModelId()).orElse(null));
         return entity;
     }
@@ -25,6 +26,7 @@ public class ServiceEntityMapper {
         ServiceEntityDTO dto = new ServiceEntityDTO();
         dto.setServiceId(entity.getServiceId());
         dto.setServiceName(entity.getServiceName());
+        dto.setServiceType(entity.getServiceType());
         //dto.setBrandModelId(entity.getCarBrandModel().getId());
         return dto;
     }

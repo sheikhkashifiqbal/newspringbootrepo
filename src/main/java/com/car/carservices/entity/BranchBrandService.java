@@ -23,5 +23,6 @@ public class BranchBrandService {
     private ServiceEntity service;
 
     private Integer qty;
+    private Integer experts;
     private String status;
 }

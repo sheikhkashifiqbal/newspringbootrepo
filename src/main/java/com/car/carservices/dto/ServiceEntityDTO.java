@@ -6,4 +6,5 @@ import lombok.Data;
 public class ServiceEntityDTO {
     private Long serviceId;
     private String serviceName;
+    private String serviceType;
 }

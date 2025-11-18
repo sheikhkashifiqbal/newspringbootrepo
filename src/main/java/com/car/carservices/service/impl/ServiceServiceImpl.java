@@ -20,6 +20,7 @@ public class ServiceServiceImpl implements ServiceService {
     public ServiceDTO createService(ServiceDTO dto) {
         ServiceEntity entity = new ServiceEntity();
         entity.setServiceName(dto.getServiceName());
+        entity.setServiceType(dto.getServiceType());
         entity = repository.save(entity);
         dto.setServiceId(entity.getServiceId());
         return dto;
@@ -31,6 +32,7 @@ public class ServiceServiceImpl implements ServiceService {
         ServiceDTO dto = new ServiceDTO();
         dto.setServiceId(entity.getServiceId());
         dto.setServiceName(entity.getServiceName());
+        dto.setServiceType(entity.getServiceType());
         return dto;
     }
 
@@ -40,6 +42,7 @@ public class ServiceServiceImpl implements ServiceService {
             ServiceDTO dto = new ServiceDTO();
             dto.setServiceId(entity.getServiceId());
             dto.setServiceName(entity.getServiceName());
+            dto.setServiceType(entity.getServiceType());
             return dto;
         }).collect(Collectors.toList());
     }
@@ -48,6 +51,7 @@ public class ServiceServiceImpl implements ServiceService {
     public ServiceDTO updateService(Long id, ServiceDTO dto) {
         ServiceEntity entity = repository.findById(id).orElseThrow();
         entity.setServiceName(dto.getServiceName());
+        entity.setServiceType(dto.getServiceName());
         entity = repository.save(entity);
         dto.setServiceId(entity.getServiceId());
         return dto;

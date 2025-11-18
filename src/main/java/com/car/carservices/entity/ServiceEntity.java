@@ -11,6 +11,7 @@ public class ServiceEntity {
     private Long serviceId;
 
     private String serviceName;
+    private String serviceType;
 
    // @ManyToOne
    // @JoinColumn(name = "brand_model_id")

@@ -62,7 +62,7 @@ public class BranchBrandServiceServiceImpl implements BranchBrandServiceService 
         entity.setBrand(brand);
         entity.setService(service);
         entity.setQty(dto.getQty());
-
+        entity.setExperts(dto.getExperts());
         // NEW: update status if present
         if (dto.getStatus() != null) {
             entity.setStatus(dto.getStatus().toLowerCase());
