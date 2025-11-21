@@ -26,12 +26,21 @@ public class SparePartOfferController {
         return ResponseEntity.ok(service.byUserId(req.getUserId()));
     }
 
-    // NEW endpoint (by user AND branch)
+    // Existing NEW endpoint (by user AND branch)
     @PostMapping("/by-user-branch")
     public ResponseEntity<List<SparePartOfferResponse>> byUserAndBranch(@RequestBody UserBranchRequest req) {
         if (req == null || req.getUserId() == null || req.getBranchId() == null) {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(service.byUserAndBranch(req.getUserId(), req.getBranchId()));
+    }
+
+    // NEW endpoint (by branch only, with brand_id + brand_name)
+    @PostMapping("/store-branch")
+    public ResponseEntity<List<SparePartOfferBranchResponse>> byBranch(@RequestBody BranchIdRequest req) {
+        if (req == null || req.branchId() == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(service.byBranch(req.branchId()));
     }
 }

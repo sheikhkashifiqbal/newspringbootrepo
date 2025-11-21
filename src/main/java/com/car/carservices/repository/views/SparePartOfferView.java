@@ -21,4 +21,6 @@ public interface SparePartOfferView {
     Long   getDetailId();       // sprd.id
 
     String getRequestStatus();
+    Long   getBrandId();
+    String getBrandName();
 }
