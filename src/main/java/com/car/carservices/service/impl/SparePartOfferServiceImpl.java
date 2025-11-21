@@ -1,4 +1,3 @@
-// src/main/java/com/car/carservices/service/impl/SparePartOfferServiceImpl.java
 package com.car.carservices.service.impl;
 
 import com.car.carservices.dto.SparePartLine;
@@ -38,9 +37,12 @@ public class SparePartOfferServiceImpl implements SparePartOfferService {
         return aggregateBranch(repo.findOffersByBranch(branchId));
     }
 
-    // ================= EXISTING AGGREGATION (for by-user endpoints) =================
+    // =====================================================
+    // FIXED duplicate spare_part lines using HashSet
+    // =====================================================
     private static List<SparePartOfferResponse> aggregateUser(List<SparePartOfferView> rows) {
         Map<Long, Acc> map = new LinkedHashMap<>();
+
         for (SparePartOfferView r : rows) {
             Acc acc = map.computeIfAbsent(r.getSparePartsRequestId(), k ->
                 new Acc(
@@ -57,23 +59,27 @@ public class SparePartOfferServiceImpl implements SparePartOfferService {
                     n(r.getRequestStatus())
                 )
             );
-            acc.lines.add(new SparePartLine(
-                r.getDetailId(),
-                r.getSparePartsRequestId(),
-                n(r.getSparePart()),
-                n(r.getClassType()),
-                r.getQty(),
-                r.getPrice()
-            ));
+
+            // Deduplication check
+            if (acc.addedIds.add(r.getDetailId())) {
+                acc.lines.add(new SparePartLine(
+                    r.getDetailId(),
+                    r.getSparePartsRequestId(),
+                    n(r.getSparePart()),
+                    n(r.getClassType()),
+                    r.getQty(),
+                    r.getPrice()
+                ));
+            }
         }
-        List<SparePartOfferResponse> out = new ArrayList<>(map.size());
-        for (Acc a : map.values()) out.add(a.toResponse());
-        return out;
+
+        return map.values().stream().map(Acc::toResponse).toList();
     }
 
-    // ================= NEW AGGREGATION (for by-branch endpoint) =================
+
     private static List<SparePartOfferBranchResponse> aggregateBranch(List<SparePartOfferView> rows) {
         Map<Long, AccBranch> map = new LinkedHashMap<>();
+
         for (SparePartOfferView r : rows) {
             AccBranch acc = map.computeIfAbsent(r.getSparePartsRequestId(), k ->
                 new AccBranch(
@@ -92,27 +98,37 @@ public class SparePartOfferServiceImpl implements SparePartOfferService {
                     n(r.getRequestStatus())
                 )
             );
-            acc.lines.add(new SparePartLine(
-                r.getDetailId(),
-                r.getSparePartsRequestId(),
-                n(r.getSparePart()),
-                n(r.getClassType()),
-                r.getQty(),
-                r.getPrice()
-            ));
+
+            // Deduplication check
+            if (acc.addedIds.add(r.getDetailId())) {
+                acc.lines.add(new SparePartLine(
+                    r.getDetailId(),
+                    r.getSparePartsRequestId(),
+                    n(r.getSparePart()),
+                    n(r.getClassType()),
+                    r.getQty(),
+                    r.getPrice()
+                ));
+            }
         }
-        List<SparePartOfferBranchResponse> out = new ArrayList<>(map.size());
-        for (AccBranch a : map.values()) out.add(a.toResponse());
-        return out;
+
+        return map.values().stream().map(AccBranch::toResponse).toList();
     }
 
     private static String n(String s) { return s == null ? "" : s; }
+
+    // =====================================================
+    // INTERNAL MAPPERS WITH DEDUPE TRACKING
+    // =====================================================
 
     private static class Acc {
         final Long sparePartsRequestId;
         final String date, branchName, address, city, vin, sparepartsType, state, managerMobile, requestStatus;
         final Long bbspId;
         final List<SparePartLine> lines = new ArrayList<>();
+
+        // 🔥 Deduplication set
+        final Set<Long> addedIds = new HashSet<>();
 
         Acc(Long sprId, String date, String branchName, String address, String city, String vin,
             String sparepartsType, String state, String managerMobile, Long bbspId, String requestStatus) {
@@ -147,13 +163,14 @@ public class SparePartOfferServiceImpl implements SparePartOfferService {
         }
     }
 
+
     private static class AccBranch {
-        final Long sparePartsRequestId;
-        final Long brandId;
-        final String brandName;
-        final String date, branchName, address, city, vin, sparepartsType, state, managerMobile, requestStatus;
-        final Long bbspId;
+        final Long sparePartsRequestId, brandId, bbspId;
+        final String brandName, date, branchName, address, city, vin, sparepartsType, state, managerMobile, requestStatus;
         final List<SparePartLine> lines = new ArrayList<>();
+
+        // 🔥 Deduplication set
+        final Set<Long> addedIds = new HashSet<>();
 
         AccBranch(Long sprId, Long brandId, String brandName, String date, String branchName,
                   String address, String city, String vin, String sparepartsType, String state,
