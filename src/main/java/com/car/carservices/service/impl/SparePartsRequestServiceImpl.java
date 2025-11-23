@@ -39,12 +39,32 @@ public class SparePartsRequestServiceImpl implements SparePartsRequestService {
     @Override
     public SparePartsRequestDTO update(Long id, SparePartsRequestDTO dto) {
         SparePartsRequest entity = repository.findById(id).orElseThrow();
-        entity.setUserId(dto.getUserId());
-        entity.setSparepartsId(dto.getSparepartsId());
-        entity.setBranchId(dto.getBranchId());        // NEW
-        entity.setDate(dto.getDate());
-        entity.setVinNumber(dto.getVinNumber());
-        entity.setRequestStatus(dto.getRequestStatus());
+
+        // Only update fields if they are provided (not null)
+        if (dto.getUserId() != null) {
+            entity.setUserId(dto.getUserId());
+        }
+
+        if (dto.getSparepartsId() != null) {
+            entity.setSparepartsId(dto.getSparepartsId());
+        }
+
+        if (dto.getBranchId() != null) {
+            entity.setBranchId(dto.getBranchId());
+        }
+
+        if (dto.getDate() != null && !dto.getDate().isBlank()) {
+            entity.setDate(dto.getDate());
+        }
+
+        if (dto.getVinNumber() != null && !dto.getVinNumber().isBlank()) {
+            entity.setVinNumber(dto.getVinNumber());
+        }
+
+        if (dto.getRequestStatus() != null && !dto.getRequestStatus().isBlank()) {
+            entity.setRequestStatus(dto.getRequestStatus());
+        }
+
         return mapper.toDTO(repository.save(entity));
     }
 
