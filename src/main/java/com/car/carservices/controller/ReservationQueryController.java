@@ -1,7 +1,8 @@
-// src/main/java/com/car/carservices/api/ReservationQueryController.java
+// src/main/java/com/car/carservices/controller/ReservationQueryController.java
 package com.car.carservices.controller;
 
 import com.car.carservices.dto.UserIddRequest;
+import com.car.carservices.dto.BranchIdRequest;
 import com.car.carservices.dto.ReservationSummaryResponse;
 import com.car.carservices.service.ReservationQueryService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = {"http://localhost:3000","http://localhost:3001"}, allowCredentials = "true")
+//@CrossOrigin(origins = {"http://localhost:3000","http://localhost:3001"}, allowCredentials = "true")
 @RestController
 @RequestMapping("/api/reservations")
 public class ReservationQueryController {
@@ -27,8 +28,7 @@ public class ReservationQueryController {
         this.objectMapper = objectMapper;
     }
 
-    // POST http://localhost:8081/api/reservations/by-user
-   @PostMapping("/by-user")
+    @PostMapping("/by-user")
     public ResponseEntity<List<ReservationSummaryResponse>> byUser(@RequestBody UserIddRequest req) {
         try {
             // 🔎 Print the JSON POST request
@@ -37,7 +37,25 @@ public class ReservationQueryController {
             log.warn("Could not serialize request body", e);
         }
 
-        if (req == null || req.getUserId() == null) return ResponseEntity.badRequest().build();
+        if (req == null || req.getUserId() == null) {
+            return ResponseEntity.badRequest().build();
+        }
         return ResponseEntity.ok(service.byUserId(req.getUserId()));
+    }
+
+    // 🔹 NEW: same response structure, filtered by branch_id
+    @PostMapping("/by-branch")
+    public ResponseEntity<List<ReservationSummaryResponse>> byBranch(@RequestBody BranchIdRequest req) {
+        try {
+            // 🔎 Print the JSON POST request
+            log.info("POST /api/reservations/by-branch body: {}", objectMapper.writeValueAsString(req));
+        } catch (Exception e) {
+            log.warn("Could not serialize request body", e);
+        }
+
+        if (req == null || req.getBranchId() == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(service.byBranchId(req.getBranchId()));
     }
 }

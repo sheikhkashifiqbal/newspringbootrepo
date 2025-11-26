@@ -5,12 +5,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 public record ReservationSummaryResponse(
+    @JsonProperty("user_id") Long userId,                                   // 🔹 NEW FIELD
     @JsonProperty("reservation_date") String reservationDate,
     @JsonProperty("reservation_time") String reservationTime,
     @JsonProperty("branch_name") String branchName,
     @JsonProperty("address") String address,
     @JsonProperty("city") String city,
-    @JsonProperty("logo_img") String logoImg,                    // ⬅️ NEW
+    @JsonProperty("logo_img") String logoImg,
     @JsonProperty("brand_name") String brandName,
     @JsonProperty("model_name") String modelName,
     @JsonProperty("service_name") String serviceName,
