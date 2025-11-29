@@ -11,6 +11,9 @@ public class BranchIdRequest {
     public Long getBranchId() {
         return branchId;
     }
+    public Long branchId() {
+        return branchId;
+    }
 
     public void setBranchId(Long branchId) {
         this.branchId = branchId;

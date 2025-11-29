@@ -1,728 +1,70 @@
-2025-11-26T09:17:10.220+04:00  WARN 9392 --- [carservices] [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=12h4m12s375ms293µs400ns).
-2025-11-26T11:03:52.100+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-2] c.c.c.c.ReservationQueryController       : POST /api/reservations/by-user body: {"userId":1}
-2025-11-26T11:03:52.295+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-2] p6spy                                    : #1764140632295 | took 165ms | statement | connection 260| url jdbc:p6spy:postgresql://localhost:5433/testdb
-SELECT
-    r.reservation_id           AS reservation_id,
-    r.reservation_date         AS reservation_date,
-    r.reservation_time         AS reservation_time,
-    b.branch_name              AS branch_name,
-    b.address                  AS address,
-    b.city                     AS city,
-    b.logo_img                 AS logo_img,              -- ⬅️ NEW
-    br.brand_name              AS brand_name,
-    cd.car_model               AS model_name,
-    s.service_name             AS service_name,
-    r.reservation_status       AS reservation_status,
-    bbs.id                     AS branch_brand_serviceid,
-    cd.plate_number            AS plate_number,
-    COALESCE(AVG(re.stars), 0) AS stars
-FROM reservation_service_request r
-JOIN branch b ON b.branch_id = r.branch_id
-JOIN car_details cd ON cd.car_id = r.car_id
+2025-11-29T08:01:47.342+04:00  WARN 9392 --- [carservices] [HikariPool-10 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-10 - Thread starvation or clock leap detected (housekeeper delta=10h17m41s107ms472µs400ns).
+2025-11-29T09:03:14.255+04:00  WARN 9392 --- [carservices] [HikariPool-10 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-10 - Thread starvation or clock leap detected (housekeeper delta=11m51s661ms278µs500ns).
+2025-11-29T11:30:10.937+04:00  WARN 9392 --- [carservices] [HikariPool-10 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-10 - Thread starvation or clock leap detected (housekeeper delta=19m24s396ms774µs100ns).
+2025-11-29T12:47:13.422+04:00  WARN 9392 --- [carservices] [HikariPool-10 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-10 - Thread starvation or clock leap detected (housekeeper delta=27m50s840ms681µs).
+2025-11-29T12:48:17.719+04:00  WARN 9392 --- [carservices] [HikariPool-10 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-10 - Thread starvation or clock leap detected (housekeeper delta=1m14s991ms648µs500ns).
+2025-11-29T15:41:43.907+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-2] c.c.c.c.ReservationQueryController       : POST /api/reservations/by-branch body: {"branch_id":1}
+2025-11-29T15:41:43.886+04:00 DEBUG 9392 --- [carservices] [http-nio-8081-exec-8] org.hibernate.SQL                        : 
+    SELECT
+        b.branch_id        AS branchId,
+        b.branch_name      AS branchName,
+        b.logo_img         AS logoImg,
+        b.branch_cover_img AS branchCoverImg,
+        s.service_name     AS serviceName,
+        -- NEW: average stars per branch (nullable if no ratings)         AVG(re.stars) OVER (PARTITION 
+    BY
+        b.branch_id) AS avgStars     
+    FROM
+        branch b     
+    LEFT JOIN
+        branch_brand_service bbs 
+            ON bbs.branch_id = b.branch_id     
+    LEFT JOIN
+        service_entity s 
+            ON s.service_id = bbs.service_id     
+    LEFT JOIN
+        rate_experience re 
+            ON re.branch_brand_serviceid = bbs.id     
+    WHERE
+        b.status = 'approved' 
+        OR b.status = 'APPROVED'     
+    ORDER BY
+        b.branch_id 
+2025-11-29T15:41:43.907+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-3] c.c.c.c.ReservationQueryController       : POST /api/reservations/by-branch body: {"branch_id":1}
+2025-11-29T15:41:44.219+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-8] p6spy                                    : #1764416504219 | took 144ms | statement | connection 1029| url jdbc:p6spy:postgresql://localhost:5433/testdb
+    SELECT
+        b.branch_id        AS branchId,
+        b.branch_name      AS branchName,
+        b.logo_img         AS logoImg,
+        b.branch_cover_img AS branchCoverImg,
+        s.service_name     AS serviceName,
+        -- NEW: average stars per branch (nullable if no ratings)
+        AVG(re.stars) OVER (PARTITION BY b.branch_id) AS avgStars
+    FROM branch b
+    LEFT JOIN branch_brand_service bbs ON bbs.branch_id = b.branch_id
+    LEFT JOIN service_entity s ON s.service_id = bbs.service_id
+    LEFT JOIN rate_experience re ON re.branch_brand_serviceid = bbs.id
+    WHERE b.status = 'approved' OR b.status = 'APPROVED'
+    ORDER BY b.branch_id
 
-JOIN brand br ON br.brand_id = cd.brand_id
-JOIN service_entity s ON s.service_id = r.service_id
-LEFT JOIN branch_brand_service bbs
-  ON bbs.branch_id = r.branch_id
- AND bbs.service_id = r.service_id
- AND bbs.brand_id   = cd.brand_id
-LEFT JOIN rate_experience re
-  ON re.branch_brand_serviceid = bbs.id
-WHERE r.user_id = ?
-GROUP BY r.reservation_id, r.reservation_date, r.reservation_time,
-         b.branch_name, b.address, b.city, b.logo_img,           -- ⬅️ add here
-         br.brand_name, cd.car_model, s.service_name,
-         r.reservation_status, bbs.id, cd.plate_number
-ORDER BY r.reservation_date DESC, r.reservation_time DESC
-
-SELECT
-    r.reservation_id           AS reservation_id,
-    r.reservation_date         AS reservation_date,
-    r.reservation_time         AS reservation_time,
-    b.branch_name              AS branch_name,
-    b.address                  AS address,
-    b.city                     AS city,
-    b.logo_img                 AS logo_img,              -- ⬅️ NEW
-    br.brand_name              AS brand_name,
-    cd.car_model               AS model_name,
-    s.service_name             AS service_name,
-    r.reservation_status       AS reservation_status,
-    bbs.id                     AS branch_brand_serviceid,
-    cd.plate_number            AS plate_number,
-    COALESCE(AVG(re.stars), 0) AS stars
-FROM reservation_service_request r
-JOIN branch b ON b.branch_id = r.branch_id
-JOIN car_details cd ON cd.car_id = r.car_id
-
-JOIN brand br ON br.brand_id = cd.brand_id
-JOIN service_entity s ON s.service_id = r.service_id
-LEFT JOIN branch_brand_service bbs
-  ON bbs.branch_id = r.branch_id
- AND bbs.service_id = r.service_id
- AND bbs.brand_id   = cd.brand_id
-LEFT JOIN rate_experience re
-  ON re.branch_brand_serviceid = bbs.id
-WHERE r.user_id = 1
-GROUP BY r.reservation_id, r.reservation_date, r.reservation_time,
-         b.branch_name, b.address, b.city, b.logo_img,           -- ⬅️ add here
-         br.brand_name, cd.car_model, s.service_name,
-         r.reservation_status, bbs.id, cd.plate_number
-ORDER BY r.reservation_date DESC, r.reservation_time DESC
+    SELECT
+        b.branch_id        AS branchId,
+        b.branch_name      AS branchName,
+        b.logo_img         AS logoImg,
+        b.branch_cover_img AS branchCoverImg,
+        s.service_name     AS serviceName,
+        -- NEW: average stars per branch (nullable if no ratings)
+        AVG(re.stars) OVER (PARTITION BY b.branch_id) AS avgStars
+    FROM branch b
+    LEFT JOIN branch_brand_service bbs ON bbs.branch_id = b.branch_id
+    LEFT JOIN service_entity s ON s.service_id = bbs.service_id
+    LEFT JOIN rate_experience re ON re.branch_brand_serviceid = bbs.id
+    WHERE b.status = 'approved' OR b.status = 'APPROVED'
+    ORDER BY b.branch_id
 ;
-2025-11-26T11:03:52.329+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-2] p6spy                                    : #1764140632329 | took 14ms | statement | connection 260| url jdbc:p6spy:postgresql://localhost:5433/testdb
+2025-11-29T15:41:44.219+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-3] p6spy                                    : #1764416504219 | took 139ms | statement | connection 1031| url jdbc:p6spy:postgresql://localhost:5433/testdb
 SELECT
-  rss.reservation_service_sparepart_id,
-  rss.part_name,
-  rss.qty,
-  rss.spareparts_id,
-  sp.spareparts_type,                 -- ⬅️ NEW
-  rss.reservation_id
-FROM reservation_service_sparepart rss
-LEFT JOIN spare_parts sp
-  ON sp.spareparts_id = rss.spareparts_id   -- ⬅️ NEW
-WHERE rss.reservation_id IN (?,?,?,?)
-ORDER BY rss.reservation_service_sparepart_id
-
-SELECT
-  rss.reservation_service_sparepart_id,
-  rss.part_name,
-  rss.qty,
-  rss.spareparts_id,
-  sp.spareparts_type,                 -- ⬅️ NEW
-  rss.reservation_id
-FROM reservation_service_sparepart rss
-LEFT JOIN spare_parts sp
-  ON sp.spareparts_id = rss.spareparts_id   -- ⬅️ NEW
-WHERE rss.reservation_id IN (88,1,5,87)
-ORDER BY rss.reservation_service_sparepart_id
-;
-2025-11-26T11:11:16.525+04:00  INFO 9392 --- [carservices] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 410 class path changes (0 additions, 410 deletions, 0 modifications)
-2025-11-26T11:11:17.026+04:00  INFO 9392 --- [carservices] [Thread-5] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
-2025-11-26T11:11:17.184+04:00  INFO 9392 --- [carservices] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
-2025-11-26T11:11:17.453+04:00  INFO 9392 --- [carservices] [Thread-5] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2025-11-26T11:11:17.959+04:00  INFO 9392 --- [carservices] [Thread-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
-2025-11-26T11:11:18.098+04:00  INFO 9392 --- [carservices] [Thread-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
-2025-11-26T11:11:23.509+04:00  INFO 9392 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : Starting CarservicesApplication using Java 21.0.7 with PID 9392 (C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices\target\classes started by lenovo in C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices)
-2025-11-26T11:11:23.510+04:00  INFO 9392 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : No active profile set, falling back to 1 default profile: "default"
-2025-11-26T11:11:24.066+04:00  INFO 9392 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-11-26T11:11:24.459+04:00  INFO 9392 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 391 ms. Found 36 JPA repository interfaces.
-2025-11-26T11:11:24.730+04:00  INFO 9392 --- [carservices] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
-2025-11-26T11:11:24.732+04:00  INFO 9392 --- [carservices] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2025-11-26T11:11:24.732+04:00  INFO 9392 --- [carservices] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.40]
-2025-11-26T11:11:24.764+04:00  INFO 9392 --- [carservices] [restartedMain] o.a.c.c.C.[Tomcat-1].[localhost].[/]     : Initializing Spring embedded WebApplicationContext
-2025-11-26T11:11:24.764+04:00  INFO 9392 --- [carservices] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1252 ms
-2025-11-26T11:11:24.893+04:00  INFO 9392 --- [carservices] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-11-26T11:11:24.903+04:00  INFO 9392 --- [carservices] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
-2025-11-26T11:11:24.947+04:00  INFO 9392 --- [carservices] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-11-26T11:11:24.953+04:00  INFO 9392 --- [carservices] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
-2025-11-26T11:11:25.160+04:00  INFO 9392 --- [carservices] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-2 - Added connection com.p6spy.engine.wrapper.ConnectionWrapper@21ca780f
-2025-11-26T11:11:25.161+04:00  INFO 9392 --- [carservices] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
-2025-11-26T11:11:25.190+04:00  WARN 9392 --- [carservices] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2025-11-26T11:11:25.195+04:00  INFO 9392 --- [carservices] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
-	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-2)']
-	Database driver: undefined/unknown
-	Database version: 17.5
-	Autocommit mode: undefined/unknown
-	Isolation level: undefined/unknown
-	Minimum pool size: undefined/unknown
-	Maximum pool size: undefined/unknown
-2025-11-26T11:11:25.744+04:00  INFO 9392 --- [carservices] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-11-26T11:11:25.778+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764141085778 | took 30ms | statement | connection 270| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from information_schema.sequences
-select * from information_schema.sequences;
-2025-11-26T11:11:25.830+04:00  INFO 9392 --- [carservices] [restartedMain] t.s.e.i.AbstractInformationExtractorImpl : HHH000475: Cannot locate column information using identifier [lower((manager_email)::text)]; ignoring index [ux_company_manager_email]
-2025-11-26T11:11:25.830+04:00 DEBUG 9392 --- [carservices] [restartedMain] org.hibernate.SQL                        : 
-    alter table if exists company 
-       drop constraint if exists ux_company_company_name_ci
-2025-11-26T11:11:25.840+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764141085840 | took 8ms | statement | connection 270| url jdbc:p6spy:postgresql://localhost:5433/testdb
-
-    alter table if exists company 
-       drop constraint if exists ux_company_company_name_ci
-
-    alter table if exists company 
-       drop constraint if exists ux_company_company_name_ci;
-2025-11-26T11:11:25.840+04:00  WARN 9392 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
-2025-11-26T11:11:25.840+04:00  WARN 9392 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : constraint "ux_company_company_name_ci" of relation "company" does not exist, skipping
-2025-11-26T11:11:25.840+04:00 DEBUG 9392 --- [carservices] [restartedMain] org.hibernate.SQL                        : 
-    alter table if exists company 
-       add constraint ux_company_company_name_ci unique (company_name)
-2025-11-26T11:11:25.862+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764141085862 | took 20ms | statement | connection 270| url jdbc:p6spy:postgresql://localhost:5433/testdb
-
-    alter table if exists company 
-       add constraint ux_company_company_name_ci unique (company_name)
-
-    alter table if exists company 
-       add constraint ux_company_company_name_ci unique (company_name);
-2025-11-26T11:11:25.863+04:00 DEBUG 9392 --- [carservices] [restartedMain] org.hibernate.SQL                        : 
-    alter table if exists company 
-       drop constraint if exists ux_company_brand_name_ci
-2025-11-26T11:11:25.863+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764141085863 | took 0ms | statement | connection 270| url jdbc:p6spy:postgresql://localhost:5433/testdb
-
-    alter table if exists company 
-       drop constraint if exists ux_company_brand_name_ci
-
-    alter table if exists company 
-       drop constraint if exists ux_company_brand_name_ci;
-2025-11-26T11:11:25.864+04:00  WARN 9392 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
-2025-11-26T11:11:25.864+04:00  WARN 9392 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : constraint "ux_company_brand_name_ci" of relation "company" does not exist, skipping
-2025-11-26T11:11:25.864+04:00 DEBUG 9392 --- [carservices] [restartedMain] org.hibernate.SQL                        : 
-    alter table if exists company 
-       add constraint ux_company_brand_name_ci unique (brand_name)
-2025-11-26T11:11:25.866+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764141085866 | took 2ms | statement | connection 270| url jdbc:p6spy:postgresql://localhost:5433/testdb
-
-    alter table if exists company 
-       add constraint ux_company_brand_name_ci unique (brand_name)
-
-    alter table if exists company 
-       add constraint ux_company_brand_name_ci unique (brand_name);
-2025-11-26T11:11:25.972+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764141085972 | took 3ms | statement | connection 270| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."company" where 1=0
-select * from "public"."company" where 1=0;
-2025-11-26T11:11:26.077+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764141086077 | took 2ms | statement | connection 270| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."branch" where 1=0
-select * from "public"."branch" where 1=0;
-2025-11-26T11:11:26.085+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764141086085 | took 2ms | statement | connection 270| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."brand" where 1=0
-select * from "public"."brand" where 1=0;
-2025-11-26T11:11:26.091+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764141086091 | took 1ms | statement | connection 270| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."service_entity" where 1=0
-select * from "public"."service_entity" where 1=0;
-2025-11-26T11:11:26.193+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764141086193 | took 0ms | statement | connection 270| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."branch" where 1=0
-select * from "public"."branch" where 1=0;
-2025-11-26T11:11:26.195+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764141086195 | took 0ms | statement | connection 270| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."brand" where 1=0
-select * from "public"."brand" where 1=0;
-2025-11-26T11:11:26.198+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764141086198 | took 1ms | statement | connection 270| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."spare_parts" where 1=0
-select * from "public"."spare_parts" where 1=0;
-2025-11-26T11:11:26.281+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764141086281 | took 0ms | statement | connection 270| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."brand" where 1=0
-select * from "public"."brand" where 1=0;
-2025-11-26T11:11:26.356+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764141086356 | took 0ms | statement | connection 270| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."brand" where 1=0
-select * from "public"."brand" where 1=0;
-2025-11-26T11:11:26.364+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764141086364 | took 4ms | statement | connection 270| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."user_registration" where 1=0
-select * from "public"."user_registration" where 1=0;
-2025-11-26T11:11:26.478+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764141086478 | took 0ms | statement | connection 270| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."spare_parts" where 1=0
-select * from "public"."spare_parts" where 1=0;
-2025-11-26T11:11:26.594+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764141086593 | took 5ms | statement | connection 270| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."problem" where 1=0
-select * from "public"."problem" where 1=0;
-2025-11-26T11:11:26.667+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764141086667 | took 0ms | statement | connection 270| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."branch" where 1=0
-select * from "public"."branch" where 1=0;
-2025-11-26T11:11:26.668+04:00  INFO 9392 --- [carservices] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-11-26T11:11:27.756+04:00  WARN 9392 --- [carservices] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2025-11-26T11:11:28.074+04:00  INFO 9392 --- [carservices] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
-2025-11-26T11:11:28.097+04:00  INFO 9392 --- [carservices] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
-2025-11-26T11:11:28.102+04:00  INFO 9392 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : Started CarservicesApplication in 4.639 seconds (process running for 137211.505)
-2025-11-26T11:11:28.108+04:00  INFO 9392 --- [carservices] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
-2025-11-26T12:09:10.408+04:00  INFO 9392 --- [carservices] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
-2025-11-26T12:09:10.443+04:00  INFO 9392 --- [carservices] [Thread-7] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
-2025-11-26T12:09:10.466+04:00  INFO 9392 --- [carservices] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
-2025-11-26T12:09:10.492+04:00  INFO 9392 --- [carservices] [Thread-7] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2025-11-26T12:09:10.507+04:00  INFO 9392 --- [carservices] [Thread-7] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown initiated...
-2025-11-26T12:09:10.515+04:00  INFO 9392 --- [carservices] [Thread-7] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown completed.
-2025-11-26T12:09:10.945+04:00  INFO 9392 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : Starting CarservicesApplication using Java 21.0.7 with PID 9392 (C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices\target\classes started by lenovo in C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices)
-2025-11-26T12:09:10.947+04:00  INFO 9392 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : No active profile set, falling back to 1 default profile: "default"
-2025-11-26T12:09:13.085+04:00  INFO 9392 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-11-26T12:09:13.573+04:00  INFO 9392 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 483 ms. Found 36 JPA repository interfaces.
-2025-11-26T12:09:14.317+04:00  INFO 9392 --- [carservices] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
-2025-11-26T12:09:14.323+04:00  INFO 9392 --- [carservices] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2025-11-26T12:09:14.325+04:00  INFO 9392 --- [carservices] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.40]
-2025-11-26T12:09:14.406+04:00  INFO 9392 --- [carservices] [restartedMain] o.a.c.c.C.[Tomcat-1].[localhost].[/]     : Initializing Spring embedded WebApplicationContext
-2025-11-26T12:09:14.407+04:00  INFO 9392 --- [carservices] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 3441 ms
-2025-11-26T12:09:14.623+04:00  INFO 9392 --- [carservices] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-11-26T12:09:14.637+04:00  INFO 9392 --- [carservices] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
-2025-11-26T12:09:14.698+04:00  INFO 9392 --- [carservices] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-11-26T12:09:14.703+04:00  INFO 9392 --- [carservices] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Starting...
-2025-11-26T12:09:14.873+04:00  INFO 9392 --- [carservices] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-3 - Added connection com.p6spy.engine.wrapper.ConnectionWrapper@6fbd47dc
-2025-11-26T12:09:14.875+04:00  INFO 9392 --- [carservices] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Start completed.
-2025-11-26T12:09:14.937+04:00  WARN 9392 --- [carservices] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2025-11-26T12:09:14.943+04:00  INFO 9392 --- [carservices] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
-	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-3)']
-	Database driver: undefined/unknown
-	Database version: 17.5
-	Autocommit mode: undefined/unknown
-	Isolation level: undefined/unknown
-	Minimum pool size: undefined/unknown
-	Maximum pool size: undefined/unknown
-2025-11-26T12:09:16.177+04:00  INFO 9392 --- [carservices] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-11-26T12:09:16.210+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144556210 | took 30ms | statement | connection 290| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from information_schema.sequences
-select * from information_schema.sequences;
-2025-11-26T12:09:16.312+04:00  INFO 9392 --- [carservices] [restartedMain] t.s.e.i.AbstractInformationExtractorImpl : HHH000475: Cannot locate column information using identifier [lower((manager_email)::text)]; ignoring index [ux_company_manager_email]
-2025-11-26T12:09:16.314+04:00 DEBUG 9392 --- [carservices] [restartedMain] org.hibernate.SQL                        : 
-    alter table if exists company 
-       drop constraint if exists ux_company_company_name_ci
-2025-11-26T12:09:16.323+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144556323 | took 7ms | statement | connection 290| url jdbc:p6spy:postgresql://localhost:5433/testdb
-
-    alter table if exists company 
-       drop constraint if exists ux_company_company_name_ci
-
-    alter table if exists company 
-       drop constraint if exists ux_company_company_name_ci;
-2025-11-26T12:09:16.324+04:00  WARN 9392 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
-2025-11-26T12:09:16.324+04:00  WARN 9392 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : constraint "ux_company_company_name_ci" of relation "company" does not exist, skipping
-2025-11-26T12:09:16.325+04:00 DEBUG 9392 --- [carservices] [restartedMain] org.hibernate.SQL                        : 
-    alter table if exists company 
-       add constraint ux_company_company_name_ci unique (company_name)
-2025-11-26T12:09:16.354+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144556354 | took 28ms | statement | connection 290| url jdbc:p6spy:postgresql://localhost:5433/testdb
-
-    alter table if exists company 
-       add constraint ux_company_company_name_ci unique (company_name)
-
-    alter table if exists company 
-       add constraint ux_company_company_name_ci unique (company_name);
-2025-11-26T12:09:16.356+04:00 DEBUG 9392 --- [carservices] [restartedMain] org.hibernate.SQL                        : 
-    alter table if exists company 
-       drop constraint if exists ux_company_brand_name_ci
-2025-11-26T12:09:16.358+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144556358 | took 1ms | statement | connection 290| url jdbc:p6spy:postgresql://localhost:5433/testdb
-
-    alter table if exists company 
-       drop constraint if exists ux_company_brand_name_ci
-
-    alter table if exists company 
-       drop constraint if exists ux_company_brand_name_ci;
-2025-11-26T12:09:16.359+04:00  WARN 9392 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
-2025-11-26T12:09:16.359+04:00  WARN 9392 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : constraint "ux_company_brand_name_ci" of relation "company" does not exist, skipping
-2025-11-26T12:09:16.360+04:00 DEBUG 9392 --- [carservices] [restartedMain] org.hibernate.SQL                        : 
-    alter table if exists company 
-       add constraint ux_company_brand_name_ci unique (brand_name)
-2025-11-26T12:09:16.366+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144556366 | took 4ms | statement | connection 290| url jdbc:p6spy:postgresql://localhost:5433/testdb
-
-    alter table if exists company 
-       add constraint ux_company_brand_name_ci unique (brand_name)
-
-    alter table if exists company 
-       add constraint ux_company_brand_name_ci unique (brand_name);
-2025-11-26T12:09:16.654+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144556654 | took 4ms | statement | connection 290| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."company" where 1=0
-select * from "public"."company" where 1=0;
-2025-11-26T12:09:16.876+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144556876 | took 3ms | statement | connection 290| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."branch" where 1=0
-select * from "public"."branch" where 1=0;
-2025-11-26T12:09:16.892+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144556892 | took 4ms | statement | connection 290| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."brand" where 1=0
-select * from "public"."brand" where 1=0;
-2025-11-26T12:09:16.905+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144556905 | took 3ms | statement | connection 290| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."service_entity" where 1=0
-select * from "public"."service_entity" where 1=0;
-2025-11-26T12:09:17.109+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144557109 | took 0ms | statement | connection 290| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."branch" where 1=0
-select * from "public"."branch" where 1=0;
-2025-11-26T12:09:17.115+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144557115 | took 0ms | statement | connection 290| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."brand" where 1=0
-select * from "public"."brand" where 1=0;
-2025-11-26T12:09:17.123+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144557123 | took 2ms | statement | connection 290| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."spare_parts" where 1=0
-select * from "public"."spare_parts" where 1=0;
-2025-11-26T12:09:17.337+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144557337 | took 0ms | statement | connection 290| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."brand" where 1=0
-select * from "public"."brand" where 1=0;
-2025-11-26T12:09:17.558+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144557558 | took 0ms | statement | connection 290| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."brand" where 1=0
-select * from "public"."brand" where 1=0;
-2025-11-26T12:09:17.567+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144557567 | took 4ms | statement | connection 290| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."user_registration" where 1=0
-select * from "public"."user_registration" where 1=0;
-2025-11-26T12:09:17.806+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144557806 | took 0ms | statement | connection 290| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."spare_parts" where 1=0
-select * from "public"."spare_parts" where 1=0;
-2025-11-26T12:09:18.066+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144558066 | took 3ms | statement | connection 290| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."problem" where 1=0
-select * from "public"."problem" where 1=0;
-2025-11-26T12:09:18.331+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144558331 | took 0ms | statement | connection 290| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."branch" where 1=0
-select * from "public"."branch" where 1=0;
-2025-11-26T12:09:18.332+04:00  INFO 9392 --- [carservices] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-11-26T12:09:20.481+04:00  WARN 9392 --- [carservices] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2025-11-26T12:09:21.129+04:00  INFO 9392 --- [carservices] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
-2025-11-26T12:09:21.196+04:00  INFO 9392 --- [carservices] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
-2025-11-26T12:09:21.207+04:00  INFO 9392 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : Started CarservicesApplication in 10.488 seconds (process running for 140684.61)
-2025-11-26T12:09:21.213+04:00  INFO 9392 --- [carservices] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
-2025-11-26T12:09:55.888+04:00  INFO 9392 --- [carservices] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 3 class path changes (0 additions, 0 deletions, 3 modifications)
-2025-11-26T12:09:55.892+04:00  INFO 9392 --- [carservices] [Thread-14] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
-2025-11-26T12:09:55.906+04:00  INFO 9392 --- [carservices] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
-2025-11-26T12:09:55.918+04:00  INFO 9392 --- [carservices] [Thread-14] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2025-11-26T12:09:55.923+04:00  INFO 9392 --- [carservices] [Thread-14] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Shutdown initiated...
-2025-11-26T12:09:55.928+04:00  INFO 9392 --- [carservices] [Thread-14] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Shutdown completed.
-2025-11-26T12:09:56.191+04:00  INFO 9392 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : Starting CarservicesApplication using Java 21.0.7 with PID 9392 (C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices\target\classes started by lenovo in C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices)
-2025-11-26T12:09:56.192+04:00  INFO 9392 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : No active profile set, falling back to 1 default profile: "default"
-2025-11-26T12:09:57.777+04:00  INFO 9392 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-11-26T12:09:58.249+04:00  INFO 9392 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 468 ms. Found 36 JPA repository interfaces.
-2025-11-26T12:09:58.734+04:00  INFO 9392 --- [carservices] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
-2025-11-26T12:09:58.738+04:00  INFO 9392 --- [carservices] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2025-11-26T12:09:58.739+04:00  INFO 9392 --- [carservices] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.40]
-2025-11-26T12:09:58.816+04:00  INFO 9392 --- [carservices] [restartedMain] o.a.c.c.C.[Tomcat-1].[localhost].[/]     : Initializing Spring embedded WebApplicationContext
-2025-11-26T12:09:58.818+04:00  INFO 9392 --- [carservices] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2620 ms
-2025-11-26T12:09:59.016+04:00  INFO 9392 --- [carservices] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-11-26T12:09:59.027+04:00  INFO 9392 --- [carservices] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
-2025-11-26T12:09:59.060+04:00  INFO 9392 --- [carservices] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-11-26T12:09:59.063+04:00  INFO 9392 --- [carservices] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Starting...
-2025-11-26T12:09:59.202+04:00  INFO 9392 --- [carservices] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-4 - Added connection com.p6spy.engine.wrapper.ConnectionWrapper@24b694ee
-2025-11-26T12:09:59.202+04:00  INFO 9392 --- [carservices] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Start completed.
-2025-11-26T12:09:59.222+04:00  WARN 9392 --- [carservices] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2025-11-26T12:09:59.225+04:00  INFO 9392 --- [carservices] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
-	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-4)']
-	Database driver: undefined/unknown
-	Database version: 17.5
-	Autocommit mode: undefined/unknown
-	Isolation level: undefined/unknown
-	Minimum pool size: undefined/unknown
-	Maximum pool size: undefined/unknown
-2025-11-26T12:10:00.041+04:00  INFO 9392 --- [carservices] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-11-26T12:10:00.055+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144600055 | took 11ms | statement | connection 300| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from information_schema.sequences
-select * from information_schema.sequences;
-2025-11-26T12:10:00.111+04:00  INFO 9392 --- [carservices] [restartedMain] t.s.e.i.AbstractInformationExtractorImpl : HHH000475: Cannot locate column information using identifier [lower((manager_email)::text)]; ignoring index [ux_company_manager_email]
-2025-11-26T12:10:00.112+04:00 DEBUG 9392 --- [carservices] [restartedMain] org.hibernate.SQL                        : 
-    alter table if exists company 
-       drop constraint if exists ux_company_company_name_ci
-2025-11-26T12:10:00.114+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144600114 | took 1ms | statement | connection 300| url jdbc:p6spy:postgresql://localhost:5433/testdb
-
-    alter table if exists company 
-       drop constraint if exists ux_company_company_name_ci
-
-    alter table if exists company 
-       drop constraint if exists ux_company_company_name_ci;
-2025-11-26T12:10:00.115+04:00  WARN 9392 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
-2025-11-26T12:10:00.115+04:00  WARN 9392 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : constraint "ux_company_company_name_ci" of relation "company" does not exist, skipping
-2025-11-26T12:10:00.116+04:00 DEBUG 9392 --- [carservices] [restartedMain] org.hibernate.SQL                        : 
-    alter table if exists company 
-       add constraint ux_company_company_name_ci unique (company_name)
-2025-11-26T12:10:00.127+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144600127 | took 10ms | statement | connection 300| url jdbc:p6spy:postgresql://localhost:5433/testdb
-
-    alter table if exists company 
-       add constraint ux_company_company_name_ci unique (company_name)
-
-    alter table if exists company 
-       add constraint ux_company_company_name_ci unique (company_name);
-2025-11-26T12:10:00.128+04:00 DEBUG 9392 --- [carservices] [restartedMain] org.hibernate.SQL                        : 
-    alter table if exists company 
-       drop constraint if exists ux_company_brand_name_ci
-2025-11-26T12:10:00.129+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144600129 | took 1ms | statement | connection 300| url jdbc:p6spy:postgresql://localhost:5433/testdb
-
-    alter table if exists company 
-       drop constraint if exists ux_company_brand_name_ci
-
-    alter table if exists company 
-       drop constraint if exists ux_company_brand_name_ci;
-2025-11-26T12:10:00.131+04:00  WARN 9392 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
-2025-11-26T12:10:00.131+04:00  WARN 9392 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : constraint "ux_company_brand_name_ci" of relation "company" does not exist, skipping
-2025-11-26T12:10:00.131+04:00 DEBUG 9392 --- [carservices] [restartedMain] org.hibernate.SQL                        : 
-    alter table if exists company 
-       add constraint ux_company_brand_name_ci unique (brand_name)
-2025-11-26T12:10:00.136+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144600136 | took 4ms | statement | connection 300| url jdbc:p6spy:postgresql://localhost:5433/testdb
-
-    alter table if exists company 
-       add constraint ux_company_brand_name_ci unique (brand_name)
-
-    alter table if exists company 
-       add constraint ux_company_brand_name_ci unique (brand_name);
-2025-11-26T12:10:00.406+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144600406 | took 5ms | statement | connection 300| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."company" where 1=0
-select * from "public"."company" where 1=0;
-2025-11-26T12:10:00.683+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144600683 | took 4ms | statement | connection 300| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."branch" where 1=0
-select * from "public"."branch" where 1=0;
-2025-11-26T12:10:00.697+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144600697 | took 2ms | statement | connection 300| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."brand" where 1=0
-select * from "public"."brand" where 1=0;
-2025-11-26T12:10:00.707+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144600707 | took 1ms | statement | connection 300| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."service_entity" where 1=0
-select * from "public"."service_entity" where 1=0;
-2025-11-26T12:10:00.953+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144600953 | took 1ms | statement | connection 300| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."branch" where 1=0
-select * from "public"."branch" where 1=0;
-2025-11-26T12:10:00.958+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144600958 | took 0ms | statement | connection 300| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."brand" where 1=0
-select * from "public"."brand" where 1=0;
-2025-11-26T12:10:00.967+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144600967 | took 3ms | statement | connection 300| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."spare_parts" where 1=0
-select * from "public"."spare_parts" where 1=0;
-2025-11-26T12:10:01.190+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144601189 | took 0ms | statement | connection 300| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."brand" where 1=0
-select * from "public"."brand" where 1=0;
-2025-11-26T12:10:01.438+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144601438 | took 1ms | statement | connection 300| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."brand" where 1=0
-select * from "public"."brand" where 1=0;
-2025-11-26T12:10:01.447+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144601447 | took 3ms | statement | connection 300| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."user_registration" where 1=0
-select * from "public"."user_registration" where 1=0;
-2025-11-26T12:10:01.676+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144601676 | took 0ms | statement | connection 300| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."spare_parts" where 1=0
-select * from "public"."spare_parts" where 1=0;
-2025-11-26T12:10:01.875+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144601875 | took 2ms | statement | connection 300| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."problem" where 1=0
-select * from "public"."problem" where 1=0;
-2025-11-26T12:10:02.069+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144602069 | took 0ms | statement | connection 300| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."branch" where 1=0
-select * from "public"."branch" where 1=0;
-2025-11-26T12:10:02.070+04:00  INFO 9392 --- [carservices] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-11-26T12:10:03.748+04:00  WARN 9392 --- [carservices] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2025-11-26T12:10:04.263+04:00  INFO 9392 --- [carservices] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
-2025-11-26T12:10:04.301+04:00  INFO 9392 --- [carservices] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
-2025-11-26T12:10:04.308+04:00  INFO 9392 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : Started CarservicesApplication in 8.245 seconds (process running for 140727.711)
-2025-11-26T12:10:04.313+04:00  INFO 9392 --- [carservices] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
-2025-11-26T12:10:31.809+04:00  INFO 9392 --- [carservices] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 2 class path changes (0 additions, 0 deletions, 2 modifications)
-2025-11-26T12:10:31.812+04:00  INFO 9392 --- [carservices] [Thread-18] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
-2025-11-26T12:10:31.822+04:00  INFO 9392 --- [carservices] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
-2025-11-26T12:10:31.835+04:00  INFO 9392 --- [carservices] [Thread-18] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2025-11-26T12:10:31.839+04:00  INFO 9392 --- [carservices] [Thread-18] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Shutdown initiated...
-2025-11-26T12:10:31.842+04:00  INFO 9392 --- [carservices] [Thread-18] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Shutdown completed.
-2025-11-26T12:10:32.081+04:00  INFO 9392 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : Starting CarservicesApplication using Java 21.0.7 with PID 9392 (C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices\target\classes started by lenovo in C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices)
-2025-11-26T12:10:32.082+04:00  INFO 9392 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : No active profile set, falling back to 1 default profile: "default"
-2025-11-26T12:10:33.481+04:00  INFO 9392 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-11-26T12:10:33.930+04:00  INFO 9392 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 444 ms. Found 36 JPA repository interfaces.
-2025-11-26T12:10:34.389+04:00  INFO 9392 --- [carservices] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
-2025-11-26T12:10:34.391+04:00  INFO 9392 --- [carservices] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2025-11-26T12:10:34.392+04:00  INFO 9392 --- [carservices] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.40]
-2025-11-26T12:10:34.453+04:00  INFO 9392 --- [carservices] [restartedMain] o.a.c.c.C.[Tomcat-1].[localhost].[/]     : Initializing Spring embedded WebApplicationContext
-2025-11-26T12:10:34.454+04:00  INFO 9392 --- [carservices] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2367 ms
-2025-11-26T12:10:34.645+04:00  INFO 9392 --- [carservices] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-11-26T12:10:34.655+04:00  INFO 9392 --- [carservices] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
-2025-11-26T12:10:34.687+04:00  INFO 9392 --- [carservices] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-11-26T12:10:34.690+04:00  INFO 9392 --- [carservices] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-5 - Starting...
-2025-11-26T12:10:34.827+04:00  INFO 9392 --- [carservices] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-5 - Added connection com.p6spy.engine.wrapper.ConnectionWrapper@7a7c9932
-2025-11-26T12:10:34.828+04:00  INFO 9392 --- [carservices] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-5 - Start completed.
-2025-11-26T12:10:34.852+04:00  WARN 9392 --- [carservices] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2025-11-26T12:10:34.855+04:00  INFO 9392 --- [carservices] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
-	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-5)']
-	Database driver: undefined/unknown
-	Database version: 17.5
-	Autocommit mode: undefined/unknown
-	Isolation level: undefined/unknown
-	Minimum pool size: undefined/unknown
-	Maximum pool size: undefined/unknown
-2025-11-26T12:10:35.641+04:00  INFO 9392 --- [carservices] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-11-26T12:10:35.658+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144635658 | took 16ms | statement | connection 310| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from information_schema.sequences
-select * from information_schema.sequences;
-2025-11-26T12:10:35.713+04:00  INFO 9392 --- [carservices] [restartedMain] t.s.e.i.AbstractInformationExtractorImpl : HHH000475: Cannot locate column information using identifier [lower((manager_email)::text)]; ignoring index [ux_company_manager_email]
-2025-11-26T12:10:35.714+04:00 DEBUG 9392 --- [carservices] [restartedMain] org.hibernate.SQL                        : 
-    alter table if exists company 
-       drop constraint if exists ux_company_company_name_ci
-2025-11-26T12:10:35.718+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144635718 | took 3ms | statement | connection 310| url jdbc:p6spy:postgresql://localhost:5433/testdb
-
-    alter table if exists company 
-       drop constraint if exists ux_company_company_name_ci
-
-    alter table if exists company 
-       drop constraint if exists ux_company_company_name_ci;
-2025-11-26T12:10:35.718+04:00  WARN 9392 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
-2025-11-26T12:10:35.718+04:00  WARN 9392 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : constraint "ux_company_company_name_ci" of relation "company" does not exist, skipping
-2025-11-26T12:10:35.719+04:00 DEBUG 9392 --- [carservices] [restartedMain] org.hibernate.SQL                        : 
-    alter table if exists company 
-       add constraint ux_company_company_name_ci unique (company_name)
-2025-11-26T12:10:35.731+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144635731 | took 11ms | statement | connection 310| url jdbc:p6spy:postgresql://localhost:5433/testdb
-
-    alter table if exists company 
-       add constraint ux_company_company_name_ci unique (company_name)
-
-    alter table if exists company 
-       add constraint ux_company_company_name_ci unique (company_name);
-2025-11-26T12:10:35.731+04:00 DEBUG 9392 --- [carservices] [restartedMain] org.hibernate.SQL                        : 
-    alter table if exists company 
-       drop constraint if exists ux_company_brand_name_ci
-2025-11-26T12:10:35.732+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144635732 | took 0ms | statement | connection 310| url jdbc:p6spy:postgresql://localhost:5433/testdb
-
-    alter table if exists company 
-       drop constraint if exists ux_company_brand_name_ci
-
-    alter table if exists company 
-       drop constraint if exists ux_company_brand_name_ci;
-2025-11-26T12:10:35.733+04:00  WARN 9392 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
-2025-11-26T12:10:35.733+04:00  WARN 9392 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : constraint "ux_company_brand_name_ci" of relation "company" does not exist, skipping
-2025-11-26T12:10:35.733+04:00 DEBUG 9392 --- [carservices] [restartedMain] org.hibernate.SQL                        : 
-    alter table if exists company 
-       add constraint ux_company_brand_name_ci unique (brand_name)
-2025-11-26T12:10:35.739+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144635739 | took 5ms | statement | connection 310| url jdbc:p6spy:postgresql://localhost:5433/testdb
-
-    alter table if exists company 
-       add constraint ux_company_brand_name_ci unique (brand_name)
-
-    alter table if exists company 
-       add constraint ux_company_brand_name_ci unique (brand_name);
-2025-11-26T12:10:35.992+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144635992 | took 4ms | statement | connection 310| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."company" where 1=0
-select * from "public"."company" where 1=0;
-2025-11-26T12:10:36.256+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144636256 | took 4ms | statement | connection 310| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."branch" where 1=0
-select * from "public"."branch" where 1=0;
-2025-11-26T12:10:36.270+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144636270 | took 3ms | statement | connection 310| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."brand" where 1=0
-select * from "public"."brand" where 1=0;
-2025-11-26T12:10:36.281+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144636281 | took 3ms | statement | connection 310| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."service_entity" where 1=0
-select * from "public"."service_entity" where 1=0;
-2025-11-26T12:10:36.526+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144636526 | took 1ms | statement | connection 310| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."branch" where 1=0
-select * from "public"."branch" where 1=0;
-2025-11-26T12:10:36.531+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144636531 | took 0ms | statement | connection 310| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."brand" where 1=0
-select * from "public"."brand" where 1=0;
-2025-11-26T12:10:36.539+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144636539 | took 3ms | statement | connection 310| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."spare_parts" where 1=0
-select * from "public"."spare_parts" where 1=0;
-2025-11-26T12:10:36.790+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144636790 | took 0ms | statement | connection 310| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."brand" where 1=0
-select * from "public"."brand" where 1=0;
-2025-11-26T12:10:37.021+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144637021 | took 0ms | statement | connection 310| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."brand" where 1=0
-select * from "public"."brand" where 1=0;
-2025-11-26T12:10:37.031+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144637031 | took 3ms | statement | connection 310| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."user_registration" where 1=0
-select * from "public"."user_registration" where 1=0;
-2025-11-26T12:10:37.269+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144637269 | took 0ms | statement | connection 310| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."spare_parts" where 1=0
-select * from "public"."spare_parts" where 1=0;
-2025-11-26T12:10:37.486+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144637486 | took 2ms | statement | connection 310| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."problem" where 1=0
-select * from "public"."problem" where 1=0;
-2025-11-26T12:10:37.682+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144637682 | took 0ms | statement | connection 310| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."branch" where 1=0
-select * from "public"."branch" where 1=0;
-2025-11-26T12:10:37.682+04:00  INFO 9392 --- [carservices] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-11-26T12:10:39.524+04:00  WARN 9392 --- [carservices] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2025-11-26T12:10:39.954+04:00  INFO 9392 --- [carservices] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
-2025-11-26T12:10:39.992+04:00  INFO 9392 --- [carservices] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
-2025-11-26T12:10:39.998+04:00  INFO 9392 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : Started CarservicesApplication in 8.009 seconds (process running for 140763.401)
-2025-11-26T12:10:40.002+04:00  INFO 9392 --- [carservices] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
-2025-11-26T12:11:07.869+04:00  INFO 9392 --- [carservices] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 3 class path changes (0 additions, 0 deletions, 3 modifications)
-2025-11-26T12:11:07.874+04:00  INFO 9392 --- [carservices] [Thread-22] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
-2025-11-26T12:11:07.888+04:00  INFO 9392 --- [carservices] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
-2025-11-26T12:11:07.903+04:00  INFO 9392 --- [carservices] [Thread-22] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2025-11-26T12:11:07.908+04:00  INFO 9392 --- [carservices] [Thread-22] com.zaxxer.hikari.HikariDataSource       : HikariPool-5 - Shutdown initiated...
-2025-11-26T12:11:07.935+04:00  INFO 9392 --- [carservices] [Thread-22] com.zaxxer.hikari.HikariDataSource       : HikariPool-5 - Shutdown completed.
-2025-11-26T12:11:08.214+04:00  INFO 9392 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : Starting CarservicesApplication using Java 21.0.7 with PID 9392 (C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices\target\classes started by lenovo in C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices)
-2025-11-26T12:11:08.216+04:00  INFO 9392 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : No active profile set, falling back to 1 default profile: "default"
-2025-11-26T12:11:09.477+04:00  INFO 9392 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-11-26T12:11:09.856+04:00  INFO 9392 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 376 ms. Found 36 JPA repository interfaces.
-2025-11-26T12:11:10.308+04:00  INFO 9392 --- [carservices] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
-2025-11-26T12:11:10.310+04:00  INFO 9392 --- [carservices] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2025-11-26T12:11:10.311+04:00  INFO 9392 --- [carservices] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.40]
-2025-11-26T12:11:10.372+04:00  INFO 9392 --- [carservices] [restartedMain] o.a.c.c.C.[Tomcat-1].[localhost].[/]     : Initializing Spring embedded WebApplicationContext
-2025-11-26T12:11:10.373+04:00  INFO 9392 --- [carservices] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2152 ms
-2025-11-26T12:11:10.540+04:00  INFO 9392 --- [carservices] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-11-26T12:11:10.549+04:00  INFO 9392 --- [carservices] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
-2025-11-26T12:11:10.579+04:00  INFO 9392 --- [carservices] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-11-26T12:11:10.582+04:00  INFO 9392 --- [carservices] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Starting...
-2025-11-26T12:11:10.736+04:00  INFO 9392 --- [carservices] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-6 - Added connection com.p6spy.engine.wrapper.ConnectionWrapper@72f6879d
-2025-11-26T12:11:10.737+04:00  INFO 9392 --- [carservices] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Start completed.
-2025-11-26T12:11:10.762+04:00  WARN 9392 --- [carservices] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2025-11-26T12:11:10.764+04:00  INFO 9392 --- [carservices] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
-	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-6)']
-	Database driver: undefined/unknown
-	Database version: 17.5
-	Autocommit mode: undefined/unknown
-	Isolation level: undefined/unknown
-	Minimum pool size: undefined/unknown
-	Maximum pool size: undefined/unknown
-2025-11-26T12:11:11.500+04:00  INFO 9392 --- [carservices] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-11-26T12:11:11.519+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144671519 | took 15ms | statement | connection 320| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from information_schema.sequences
-select * from information_schema.sequences;
-2025-11-26T12:11:11.572+04:00  INFO 9392 --- [carservices] [restartedMain] t.s.e.i.AbstractInformationExtractorImpl : HHH000475: Cannot locate column information using identifier [lower((manager_email)::text)]; ignoring index [ux_company_manager_email]
-2025-11-26T12:11:11.573+04:00 DEBUG 9392 --- [carservices] [restartedMain] org.hibernate.SQL                        : 
-    alter table if exists company 
-       drop constraint if exists ux_company_company_name_ci
-2025-11-26T12:11:11.576+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144671576 | took 2ms | statement | connection 320| url jdbc:p6spy:postgresql://localhost:5433/testdb
-
-    alter table if exists company 
-       drop constraint if exists ux_company_company_name_ci
-
-    alter table if exists company 
-       drop constraint if exists ux_company_company_name_ci;
-2025-11-26T12:11:11.577+04:00  WARN 9392 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
-2025-11-26T12:11:11.577+04:00  WARN 9392 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : constraint "ux_company_company_name_ci" of relation "company" does not exist, skipping
-2025-11-26T12:11:11.578+04:00 DEBUG 9392 --- [carservices] [restartedMain] org.hibernate.SQL                        : 
-    alter table if exists company 
-       add constraint ux_company_company_name_ci unique (company_name)
-2025-11-26T12:11:11.592+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144671592 | took 12ms | statement | connection 320| url jdbc:p6spy:postgresql://localhost:5433/testdb
-
-    alter table if exists company 
-       add constraint ux_company_company_name_ci unique (company_name)
-
-    alter table if exists company 
-       add constraint ux_company_company_name_ci unique (company_name);
-2025-11-26T12:11:11.592+04:00 DEBUG 9392 --- [carservices] [restartedMain] org.hibernate.SQL                        : 
-    alter table if exists company 
-       drop constraint if exists ux_company_brand_name_ci
-2025-11-26T12:11:11.594+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144671594 | took 1ms | statement | connection 320| url jdbc:p6spy:postgresql://localhost:5433/testdb
-
-    alter table if exists company 
-       drop constraint if exists ux_company_brand_name_ci
-
-    alter table if exists company 
-       drop constraint if exists ux_company_brand_name_ci;
-2025-11-26T12:11:11.594+04:00  WARN 9392 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
-2025-11-26T12:11:11.595+04:00  WARN 9392 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : constraint "ux_company_brand_name_ci" of relation "company" does not exist, skipping
-2025-11-26T12:11:11.595+04:00 DEBUG 9392 --- [carservices] [restartedMain] org.hibernate.SQL                        : 
-    alter table if exists company 
-       add constraint ux_company_brand_name_ci unique (brand_name)
-2025-11-26T12:11:11.601+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144671601 | took 5ms | statement | connection 320| url jdbc:p6spy:postgresql://localhost:5433/testdb
-
-    alter table if exists company 
-       add constraint ux_company_brand_name_ci unique (brand_name)
-
-    alter table if exists company 
-       add constraint ux_company_brand_name_ci unique (brand_name);
-2025-11-26T12:11:11.865+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144671865 | took 5ms | statement | connection 320| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."company" where 1=0
-select * from "public"."company" where 1=0;
-2025-11-26T12:11:12.119+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144672119 | took 2ms | statement | connection 320| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."branch" where 1=0
-select * from "public"."branch" where 1=0;
-2025-11-26T12:11:12.132+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144672132 | took 2ms | statement | connection 320| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."brand" where 1=0
-select * from "public"."brand" where 1=0;
-2025-11-26T12:11:12.144+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144672144 | took 2ms | statement | connection 320| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."service_entity" where 1=0
-select * from "public"."service_entity" where 1=0;
-2025-11-26T12:11:12.404+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144672404 | took 0ms | statement | connection 320| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."branch" where 1=0
-select * from "public"."branch" where 1=0;
-2025-11-26T12:11:12.409+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144672409 | took 0ms | statement | connection 320| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."brand" where 1=0
-select * from "public"."brand" where 1=0;
-2025-11-26T12:11:12.417+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144672417 | took 2ms | statement | connection 320| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."spare_parts" where 1=0
-select * from "public"."spare_parts" where 1=0;
-2025-11-26T12:11:12.671+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144672671 | took 0ms | statement | connection 320| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."brand" where 1=0
-select * from "public"."brand" where 1=0;
-2025-11-26T12:11:12.893+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144672893 | took 0ms | statement | connection 320| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."brand" where 1=0
-select * from "public"."brand" where 1=0;
-2025-11-26T12:11:12.901+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144672901 | took 3ms | statement | connection 320| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."user_registration" where 1=0
-select * from "public"."user_registration" where 1=0;
-2025-11-26T12:11:13.124+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144673124 | took 0ms | statement | connection 320| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."spare_parts" where 1=0
-select * from "public"."spare_parts" where 1=0;
-2025-11-26T12:11:13.357+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144673357 | took 2ms | statement | connection 320| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."problem" where 1=0
-select * from "public"."problem" where 1=0;
-2025-11-26T12:11:13.610+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764144673610 | took 0ms | statement | connection 320| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."branch" where 1=0
-select * from "public"."branch" where 1=0;
-2025-11-26T12:11:13.611+04:00  INFO 9392 --- [carservices] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-11-26T12:11:15.223+04:00  WARN 9392 --- [carservices] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2025-11-26T12:11:15.664+04:00  INFO 9392 --- [carservices] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
-2025-11-26T12:11:15.703+04:00  INFO 9392 --- [carservices] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
-2025-11-26T12:11:15.709+04:00  INFO 9392 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : Started CarservicesApplication in 7.621 seconds (process running for 140799.112)
-2025-11-26T12:11:15.713+04:00  INFO 9392 --- [carservices] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
-2025-11-26T12:11:51.161+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-3] o.a.c.c.C.[Tomcat-1].[localhost].[/]     : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-11-26T12:11:51.163+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-3] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2025-11-26T12:11:51.172+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-3] o.s.web.servlet.DispatcherServlet        : Completed initialization in 9 ms
-2025-11-26T12:11:51.208+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-3] c.c.c.c.ReservationQueryController       : POST /api/reservations/by-branch body: {"branch_id":null}
-2025-11-26T12:12:00.780+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-4] c.c.c.c.ReservationQueryController       : POST /api/reservations/by-branch body: {"branch_id":1}
-2025-11-26T12:12:00.812+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-4] p6spy                                    : #1764144720812 | took 26ms | statement | connection 320| url jdbc:p6spy:postgresql://localhost:5433/testdb
-SELECT
+    r.user_id                  AS user_id,                 -- 🔹 NEW
     r.reservation_id           AS reservation_id,
     r.reservation_date         AS reservation_date,
     r.reservation_time         AS reservation_time,
@@ -740,7 +82,6 @@ SELECT
 FROM reservation_service_request r
 JOIN branch b ON b.branch_id = r.branch_id
 JOIN car_details cd ON cd.car_id = r.car_id
-
 JOIN brand br ON br.brand_id = cd.brand_id
 JOIN service_entity s ON s.service_id = r.service_id
 LEFT JOIN branch_brand_service bbs
@@ -750,13 +91,16 @@ LEFT JOIN branch_brand_service bbs
 LEFT JOIN rate_experience re
   ON re.branch_brand_serviceid = bbs.id
 WHERE r.branch_id = ?
-GROUP BY r.reservation_id, r.reservation_date, r.reservation_time,
-         b.branch_name, b.address, b.city, b.logo_img,
-         br.brand_name, cd.car_model, s.service_name,
-         r.reservation_status, bbs.id, cd.plate_number
+GROUP BY
+    r.user_id,                                           -- 🔹 NEW
+    r.reservation_id, r.reservation_date, r.reservation_time,
+    b.branch_name, b.address, b.city, b.logo_img,
+    br.brand_name, cd.car_model, s.service_name,
+    r.reservation_status, bbs.id, cd.plate_number
 ORDER BY r.reservation_date DESC, r.reservation_time DESC
 
 SELECT
+    r.user_id                  AS user_id,                 -- 🔹 NEW
     r.reservation_id           AS reservation_id,
     r.reservation_date         AS reservation_date,
     r.reservation_time         AS reservation_time,
@@ -774,7 +118,6 @@ SELECT
 FROM reservation_service_request r
 JOIN branch b ON b.branch_id = r.branch_id
 JOIN car_details cd ON cd.car_id = r.car_id
-
 JOIN brand br ON br.brand_id = cd.brand_id
 JOIN service_entity s ON s.service_id = r.service_id
 LEFT JOIN branch_brand_service bbs
@@ -784,42 +127,17 @@ LEFT JOIN branch_brand_service bbs
 LEFT JOIN rate_experience re
   ON re.branch_brand_serviceid = bbs.id
 WHERE r.branch_id = 1
-GROUP BY r.reservation_id, r.reservation_date, r.reservation_time,
-         b.branch_name, b.address, b.city, b.logo_img,
-         br.brand_name, cd.car_model, s.service_name,
-         r.reservation_status, bbs.id, cd.plate_number
+GROUP BY
+    r.user_id,                                           -- 🔹 NEW
+    r.reservation_id, r.reservation_date, r.reservation_time,
+    b.branch_name, b.address, b.city, b.logo_img,
+    br.brand_name, cd.car_model, s.service_name,
+    r.reservation_status, bbs.id, cd.plate_number
 ORDER BY r.reservation_date DESC, r.reservation_time DESC
 ;
-2025-11-26T12:12:00.828+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-4] p6spy                                    : #1764144720828 | took 5ms | statement | connection 320| url jdbc:p6spy:postgresql://localhost:5433/testdb
+2025-11-29T15:41:44.219+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-2] p6spy                                    : #1764416504219 | took 139ms | statement | connection 1030| url jdbc:p6spy:postgresql://localhost:5433/testdb
 SELECT
-  rss.reservation_service_sparepart_id,
-  rss.part_name,
-  rss.qty,
-  rss.spareparts_id,
-  sp.spareparts_type,                 -- ⬅️ NEW
-  rss.reservation_id
-FROM reservation_service_sparepart rss
-LEFT JOIN spare_parts sp
-  ON sp.spareparts_id = rss.spareparts_id   -- ⬅️ NEW
-WHERE rss.reservation_id IN (?,?,?,?)
-ORDER BY rss.reservation_service_sparepart_id
-
-SELECT
-  rss.reservation_service_sparepart_id,
-  rss.part_name,
-  rss.qty,
-  rss.spareparts_id,
-  sp.spareparts_type,                 -- ⬅️ NEW
-  rss.reservation_id
-FROM reservation_service_sparepart rss
-LEFT JOIN spare_parts sp
-  ON sp.spareparts_id = rss.spareparts_id   -- ⬅️ NEW
-WHERE rss.reservation_id IN (88,1,5,87)
-ORDER BY rss.reservation_service_sparepart_id
-;
-2025-11-26T12:12:12.688+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-5] c.c.c.c.ReservationQueryController       : POST /api/reservations/by-branch body: {"branch_id":2}
-2025-11-26T12:12:12.694+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-5] p6spy                                    : #1764144732694 | took 4ms | statement | connection 320| url jdbc:p6spy:postgresql://localhost:5433/testdb
-SELECT
+    r.user_id                  AS user_id,                 -- 🔹 NEW
     r.reservation_id           AS reservation_id,
     r.reservation_date         AS reservation_date,
     r.reservation_time         AS reservation_time,
@@ -837,7 +155,6 @@ SELECT
 FROM reservation_service_request r
 JOIN branch b ON b.branch_id = r.branch_id
 JOIN car_details cd ON cd.car_id = r.car_id
-
 JOIN brand br ON br.brand_id = cd.brand_id
 JOIN service_entity s ON s.service_id = r.service_id
 LEFT JOIN branch_brand_service bbs
@@ -847,13 +164,16 @@ LEFT JOIN branch_brand_service bbs
 LEFT JOIN rate_experience re
   ON re.branch_brand_serviceid = bbs.id
 WHERE r.branch_id = ?
-GROUP BY r.reservation_id, r.reservation_date, r.reservation_time,
-         b.branch_name, b.address, b.city, b.logo_img,
-         br.brand_name, cd.car_model, s.service_name,
-         r.reservation_status, bbs.id, cd.plate_number
+GROUP BY
+    r.user_id,                                           -- 🔹 NEW
+    r.reservation_id, r.reservation_date, r.reservation_time,
+    b.branch_name, b.address, b.city, b.logo_img,
+    br.brand_name, cd.car_model, s.service_name,
+    r.reservation_status, bbs.id, cd.plate_number
 ORDER BY r.reservation_date DESC, r.reservation_time DESC
 
 SELECT
+    r.user_id                  AS user_id,                 -- 🔹 NEW
     r.reservation_id           AS reservation_id,
     r.reservation_date         AS reservation_date,
     r.reservation_time         AS reservation_time,
@@ -871,147 +191,6 @@ SELECT
 FROM reservation_service_request r
 JOIN branch b ON b.branch_id = r.branch_id
 JOIN car_details cd ON cd.car_id = r.car_id
-
-JOIN brand br ON br.brand_id = cd.brand_id
-JOIN service_entity s ON s.service_id = r.service_id
-LEFT JOIN branch_brand_service bbs
-  ON bbs.branch_id = r.branch_id
- AND bbs.service_id = r.service_id
- AND bbs.brand_id   = cd.brand_id
-LEFT JOIN rate_experience re
-  ON re.branch_brand_serviceid = bbs.id
-WHERE r.branch_id = 2
-GROUP BY r.reservation_id, r.reservation_date, r.reservation_time,
-         b.branch_name, b.address, b.city, b.logo_img,
-         br.brand_name, cd.car_model, s.service_name,
-         r.reservation_status, bbs.id, cd.plate_number
-ORDER BY r.reservation_date DESC, r.reservation_time DESC
-;
-2025-11-26T12:12:23.518+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-6] c.c.c.c.ReservationQueryController       : POST /api/reservations/by-branch body: {"branch_id":3}
-2025-11-26T12:12:23.525+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-6] p6spy                                    : #1764144743525 | took 5ms | statement | connection 320| url jdbc:p6spy:postgresql://localhost:5433/testdb
-SELECT
-    r.reservation_id           AS reservation_id,
-    r.reservation_date         AS reservation_date,
-    r.reservation_time         AS reservation_time,
-    b.branch_name              AS branch_name,
-    b.address                  AS address,
-    b.city                     AS city,
-    b.logo_img                 AS logo_img,
-    br.brand_name              AS brand_name,
-    cd.car_model               AS model_name,
-    s.service_name             AS service_name,
-    r.reservation_status       AS reservation_status,
-    bbs.id                     AS branch_brand_serviceid,
-    cd.plate_number            AS plate_number,
-    COALESCE(AVG(re.stars), 0) AS stars
-FROM reservation_service_request r
-JOIN branch b ON b.branch_id = r.branch_id
-JOIN car_details cd ON cd.car_id = r.car_id
-
-JOIN brand br ON br.brand_id = cd.brand_id
-JOIN service_entity s ON s.service_id = r.service_id
-LEFT JOIN branch_brand_service bbs
-  ON bbs.branch_id = r.branch_id
- AND bbs.service_id = r.service_id
- AND bbs.brand_id   = cd.brand_id
-LEFT JOIN rate_experience re
-  ON re.branch_brand_serviceid = bbs.id
-WHERE r.branch_id = ?
-GROUP BY r.reservation_id, r.reservation_date, r.reservation_time,
-         b.branch_name, b.address, b.city, b.logo_img,
-         br.brand_name, cd.car_model, s.service_name,
-         r.reservation_status, bbs.id, cd.plate_number
-ORDER BY r.reservation_date DESC, r.reservation_time DESC
-
-SELECT
-    r.reservation_id           AS reservation_id,
-    r.reservation_date         AS reservation_date,
-    r.reservation_time         AS reservation_time,
-    b.branch_name              AS branch_name,
-    b.address                  AS address,
-    b.city                     AS city,
-    b.logo_img                 AS logo_img,
-    br.brand_name              AS brand_name,
-    cd.car_model               AS model_name,
-    s.service_name             AS service_name,
-    r.reservation_status       AS reservation_status,
-    bbs.id                     AS branch_brand_serviceid,
-    cd.plate_number            AS plate_number,
-    COALESCE(AVG(re.stars), 0) AS stars
-FROM reservation_service_request r
-JOIN branch b ON b.branch_id = r.branch_id
-JOIN car_details cd ON cd.car_id = r.car_id
-
-JOIN brand br ON br.brand_id = cd.brand_id
-JOIN service_entity s ON s.service_id = r.service_id
-LEFT JOIN branch_brand_service bbs
-  ON bbs.branch_id = r.branch_id
- AND bbs.service_id = r.service_id
- AND bbs.brand_id   = cd.brand_id
-LEFT JOIN rate_experience re
-  ON re.branch_brand_serviceid = bbs.id
-WHERE r.branch_id = 3
-GROUP BY r.reservation_id, r.reservation_date, r.reservation_time,
-         b.branch_name, b.address, b.city, b.logo_img,
-         br.brand_name, cd.car_model, s.service_name,
-         r.reservation_status, bbs.id, cd.plate_number
-ORDER BY r.reservation_date DESC, r.reservation_time DESC
-;
-2025-11-26T12:12:29.471+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-7] c.c.c.c.ReservationQueryController       : POST /api/reservations/by-branch body: {"branch_id":1}
-2025-11-26T12:12:29.478+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-7] p6spy                                    : #1764144749478 | took 5ms | statement | connection 320| url jdbc:p6spy:postgresql://localhost:5433/testdb
-SELECT
-    r.reservation_id           AS reservation_id,
-    r.reservation_date         AS reservation_date,
-    r.reservation_time         AS reservation_time,
-    b.branch_name              AS branch_name,
-    b.address                  AS address,
-    b.city                     AS city,
-    b.logo_img                 AS logo_img,
-    br.brand_name              AS brand_name,
-    cd.car_model               AS model_name,
-    s.service_name             AS service_name,
-    r.reservation_status       AS reservation_status,
-    bbs.id                     AS branch_brand_serviceid,
-    cd.plate_number            AS plate_number,
-    COALESCE(AVG(re.stars), 0) AS stars
-FROM reservation_service_request r
-JOIN branch b ON b.branch_id = r.branch_id
-JOIN car_details cd ON cd.car_id = r.car_id
-
-JOIN brand br ON br.brand_id = cd.brand_id
-JOIN service_entity s ON s.service_id = r.service_id
-LEFT JOIN branch_brand_service bbs
-  ON bbs.branch_id = r.branch_id
- AND bbs.service_id = r.service_id
- AND bbs.brand_id   = cd.brand_id
-LEFT JOIN rate_experience re
-  ON re.branch_brand_serviceid = bbs.id
-WHERE r.branch_id = ?
-GROUP BY r.reservation_id, r.reservation_date, r.reservation_time,
-         b.branch_name, b.address, b.city, b.logo_img,
-         br.brand_name, cd.car_model, s.service_name,
-         r.reservation_status, bbs.id, cd.plate_number
-ORDER BY r.reservation_date DESC, r.reservation_time DESC
-
-SELECT
-    r.reservation_id           AS reservation_id,
-    r.reservation_date         AS reservation_date,
-    r.reservation_time         AS reservation_time,
-    b.branch_name              AS branch_name,
-    b.address                  AS address,
-    b.city                     AS city,
-    b.logo_img                 AS logo_img,
-    br.brand_name              AS brand_name,
-    cd.car_model               AS model_name,
-    s.service_name             AS service_name,
-    r.reservation_status       AS reservation_status,
-    bbs.id                     AS branch_brand_serviceid,
-    cd.plate_number            AS plate_number,
-    COALESCE(AVG(re.stars), 0) AS stars
-FROM reservation_service_request r
-JOIN branch b ON b.branch_id = r.branch_id
-JOIN car_details cd ON cd.car_id = r.car_id
-
 JOIN brand br ON br.brand_id = cd.brand_id
 JOIN service_entity s ON s.service_id = r.service_id
 LEFT JOIN branch_brand_service bbs
@@ -1021,24 +200,26 @@ LEFT JOIN branch_brand_service bbs
 LEFT JOIN rate_experience re
   ON re.branch_brand_serviceid = bbs.id
 WHERE r.branch_id = 1
-GROUP BY r.reservation_id, r.reservation_date, r.reservation_time,
-         b.branch_name, b.address, b.city, b.logo_img,
-         br.brand_name, cd.car_model, s.service_name,
-         r.reservation_status, bbs.id, cd.plate_number
+GROUP BY
+    r.user_id,                                           -- 🔹 NEW
+    r.reservation_id, r.reservation_date, r.reservation_time,
+    b.branch_name, b.address, b.city, b.logo_img,
+    br.brand_name, cd.car_model, s.service_name,
+    r.reservation_status, bbs.id, cd.plate_number
 ORDER BY r.reservation_date DESC, r.reservation_time DESC
 ;
-2025-11-26T12:12:29.482+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-7] p6spy                                    : #1764144749482 | took 1ms | statement | connection 320| url jdbc:p6spy:postgresql://localhost:5433/testdb
+2025-11-29T15:41:44.424+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-2] p6spy                                    : #1764416504424 | took 9ms | statement | connection 1030| url jdbc:p6spy:postgresql://localhost:5433/testdb
 SELECT
   rss.reservation_service_sparepart_id,
   rss.part_name,
   rss.qty,
   rss.spareparts_id,
-  sp.spareparts_type,                 -- ⬅️ NEW
+  sp.spareparts_type,
   rss.reservation_id
 FROM reservation_service_sparepart rss
 LEFT JOIN spare_parts sp
-  ON sp.spareparts_id = rss.spareparts_id   -- ⬅️ NEW
-WHERE rss.reservation_id IN (?,?,?,?)
+  ON sp.spareparts_id = rss.spareparts_id
+WHERE rss.reservation_id IN (?,?,?,?,?)
 ORDER BY rss.reservation_service_sparepart_id
 
 SELECT
@@ -1046,186 +227,26 @@ SELECT
   rss.part_name,
   rss.qty,
   rss.spareparts_id,
-  sp.spareparts_type,                 -- ⬅️ NEW
+  sp.spareparts_type,
   rss.reservation_id
 FROM reservation_service_sparepart rss
 LEFT JOIN spare_parts sp
-  ON sp.spareparts_id = rss.spareparts_id   -- ⬅️ NEW
-WHERE rss.reservation_id IN (88,1,5,87)
+  ON sp.spareparts_id = rss.spareparts_id
+WHERE rss.reservation_id IN (89,87,88,5,1)
 ORDER BY rss.reservation_service_sparepart_id
 ;
-2025-11-26T13:24:57.155+04:00 DEBUG 9392 --- [carservices] [http-nio-8081-exec-10] org.hibernate.SQL                        : 
-    select
-        rss1_0.reservation_service_sparepart_id,
-        rss1_0.part_name,
-        rss1_0.qty,
-        rss1_0.reservation_id,
-        rss1_0.spareparts_id 
-    from
-        reservation_service_sparepart rss1_0 
-    where
-        rss1_0.reservation_service_sparepart_id=?
-2025-11-26T13:24:57.176+04:00 TRACE 9392 --- [carservices] [http-nio-8081-exec-10] org.hibernate.orm.jdbc.bind              : binding parameter (1:BIGINT) <- [3]
-2025-11-26T13:24:57.211+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-10] p6spy                                    : #1764149097211 | took 33ms | statement | connection 340| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select rss1_0.reservation_service_sparepart_id,rss1_0.part_name,rss1_0.qty,rss1_0.reservation_id,rss1_0.spareparts_id from reservation_service_sparepart rss1_0 where rss1_0.reservation_service_sparepart_id=?
-select rss1_0.reservation_service_sparepart_id,rss1_0.part_name,rss1_0.qty,rss1_0.reservation_id,rss1_0.spareparts_id from reservation_service_sparepart rss1_0 where rss1_0.reservation_service_sparepart_id=3;
-2025-11-26T13:24:57.258+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-10] p6spy                                    : #1764149097258 | took 1ms | commit | connection 340| url jdbc:p6spy:postgresql://localhost:5433/testdb
-
-;
-2025-11-26T13:26:25.835+04:00 DEBUG 9392 --- [carservices] [http-nio-8081-exec-4] org.hibernate.SQL                        : 
-    select
-        rss1_0.reservation_service_sparepart_id,
-        rss1_0.part_name,
-        rss1_0.qty,
-        rss1_0.reservation_id,
-        rss1_0.spareparts_id 
-    from
-        reservation_service_sparepart rss1_0 
-    where
-        rss1_0.reservation_service_sparepart_id=?
-2025-11-26T13:26:25.837+04:00 TRACE 9392 --- [carservices] [http-nio-8081-exec-4] org.hibernate.orm.jdbc.bind              : binding parameter (1:BIGINT) <- [3]
-2025-11-26T13:26:25.838+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-4] p6spy                                    : #1764149185838 | took 0ms | statement | connection 340| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select rss1_0.reservation_service_sparepart_id,rss1_0.part_name,rss1_0.qty,rss1_0.reservation_id,rss1_0.spareparts_id from reservation_service_sparepart rss1_0 where rss1_0.reservation_service_sparepart_id=?
-select rss1_0.reservation_service_sparepart_id,rss1_0.part_name,rss1_0.qty,rss1_0.reservation_id,rss1_0.spareparts_id from reservation_service_sparepart rss1_0 where rss1_0.reservation_service_sparepart_id=3;
-2025-11-26T13:26:25.843+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-4] p6spy                                    : #1764149185843 | took 0ms | commit | connection 340| url jdbc:p6spy:postgresql://localhost:5433/testdb
-
-;
-2025-11-26T13:30:12.451+04:00 DEBUG 9392 --- [carservices] [http-nio-8081-exec-6] org.hibernate.SQL                        : 
-    select
-        rss1_0.reservation_service_sparepart_id,
-        rss1_0.part_name,
-        rss1_0.qty,
-        rss1_0.reservation_id,
-        rss1_0.spareparts_id 
-    from
-        reservation_service_sparepart rss1_0 
-    where
-        rss1_0.reservation_service_sparepart_id=?
-2025-11-26T13:30:12.453+04:00 TRACE 9392 --- [carservices] [http-nio-8081-exec-6] org.hibernate.orm.jdbc.bind              : binding parameter (1:BIGINT) <- [3]
-2025-11-26T13:30:12.456+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-6] p6spy                                    : #1764149412456 | took 2ms | statement | connection 340| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select rss1_0.reservation_service_sparepart_id,rss1_0.part_name,rss1_0.qty,rss1_0.reservation_id,rss1_0.spareparts_id from reservation_service_sparepart rss1_0 where rss1_0.reservation_service_sparepart_id=?
-select rss1_0.reservation_service_sparepart_id,rss1_0.part_name,rss1_0.qty,rss1_0.reservation_id,rss1_0.spareparts_id from reservation_service_sparepart rss1_0 where rss1_0.reservation_service_sparepart_id=3;
-2025-11-26T13:30:12.459+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-6] p6spy                                    : #1764149412459 | took 0ms | commit | connection 340| url jdbc:p6spy:postgresql://localhost:5433/testdb
-
-;
-2025-11-26T13:31:54.925+04:00 DEBUG 9392 --- [carservices] [http-nio-8081-exec-8] org.hibernate.SQL                        : 
-    select
-        rss1_0.reservation_service_sparepart_id,
-        rss1_0.part_name,
-        rss1_0.qty,
-        rss1_0.reservation_id,
-        rss1_0.spareparts_id 
-    from
-        reservation_service_sparepart rss1_0 
-    where
-        rss1_0.reservation_service_sparepart_id=?
-2025-11-26T13:31:54.927+04:00 TRACE 9392 --- [carservices] [http-nio-8081-exec-8] org.hibernate.orm.jdbc.bind              : binding parameter (1:BIGINT) <- [3]
-2025-11-26T13:31:54.928+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-8] p6spy                                    : #1764149514928 | took 0ms | statement | connection 340| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select rss1_0.reservation_service_sparepart_id,rss1_0.part_name,rss1_0.qty,rss1_0.reservation_id,rss1_0.spareparts_id from reservation_service_sparepart rss1_0 where rss1_0.reservation_service_sparepart_id=?
-select rss1_0.reservation_service_sparepart_id,rss1_0.part_name,rss1_0.qty,rss1_0.reservation_id,rss1_0.spareparts_id from reservation_service_sparepart rss1_0 where rss1_0.reservation_service_sparepart_id=3;
-2025-11-26T13:31:54.933+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-8] p6spy                                    : #1764149514933 | took 0ms | commit | connection 340| url jdbc:p6spy:postgresql://localhost:5433/testdb
-
-;
-2025-11-26T13:38:42.374+04:00 DEBUG 9392 --- [carservices] [http-nio-8081-exec-10] org.hibernate.SQL                        : 
-    select
-        rss1_0.reservation_service_sparepart_id,
-        rss1_0.part_name,
-        rss1_0.qty,
-        rss1_0.reservation_id,
-        rss1_0.spareparts_id 
-    from
-        reservation_service_sparepart rss1_0 
-    where
-        rss1_0.reservation_service_sparepart_id=?
-2025-11-26T13:38:42.375+04:00 TRACE 9392 --- [carservices] [http-nio-8081-exec-10] org.hibernate.orm.jdbc.bind              : binding parameter (1:BIGINT) <- [3]
-2025-11-26T13:38:42.376+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-10] p6spy                                    : #1764149922376 | took 0ms | statement | connection 340| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select rss1_0.reservation_service_sparepart_id,rss1_0.part_name,rss1_0.qty,rss1_0.reservation_id,rss1_0.spareparts_id from reservation_service_sparepart rss1_0 where rss1_0.reservation_service_sparepart_id=?
-select rss1_0.reservation_service_sparepart_id,rss1_0.part_name,rss1_0.qty,rss1_0.reservation_id,rss1_0.spareparts_id from reservation_service_sparepart rss1_0 where rss1_0.reservation_service_sparepart_id=3;
-2025-11-26T13:38:42.380+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-10] p6spy                                    : #1764149922380 | took 0ms | commit | connection 340| url jdbc:p6spy:postgresql://localhost:5433/testdb
-
-;
-2025-11-26T13:39:27.930+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-3] c.c.c.c.ReservationQueryController       : POST /api/reservations/by-user body: {"userId":1}
-2025-11-26T13:39:27.983+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-3] p6spy                                    : #1764149967983 | took 48ms | statement | connection 340| url jdbc:p6spy:postgresql://localhost:5433/testdb
-SELECT
-    r.reservation_id           AS reservation_id,
-    r.reservation_date         AS reservation_date,
-    r.reservation_time         AS reservation_time,
-    b.branch_name              AS branch_name,
-    b.address                  AS address,
-    b.city                     AS city,
-    b.logo_img                 AS logo_img,              -- ⬅️ NEW
-    br.brand_name              AS brand_name,
-    cd.car_model               AS model_name,
-    s.service_name             AS service_name,
-    r.reservation_status       AS reservation_status,
-    bbs.id                     AS branch_brand_serviceid,
-    cd.plate_number            AS plate_number,
-    COALESCE(AVG(re.stars), 0) AS stars
-FROM reservation_service_request r
-JOIN branch b ON b.branch_id = r.branch_id
-JOIN car_details cd ON cd.car_id = r.car_id
-
-JOIN brand br ON br.brand_id = cd.brand_id
-JOIN service_entity s ON s.service_id = r.service_id
-LEFT JOIN branch_brand_service bbs
-  ON bbs.branch_id = r.branch_id
- AND bbs.service_id = r.service_id
- AND bbs.brand_id   = cd.brand_id
-LEFT JOIN rate_experience re
-  ON re.branch_brand_serviceid = bbs.id
-WHERE r.user_id = ?
-GROUP BY r.reservation_id, r.reservation_date, r.reservation_time,
-         b.branch_name, b.address, b.city, b.logo_img,           -- ⬅️ add here
-         br.brand_name, cd.car_model, s.service_name,
-         r.reservation_status, bbs.id, cd.plate_number
-ORDER BY r.reservation_date DESC, r.reservation_time DESC
-
-SELECT
-    r.reservation_id           AS reservation_id,
-    r.reservation_date         AS reservation_date,
-    r.reservation_time         AS reservation_time,
-    b.branch_name              AS branch_name,
-    b.address                  AS address,
-    b.city                     AS city,
-    b.logo_img                 AS logo_img,              -- ⬅️ NEW
-    br.brand_name              AS brand_name,
-    cd.car_model               AS model_name,
-    s.service_name             AS service_name,
-    r.reservation_status       AS reservation_status,
-    bbs.id                     AS branch_brand_serviceid,
-    cd.plate_number            AS plate_number,
-    COALESCE(AVG(re.stars), 0) AS stars
-FROM reservation_service_request r
-JOIN branch b ON b.branch_id = r.branch_id
-JOIN car_details cd ON cd.car_id = r.car_id
-
-JOIN brand br ON br.brand_id = cd.brand_id
-JOIN service_entity s ON s.service_id = r.service_id
-LEFT JOIN branch_brand_service bbs
-  ON bbs.branch_id = r.branch_id
- AND bbs.service_id = r.service_id
- AND bbs.brand_id   = cd.brand_id
-LEFT JOIN rate_experience re
-  ON re.branch_brand_serviceid = bbs.id
-WHERE r.user_id = 1
-GROUP BY r.reservation_id, r.reservation_date, r.reservation_time,
-         b.branch_name, b.address, b.city, b.logo_img,           -- ⬅️ add here
-         br.brand_name, cd.car_model, s.service_name,
-         r.reservation_status, bbs.id, cd.plate_number
-ORDER BY r.reservation_date DESC, r.reservation_time DESC
-;
-2025-11-26T13:39:27.999+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-3] p6spy                                    : #1764149967999 | took 3ms | statement | connection 340| url jdbc:p6spy:postgresql://localhost:5433/testdb
+2025-11-29T15:41:44.426+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-3] p6spy                                    : #1764416504426 | took 12ms | statement | connection 1031| url jdbc:p6spy:postgresql://localhost:5433/testdb
 SELECT
   rss.reservation_service_sparepart_id,
   rss.part_name,
   rss.qty,
   rss.spareparts_id,
-  sp.spareparts_type,                 -- ⬅️ NEW
+  sp.spareparts_type,
   rss.reservation_id
 FROM reservation_service_sparepart rss
 LEFT JOIN spare_parts sp
-  ON sp.spareparts_id = rss.spareparts_id   -- ⬅️ NEW
-WHERE rss.reservation_id IN (?,?,?,?)
+  ON sp.spareparts_id = rss.spareparts_id
+WHERE rss.reservation_id IN (?,?,?,?,?)
 ORDER BY rss.reservation_service_sparepart_id
 
 SELECT
@@ -1233,580 +254,153 @@ SELECT
   rss.part_name,
   rss.qty,
   rss.spareparts_id,
-  sp.spareparts_type,                 -- ⬅️ NEW
+  sp.spareparts_type,
   rss.reservation_id
 FROM reservation_service_sparepart rss
 LEFT JOIN spare_parts sp
-  ON sp.spareparts_id = rss.spareparts_id   -- ⬅️ NEW
-WHERE rss.reservation_id IN (88,1,5,87)
+  ON sp.spareparts_id = rss.spareparts_id
+WHERE rss.reservation_id IN (89,87,88,5,1)
 ORDER BY rss.reservation_service_sparepart_id
 ;
-2025-11-26T13:41:37.225+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-8] c.c.c.c.ReservationQueryController       : POST /api/reservations/by-user body: {"userId":1}
-2025-11-26T13:41:37.250+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-8] p6spy                                    : #1764150097250 | took 21ms | statement | connection 350| url jdbc:p6spy:postgresql://localhost:5433/testdb
-SELECT
-    r.reservation_id           AS reservation_id,
-    r.reservation_date         AS reservation_date,
-    r.reservation_time         AS reservation_time,
-    b.branch_name              AS branch_name,
-    b.address                  AS address,
-    b.city                     AS city,
-    b.logo_img                 AS logo_img,              -- ⬅️ NEW
-    br.brand_name              AS brand_name,
-    cd.car_model               AS model_name,
-    s.service_name             AS service_name,
-    r.reservation_status       AS reservation_status,
-    bbs.id                     AS branch_brand_serviceid,
-    cd.plate_number            AS plate_number,
-    COALESCE(AVG(re.stars), 0) AS stars
-FROM reservation_service_request r
-JOIN branch b ON b.branch_id = r.branch_id
-JOIN car_details cd ON cd.car_id = r.car_id
-
-JOIN brand br ON br.brand_id = cd.brand_id
-JOIN service_entity s ON s.service_id = r.service_id
-LEFT JOIN branch_brand_service bbs
-  ON bbs.branch_id = r.branch_id
- AND bbs.service_id = r.service_id
- AND bbs.brand_id   = cd.brand_id
-LEFT JOIN rate_experience re
-  ON re.branch_brand_serviceid = bbs.id
-WHERE r.user_id = ?
-GROUP BY r.reservation_id, r.reservation_date, r.reservation_time,
-         b.branch_name, b.address, b.city, b.logo_img,           -- ⬅️ add here
-         br.brand_name, cd.car_model, s.service_name,
-         r.reservation_status, bbs.id, cd.plate_number
-ORDER BY r.reservation_date DESC, r.reservation_time DESC
-
-SELECT
-    r.reservation_id           AS reservation_id,
-    r.reservation_date         AS reservation_date,
-    r.reservation_time         AS reservation_time,
-    b.branch_name              AS branch_name,
-    b.address                  AS address,
-    b.city                     AS city,
-    b.logo_img                 AS logo_img,              -- ⬅️ NEW
-    br.brand_name              AS brand_name,
-    cd.car_model               AS model_name,
-    s.service_name             AS service_name,
-    r.reservation_status       AS reservation_status,
-    bbs.id                     AS branch_brand_serviceid,
-    cd.plate_number            AS plate_number,
-    COALESCE(AVG(re.stars), 0) AS stars
-FROM reservation_service_request r
-JOIN branch b ON b.branch_id = r.branch_id
-JOIN car_details cd ON cd.car_id = r.car_id
-
-JOIN brand br ON br.brand_id = cd.brand_id
-JOIN service_entity s ON s.service_id = r.service_id
-LEFT JOIN branch_brand_service bbs
-  ON bbs.branch_id = r.branch_id
- AND bbs.service_id = r.service_id
- AND bbs.brand_id   = cd.brand_id
-LEFT JOIN rate_experience re
-  ON re.branch_brand_serviceid = bbs.id
-WHERE r.user_id = 1
-GROUP BY r.reservation_id, r.reservation_date, r.reservation_time,
-         b.branch_name, b.address, b.city, b.logo_img,           -- ⬅️ add here
-         br.brand_name, cd.car_model, s.service_name,
-         r.reservation_status, bbs.id, cd.plate_number
-ORDER BY r.reservation_date DESC, r.reservation_time DESC
-;
-2025-11-26T13:41:37.263+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-8] p6spy                                    : #1764150097263 | took 4ms | statement | connection 350| url jdbc:p6spy:postgresql://localhost:5433/testdb
-SELECT
-  rss.reservation_service_sparepart_id,
-  rss.part_name,
-  rss.qty,
-  rss.spareparts_id,
-  sp.spareparts_type,                 -- ⬅️ NEW
-  rss.reservation_id
-FROM reservation_service_sparepart rss
-LEFT JOIN spare_parts sp
-  ON sp.spareparts_id = rss.spareparts_id   -- ⬅️ NEW
-WHERE rss.reservation_id IN (?,?,?,?)
-ORDER BY rss.reservation_service_sparepart_id
-
-SELECT
-  rss.reservation_service_sparepart_id,
-  rss.part_name,
-  rss.qty,
-  rss.spareparts_id,
-  sp.spareparts_type,                 -- ⬅️ NEW
-  rss.reservation_id
-FROM reservation_service_sparepart rss
-LEFT JOIN spare_parts sp
-  ON sp.spareparts_id = rss.spareparts_id   -- ⬅️ NEW
-WHERE rss.reservation_id IN (88,1,5,87)
-ORDER BY rss.reservation_service_sparepart_id
-;
-2025-11-26T13:43:29.274+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-1] c.c.c.c.ReservationQueryController       : POST /api/reservations/by-user body: {"userId":1}
-2025-11-26T13:43:29.281+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-1] p6spy                                    : #1764150209281 | took 5ms | statement | connection 350| url jdbc:p6spy:postgresql://localhost:5433/testdb
-SELECT
-    r.reservation_id           AS reservation_id,
-    r.reservation_date         AS reservation_date,
-    r.reservation_time         AS reservation_time,
-    b.branch_name              AS branch_name,
-    b.address                  AS address,
-    b.city                     AS city,
-    b.logo_img                 AS logo_img,              -- ⬅️ NEW
-    br.brand_name              AS brand_name,
-    cd.car_model               AS model_name,
-    s.service_name             AS service_name,
-    r.reservation_status       AS reservation_status,
-    bbs.id                     AS branch_brand_serviceid,
-    cd.plate_number            AS plate_number,
-    COALESCE(AVG(re.stars), 0) AS stars
-FROM reservation_service_request r
-JOIN branch b ON b.branch_id = r.branch_id
-JOIN car_details cd ON cd.car_id = r.car_id
-
-JOIN brand br ON br.brand_id = cd.brand_id
-JOIN service_entity s ON s.service_id = r.service_id
-LEFT JOIN branch_brand_service bbs
-  ON bbs.branch_id = r.branch_id
- AND bbs.service_id = r.service_id
- AND bbs.brand_id   = cd.brand_id
-LEFT JOIN rate_experience re
-  ON re.branch_brand_serviceid = bbs.id
-WHERE r.user_id = ?
-GROUP BY r.reservation_id, r.reservation_date, r.reservation_time,
-         b.branch_name, b.address, b.city, b.logo_img,           -- ⬅️ add here
-         br.brand_name, cd.car_model, s.service_name,
-         r.reservation_status, bbs.id, cd.plate_number
-ORDER BY r.reservation_date DESC, r.reservation_time DESC
-
-SELECT
-    r.reservation_id           AS reservation_id,
-    r.reservation_date         AS reservation_date,
-    r.reservation_time         AS reservation_time,
-    b.branch_name              AS branch_name,
-    b.address                  AS address,
-    b.city                     AS city,
-    b.logo_img                 AS logo_img,              -- ⬅️ NEW
-    br.brand_name              AS brand_name,
-    cd.car_model               AS model_name,
-    s.service_name             AS service_name,
-    r.reservation_status       AS reservation_status,
-    bbs.id                     AS branch_brand_serviceid,
-    cd.plate_number            AS plate_number,
-    COALESCE(AVG(re.stars), 0) AS stars
-FROM reservation_service_request r
-JOIN branch b ON b.branch_id = r.branch_id
-JOIN car_details cd ON cd.car_id = r.car_id
-
-JOIN brand br ON br.brand_id = cd.brand_id
-JOIN service_entity s ON s.service_id = r.service_id
-LEFT JOIN branch_brand_service bbs
-  ON bbs.branch_id = r.branch_id
- AND bbs.service_id = r.service_id
- AND bbs.brand_id   = cd.brand_id
-LEFT JOIN rate_experience re
-  ON re.branch_brand_serviceid = bbs.id
-WHERE r.user_id = 1
-GROUP BY r.reservation_id, r.reservation_date, r.reservation_time,
-         b.branch_name, b.address, b.city, b.logo_img,           -- ⬅️ add here
-         br.brand_name, cd.car_model, s.service_name,
-         r.reservation_status, bbs.id, cd.plate_number
-ORDER BY r.reservation_date DESC, r.reservation_time DESC
-;
-2025-11-26T13:43:29.287+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-1] p6spy                                    : #1764150209287 | took 2ms | statement | connection 350| url jdbc:p6spy:postgresql://localhost:5433/testdb
-SELECT
-  rss.reservation_service_sparepart_id,
-  rss.part_name,
-  rss.qty,
-  rss.spareparts_id,
-  sp.spareparts_type,                 -- ⬅️ NEW
-  rss.reservation_id
-FROM reservation_service_sparepart rss
-LEFT JOIN spare_parts sp
-  ON sp.spareparts_id = rss.spareparts_id   -- ⬅️ NEW
-WHERE rss.reservation_id IN (?,?,?,?)
-ORDER BY rss.reservation_service_sparepart_id
-
-SELECT
-  rss.reservation_service_sparepart_id,
-  rss.part_name,
-  rss.qty,
-  rss.spareparts_id,
-  sp.spareparts_type,                 -- ⬅️ NEW
-  rss.reservation_id
-FROM reservation_service_sparepart rss
-LEFT JOIN spare_parts sp
-  ON sp.spareparts_id = rss.spareparts_id   -- ⬅️ NEW
-WHERE rss.reservation_id IN (88,1,5,87)
-ORDER BY rss.reservation_service_sparepart_id
-;
-2025-11-26T14:09:43.635+04:00 DEBUG 9392 --- [carservices] [http-nio-8081-exec-10] org.hibernate.SQL                        : 
+2025-11-29T15:41:44.469+04:00 DEBUG 9392 --- [carservices] [http-nio-8081-exec-10] org.hibernate.SQL                        : 
     select
-        rss1_0.reservation_service_sparepart_id,
-        rss1_0.part_name,
-        rss1_0.qty,
-        rss1_0.reservation_id,
-        rss1_0.spareparts_id 
+        c1_0.id,
+        c1_0.city 
     from
-        reservation_service_sparepart rss1_0 
-    where
-        rss1_0.reservation_service_sparepart_id=?
-2025-11-26T14:09:43.637+04:00 TRACE 9392 --- [carservices] [http-nio-8081-exec-10] org.hibernate.orm.jdbc.bind              : binding parameter (1:BIGINT) <- [1]
-2025-11-26T14:09:43.643+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-10] p6spy                                    : #1764151783642 | took 4ms | statement | connection 354| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select rss1_0.reservation_service_sparepart_id,rss1_0.part_name,rss1_0.qty,rss1_0.reservation_id,rss1_0.spareparts_id from reservation_service_sparepart rss1_0 where rss1_0.reservation_service_sparepart_id=?
-select rss1_0.reservation_service_sparepart_id,rss1_0.part_name,rss1_0.qty,rss1_0.reservation_id,rss1_0.spareparts_id from reservation_service_sparepart rss1_0 where rss1_0.reservation_service_sparepart_id=1;
-2025-11-26T14:09:43.645+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-10] p6spy                                    : #1764151783645 | took 0ms | commit | connection 354| url jdbc:p6spy:postgresql://localhost:5433/testdb
-
-;
-2025-11-26T14:14:50.615+04:00 DEBUG 9392 --- [carservices] [http-nio-8081-exec-2] org.hibernate.SQL                        : 
+        city c1_0
+2025-11-29T15:41:44.470+04:00 DEBUG 9392 --- [carservices] [http-nio-8081-exec-6] org.hibernate.SQL                        : 
     select
-        rss1_0.reservation_service_sparepart_id,
-        rss1_0.part_name,
-        rss1_0.qty,
-        rss1_0.reservation_id,
-        rss1_0.spareparts_id 
+        b1_0.brand_id,
+        b1_0.brand_name 
     from
-        reservation_service_sparepart rss1_0 
-    where
-        rss1_0.reservation_service_sparepart_id=?
-2025-11-26T14:14:50.618+04:00 TRACE 9392 --- [carservices] [http-nio-8081-exec-2] org.hibernate.orm.jdbc.bind              : binding parameter (1:BIGINT) <- [1]
-2025-11-26T14:14:50.622+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-2] p6spy                                    : #1764152090622 | took 5ms | statement | connection 360| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select rss1_0.reservation_service_sparepart_id,rss1_0.part_name,rss1_0.qty,rss1_0.reservation_id,rss1_0.spareparts_id from reservation_service_sparepart rss1_0 where rss1_0.reservation_service_sparepart_id=?
-select rss1_0.reservation_service_sparepart_id,rss1_0.part_name,rss1_0.qty,rss1_0.reservation_id,rss1_0.spareparts_id from reservation_service_sparepart rss1_0 where rss1_0.reservation_service_sparepart_id=1;
-2025-11-26T14:14:50.634+04:00 DEBUG 9392 --- [carservices] [http-nio-8081-exec-2] org.hibernate.SQL                        : 
-    update
-        reservation_service_sparepart 
-    set
-        part_name=?,
-        qty=?,
-        reservation_id=?,
-        spareparts_id=? 
-    where
-        reservation_service_sparepart_id=?
-2025-11-26T14:14:50.636+04:00 TRACE 9392 --- [carservices] [http-nio-8081-exec-2] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Oil Filter123]
-2025-11-26T14:14:50.637+04:00 TRACE 9392 --- [carservices] [http-nio-8081-exec-2] org.hibernate.orm.jdbc.bind              : binding parameter (2:INTEGER) <- [2]
-2025-11-26T14:14:50.637+04:00 TRACE 9392 --- [carservices] [http-nio-8081-exec-2] org.hibernate.orm.jdbc.bind              : binding parameter (3:BIGINT) <- [1]
-2025-11-26T14:14:50.637+04:00 TRACE 9392 --- [carservices] [http-nio-8081-exec-2] org.hibernate.orm.jdbc.bind              : binding parameter (4:BIGINT) <- [1]
-2025-11-26T14:14:50.638+04:00 TRACE 9392 --- [carservices] [http-nio-8081-exec-2] org.hibernate.orm.jdbc.bind              : binding parameter (5:BIGINT) <- [1]
-2025-11-26T14:14:50.641+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-2] p6spy                                    : #1764152090641 | took 1ms | statement | connection 360| url jdbc:p6spy:postgresql://localhost:5433/testdb
-update reservation_service_sparepart set part_name=?,qty=?,reservation_id=?,spareparts_id=? where reservation_service_sparepart_id=?
-update reservation_service_sparepart set part_name='Oil Filter123',qty=2,reservation_id=1,spareparts_id=1 where reservation_service_sparepart_id=1;
-2025-11-26T14:14:50.645+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-2] p6spy                                    : #1764152090645 | took 1ms | commit | connection 360| url jdbc:p6spy:postgresql://localhost:5433/testdb
-
-;
-2025-11-26T14:16:49.698+04:00  WARN 9392 --- [carservices] [http-nio-8081-exec-6] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'PUT' is not supported]
-2025-11-26T14:33:41.603+04:00 DEBUG 9392 --- [carservices] [http-nio-8081-exec-2] org.hibernate.SQL                        : 
+        brand b1_0
+2025-11-29T15:41:44.471+04:00 DEBUG 9392 --- [carservices] [http-nio-8081-exec-9] org.hibernate.SQL                        : 
     select
-        sp1_0.spareparts_id,
-        sp1_0.condition,
-        sp1_0.spareparts_type 
+        se1_0.service_id,
+        se1_0.service_name,
+        se1_0.service_type 
     from
-        spare_parts sp1_0
-2025-11-26T14:33:41.607+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-2] p6spy                                    : #1764153221607 | took 2ms | statement | connection 360| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select sp1_0.spareparts_id,sp1_0.condition,sp1_0.spareparts_type from spare_parts sp1_0
-select sp1_0.spareparts_id,sp1_0.condition,sp1_0.spareparts_type from spare_parts sp1_0;
-2025-11-26T14:33:41.613+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-2] p6spy                                    : #1764153221613 | took 0ms | commit | connection 360| url jdbc:p6spy:postgresql://localhost:5433/testdb
+        service_entity se1_0
+2025-11-29T15:41:44.495+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-9] p6spy                                    : #1764416504495 | took 20ms | statement | connection 1034| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select se1_0.service_id,se1_0.service_name,se1_0.service_type from service_entity se1_0
+select se1_0.service_id,se1_0.service_name,se1_0.service_type from service_entity se1_0;
+2025-11-29T15:41:44.501+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-6] p6spy                                    : #1764416504501 | took 27ms | statement | connection 1033| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select b1_0.brand_id,b1_0.brand_name from brand b1_0
+select b1_0.brand_id,b1_0.brand_name from brand b1_0;
+2025-11-29T15:41:44.505+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-10] p6spy                                    : #1764416504505 | took 29ms | statement | connection 1032| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select c1_0.id,c1_0.city from city c1_0
+select c1_0.id,c1_0.city from city c1_0;
+2025-11-29T15:41:44.579+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-9] p6spy                                    : #1764416504579 | took 1ms | commit | connection 1034| url jdbc:p6spy:postgresql://localhost:5433/testdb
 
 ;
-2025-11-26T14:46:14.146+04:00 DEBUG 9392 --- [carservices] [http-nio-8081-exec-1] org.hibernate.SQL                        : 
-    select
-        rsr1_0.reservation_id,
-        rsr1_0.brand_id,
-        rsr1_0.car_id,
-        rsr1_0.model_id,
-        rsr1_0.reservation_date,
-        rsr1_0.reservation_status,
-        rsr1_0.reservation_time,
-        rsr1_0.service_id,
-        rsr1_0.user_id 
-    from
-        reservation_service_request rsr1_0 
-    where
-        rsr1_0.reservation_id=?
-2025-11-26T14:46:14.147+04:00 TRACE 9392 --- [carservices] [http-nio-8081-exec-1] org.hibernate.orm.jdbc.bind              : binding parameter (1:BIGINT) <- [1]
-2025-11-26T14:46:14.151+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-1] p6spy                                    : #1764153974151 | took 3ms | statement | connection 370| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select rsr1_0.reservation_id,rsr1_0.brand_id,rsr1_0.car_id,rsr1_0.model_id,rsr1_0.reservation_date,rsr1_0.reservation_status,rsr1_0.reservation_time,rsr1_0.service_id,rsr1_0.user_id from reservation_service_request rsr1_0 where rsr1_0.reservation_id=?
-select rsr1_0.reservation_id,rsr1_0.brand_id,rsr1_0.car_id,rsr1_0.model_id,rsr1_0.reservation_date,rsr1_0.reservation_status,rsr1_0.reservation_time,rsr1_0.service_id,rsr1_0.user_id from reservation_service_request rsr1_0 where rsr1_0.reservation_id=1;
-2025-11-26T14:46:14.160+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-1] p6spy                                    : #1764153974160 | took 0ms | commit | connection 370| url jdbc:p6spy:postgresql://localhost:5433/testdb
+2025-11-29T15:41:44.585+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-10] p6spy                                    : #1764416504585 | took 0ms | commit | connection 1032| url jdbc:p6spy:postgresql://localhost:5433/testdb
 
 ;
-2025-11-26T14:46:14.168+04:00 DEBUG 9392 --- [carservices] [http-nio-8081-exec-1] org.hibernate.SQL                        : 
-    update
-        reservation_service_request 
-    set
-        brand_id=?,
-        car_id=?,
-        model_id=?,
-        reservation_date=?,
-        reservation_status=?,
-        reservation_time=?,
-        service_id=?,
-        user_id=? 
-    where
-        reservation_id=?
-2025-11-26T14:46:14.169+04:00 TRACE 9392 --- [carservices] [http-nio-8081-exec-1] org.hibernate.orm.jdbc.bind              : binding parameter (1:BIGINT) <- [null]
-2025-11-26T14:46:14.172+04:00 TRACE 9392 --- [carservices] [http-nio-8081-exec-1] org.hibernate.orm.jdbc.bind              : binding parameter (2:BIGINT) <- [null]
-2025-11-26T14:46:14.173+04:00 TRACE 9392 --- [carservices] [http-nio-8081-exec-1] org.hibernate.orm.jdbc.bind              : binding parameter (3:BIGINT) <- [null]
-2025-11-26T14:46:14.175+04:00 TRACE 9392 --- [carservices] [http-nio-8081-exec-1] org.hibernate.orm.jdbc.bind              : binding parameter (4:DATE) <- [2025-11-19]
-2025-11-26T14:46:14.177+04:00 TRACE 9392 --- [carservices] [http-nio-8081-exec-1] org.hibernate.orm.jdbc.bind              : binding parameter (5:VARCHAR) <- [canceled]
-2025-11-26T14:46:14.179+04:00 TRACE 9392 --- [carservices] [http-nio-8081-exec-1] org.hibernate.orm.jdbc.bind              : binding parameter (6:TIME) <- [12:00]
-2025-11-26T14:46:14.186+04:00 TRACE 9392 --- [carservices] [http-nio-8081-exec-1] org.hibernate.orm.jdbc.bind              : binding parameter (7:BIGINT) <- [null]
-2025-11-26T14:46:14.187+04:00 TRACE 9392 --- [carservices] [http-nio-8081-exec-1] org.hibernate.orm.jdbc.bind              : binding parameter (8:BIGINT) <- [1]
-2025-11-26T14:46:14.187+04:00 TRACE 9392 --- [carservices] [http-nio-8081-exec-1] org.hibernate.orm.jdbc.bind              : binding parameter (9:BIGINT) <- [1]
-2025-11-26T14:46:14.201+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-1] p6spy                                    : #1764153974201 | took 5ms | statement | connection 370| url jdbc:p6spy:postgresql://localhost:5433/testdb
-update reservation_service_request set brand_id=?,car_id=?,model_id=?,reservation_date=?,reservation_status=?,reservation_time=?,service_id=?,user_id=? where reservation_id=?
-update reservation_service_request set brand_id=NULL,car_id=NULL,model_id=NULL,reservation_date='2025-11-19T00:00:00.000+0400',reservation_status='canceled',reservation_time='1970-01-01T12:00:00.000+0400',service_id=NULL,user_id=1 where reservation_id=1;
-2025-11-26T14:46:14.203+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-1] p6spy                                    : #1764153974203 | took 1ms | commit | connection 370| url jdbc:p6spy:postgresql://localhost:5433/testdb
+2025-11-29T15:41:44.583+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-6] p6spy                                    : #1764416504583 | took 4ms | commit | connection 1033| url jdbc:p6spy:postgresql://localhost:5433/testdb
 
 ;
-2025-11-26T15:14:22.503+04:00  INFO 9392 --- [carservices] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 2 class path changes (0 additions, 0 deletions, 2 modifications)
-2025-11-26T15:14:22.515+04:00  INFO 9392 --- [carservices] [Thread-26] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
-2025-11-26T15:14:22.532+04:00  INFO 9392 --- [carservices] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
-2025-11-26T15:14:22.554+04:00  INFO 9392 --- [carservices] [Thread-26] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2025-11-26T15:14:22.559+04:00  INFO 9392 --- [carservices] [Thread-26] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Shutdown initiated...
-2025-11-26T15:14:22.572+04:00  INFO 9392 --- [carservices] [Thread-26] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Shutdown completed.
-2025-11-26T15:14:22.866+04:00  INFO 9392 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : Starting CarservicesApplication using Java 21.0.7 with PID 9392 (C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices\target\classes started by lenovo in C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices)
-2025-11-26T15:14:22.867+04:00  INFO 9392 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : No active profile set, falling back to 1 default profile: "default"
-2025-11-26T15:14:24.004+04:00  INFO 9392 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-11-26T15:14:24.310+04:00  INFO 9392 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 301 ms. Found 36 JPA repository interfaces.
-2025-11-26T15:14:24.719+04:00  INFO 9392 --- [carservices] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
-2025-11-26T15:14:24.723+04:00  INFO 9392 --- [carservices] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2025-11-26T15:14:24.724+04:00  INFO 9392 --- [carservices] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.40]
-2025-11-26T15:14:24.776+04:00  INFO 9392 --- [carservices] [restartedMain] o.a.c.c.C.[Tomcat-1].[localhost].[/]     : Initializing Spring embedded WebApplicationContext
-2025-11-26T15:14:24.778+04:00  INFO 9392 --- [carservices] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1903 ms
-2025-11-26T15:14:24.959+04:00  INFO 9392 --- [carservices] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-11-26T15:14:24.969+04:00  INFO 9392 --- [carservices] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
-2025-11-26T15:14:25.014+04:00  INFO 9392 --- [carservices] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-11-26T15:14:25.016+04:00  INFO 9392 --- [carservices] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-7 - Starting...
-2025-11-26T15:14:25.203+04:00  INFO 9392 --- [carservices] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-7 - Added connection com.p6spy.engine.wrapper.ConnectionWrapper@3205b7ce
-2025-11-26T15:14:25.204+04:00  INFO 9392 --- [carservices] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-7 - Start completed.
-2025-11-26T15:14:25.226+04:00  WARN 9392 --- [carservices] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2025-11-26T15:14:25.230+04:00  INFO 9392 --- [carservices] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
-	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-7)']
-	Database driver: undefined/unknown
-	Database version: 17.5
-	Autocommit mode: undefined/unknown
-	Isolation level: undefined/unknown
-	Minimum pool size: undefined/unknown
-	Maximum pool size: undefined/unknown
-2025-11-26T15:14:25.927+04:00  INFO 9392 --- [carservices] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-11-26T15:14:25.944+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764155665944 | took 15ms | statement | connection 390| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from information_schema.sequences
-select * from information_schema.sequences;
-2025-11-26T15:14:26.007+04:00  INFO 9392 --- [carservices] [restartedMain] t.s.e.i.AbstractInformationExtractorImpl : HHH000475: Cannot locate column information using identifier [lower((manager_email)::text)]; ignoring index [ux_company_manager_email]
-2025-11-26T15:14:26.008+04:00 DEBUG 9392 --- [carservices] [restartedMain] org.hibernate.SQL                        : 
-    alter table if exists company 
-       drop constraint if exists ux_company_company_name_ci
-2025-11-26T15:14:26.016+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764155666016 | took 7ms | statement | connection 390| url jdbc:p6spy:postgresql://localhost:5433/testdb
+2025-11-29T15:42:06.815+04:00 DEBUG 9392 --- [carservices] [http-nio-8081-exec-1] org.hibernate.SQL                        : 
+    SELECT
+        spr.sparepartsrequest_id          AS sparePartsRequestId,
+        spr.date                          AS date,
+        b.branch_name                     AS branchName,
+        b.address                         AS address,
+        b.city                            AS city,
+        spr.vin_number                    AS vin,
+        sp.spareparts_type                AS sparepartsType,
+        bbsp.state                        AS state,
+        sprd.spare_part                   AS sparePart,
+        sprd.class_type                   AS classType,
+        sprd.qty                          AS qty,
+        sprd.price                        AS price,
+        c.manager_mobile                  AS managerMobile,
+        bbsp.id                           AS id,
+        spr.request_status                AS requestStatus,
+        sprd.id                           AS detailId,
+        br.brand_id                       AS brandId,
+        br.brand_name                     AS brandName 
+    FROM
+        spare_parts_request spr 
+    JOIN
+        spare_parts             sp   
+            ON sp.spareparts_id = spr.spareparts_id 
+    JOIN
+        branch_brand_spare_part bbsp 
+            ON bbsp.branch_id = spr.branch_id 
+    JOIN
+        branch                  b    
+            ON b.branch_id     = bbsp.branch_id 
+    JOIN
+        company                 c    
+            ON c.company_id    = b.company_id 
+    JOIN
+        spare_parts_request_details sprd 
+            ON sprd.sparepartsrequest_id = spr.sparepartsrequest_id 
+    JOIN
+        brand                   br   
+            ON br.brand_id     = bbsp.brand_id 
+    WHERE
+        b.branch_id = ? 
+    ORDER BY
+        spr.date DESC,
+        b.branch_name ASC 
+2025-11-29T15:42:06.819+04:00 TRACE 9392 --- [carservices] [http-nio-8081-exec-1] org.hibernate.orm.jdbc.bind              : binding parameter (1:BIGINT) <- [1]
+2025-11-29T15:42:06.849+04:00  INFO 9392 --- [carservices] [http-nio-8081-exec-1] p6spy                                    : #1764416526849 | took 29ms | statement | connection 1029| url jdbc:p6spy:postgresql://localhost:5433/testdb
+SELECT
+    spr.sparepartsrequest_id          AS sparePartsRequestId,
+    spr.date                          AS date,
+    b.branch_name                     AS branchName,
+    b.address                         AS address,
+    b.city                            AS city,
+    spr.vin_number                    AS vin,
+    sp.spareparts_type                AS sparepartsType,
+    bbsp.state                        AS state,
+    sprd.spare_part                   AS sparePart,
+    sprd.class_type                   AS classType,
+    sprd.qty                          AS qty,
+    sprd.price                        AS price,
+    c.manager_mobile                  AS managerMobile,
+    bbsp.id                           AS id,
+    spr.request_status                AS requestStatus,
+    sprd.id                           AS detailId,
+    br.brand_id                       AS brandId,
+    br.brand_name                     AS brandName
+FROM spare_parts_request spr
+JOIN spare_parts             sp   ON sp.spareparts_id = spr.spareparts_id
+JOIN branch_brand_spare_part bbsp ON bbsp.branch_id = spr.branch_id
+JOIN branch                  b    ON b.branch_id     = bbsp.branch_id
+JOIN company                 c    ON c.company_id    = b.company_id
+JOIN spare_parts_request_details sprd ON sprd.sparepartsrequest_id = spr.sparepartsrequest_id
+JOIN brand                   br   ON br.brand_id     = bbsp.brand_id
+WHERE b.branch_id = ?
+ORDER BY spr.date DESC, b.branch_name ASC
 
-    alter table if exists company 
-       drop constraint if exists ux_company_company_name_ci
-
-    alter table if exists company 
-       drop constraint if exists ux_company_company_name_ci;
-2025-11-26T15:14:26.016+04:00  WARN 9392 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
-2025-11-26T15:14:26.017+04:00  WARN 9392 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : constraint "ux_company_company_name_ci" of relation "company" does not exist, skipping
-2025-11-26T15:14:26.017+04:00 DEBUG 9392 --- [carservices] [restartedMain] org.hibernate.SQL                        : 
-    alter table if exists company 
-       add constraint ux_company_company_name_ci unique (company_name)
-2025-11-26T15:14:26.048+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764155666048 | took 30ms | statement | connection 390| url jdbc:p6spy:postgresql://localhost:5433/testdb
-
-    alter table if exists company 
-       add constraint ux_company_company_name_ci unique (company_name)
-
-    alter table if exists company 
-       add constraint ux_company_company_name_ci unique (company_name);
-2025-11-26T15:14:26.049+04:00 DEBUG 9392 --- [carservices] [restartedMain] org.hibernate.SQL                        : 
-    alter table if exists company 
-       drop constraint if exists ux_company_brand_name_ci
-2025-11-26T15:14:26.050+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764155666050 | took 0ms | statement | connection 390| url jdbc:p6spy:postgresql://localhost:5433/testdb
-
-    alter table if exists company 
-       drop constraint if exists ux_company_brand_name_ci
-
-    alter table if exists company 
-       drop constraint if exists ux_company_brand_name_ci;
-2025-11-26T15:14:26.051+04:00  WARN 9392 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
-2025-11-26T15:14:26.051+04:00  WARN 9392 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : constraint "ux_company_brand_name_ci" of relation "company" does not exist, skipping
-2025-11-26T15:14:26.051+04:00 DEBUG 9392 --- [carservices] [restartedMain] org.hibernate.SQL                        : 
-    alter table if exists company 
-       add constraint ux_company_brand_name_ci unique (brand_name)
-2025-11-26T15:14:26.055+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764155666055 | took 3ms | statement | connection 390| url jdbc:p6spy:postgresql://localhost:5433/testdb
-
-    alter table if exists company 
-       add constraint ux_company_brand_name_ci unique (brand_name)
-
-    alter table if exists company 
-       add constraint ux_company_brand_name_ci unique (brand_name);
-2025-11-26T15:14:26.164+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764155666164 | took 4ms | statement | connection 390| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."company" where 1=0
-select * from "public"."company" where 1=0;
-2025-11-26T15:14:26.248+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764155666248 | took 3ms | statement | connection 390| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."branch" where 1=0
-select * from "public"."branch" where 1=0;
-2025-11-26T15:14:26.255+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764155666255 | took 1ms | statement | connection 390| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."brand" where 1=0
-select * from "public"."brand" where 1=0;
-2025-11-26T15:14:26.262+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764155666262 | took 1ms | statement | connection 390| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."service_entity" where 1=0
-select * from "public"."service_entity" where 1=0;
-2025-11-26T15:14:26.357+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764155666357 | took 0ms | statement | connection 390| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."branch" where 1=0
-select * from "public"."branch" where 1=0;
-2025-11-26T15:14:26.361+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764155666361 | took 0ms | statement | connection 390| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."brand" where 1=0
-select * from "public"."brand" where 1=0;
-2025-11-26T15:14:26.366+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764155666366 | took 1ms | statement | connection 390| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."spare_parts" where 1=0
-select * from "public"."spare_parts" where 1=0;
-2025-11-26T15:14:26.452+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764155666452 | took 0ms | statement | connection 390| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."brand" where 1=0
-select * from "public"."brand" where 1=0;
-2025-11-26T15:14:26.548+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764155666548 | took 0ms | statement | connection 390| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."brand" where 1=0
-select * from "public"."brand" where 1=0;
-2025-11-26T15:14:26.554+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764155666554 | took 3ms | statement | connection 390| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."user_registration" where 1=0
-select * from "public"."user_registration" where 1=0;
-2025-11-26T15:14:26.642+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764155666642 | took 0ms | statement | connection 390| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."spare_parts" where 1=0
-select * from "public"."spare_parts" where 1=0;
-2025-11-26T15:14:26.725+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764155666725 | took 5ms | statement | connection 390| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."problem" where 1=0
-select * from "public"."problem" where 1=0;
-2025-11-26T15:14:26.817+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764155666817 | took 0ms | statement | connection 390| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."branch" where 1=0
-select * from "public"."branch" where 1=0;
-2025-11-26T15:14:26.818+04:00  INFO 9392 --- [carservices] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-11-26T15:14:28.247+04:00  WARN 9392 --- [carservices] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2025-11-26T15:14:28.624+04:00  INFO 9392 --- [carservices] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
-2025-11-26T15:14:28.648+04:00  INFO 9392 --- [carservices] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
-2025-11-26T15:14:28.657+04:00  INFO 9392 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : Started CarservicesApplication in 5.923 seconds (process running for 151792.059)
-2025-11-26T15:14:28.660+04:00  INFO 9392 --- [carservices] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
-2025-11-26T15:14:50.657+04:00  INFO 9392 --- [carservices] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 2 class path changes (0 additions, 0 deletions, 2 modifications)
-2025-11-26T15:14:50.661+04:00  INFO 9392 --- [carservices] [Thread-30] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
-2025-11-26T15:14:50.673+04:00  INFO 9392 --- [carservices] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
-2025-11-26T15:14:50.677+04:00  INFO 9392 --- [carservices] [Thread-30] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2025-11-26T15:14:50.678+04:00  INFO 9392 --- [carservices] [Thread-30] com.zaxxer.hikari.HikariDataSource       : HikariPool-7 - Shutdown initiated...
-2025-11-26T15:14:50.685+04:00  INFO 9392 --- [carservices] [Thread-30] com.zaxxer.hikari.HikariDataSource       : HikariPool-7 - Shutdown completed.
-2025-11-26T15:14:50.862+04:00  INFO 9392 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : Starting CarservicesApplication using Java 21.0.7 with PID 9392 (C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices\target\classes started by lenovo in C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices)
-2025-11-26T15:14:50.864+04:00  INFO 9392 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : No active profile set, falling back to 1 default profile: "default"
-2025-11-26T15:14:51.569+04:00  INFO 9392 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-11-26T15:14:51.815+04:00  INFO 9392 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 243 ms. Found 36 JPA repository interfaces.
-2025-11-26T15:14:52.040+04:00  INFO 9392 --- [carservices] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
-2025-11-26T15:14:52.041+04:00  INFO 9392 --- [carservices] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2025-11-26T15:14:52.042+04:00  INFO 9392 --- [carservices] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.40]
-2025-11-26T15:14:52.078+04:00  INFO 9392 --- [carservices] [restartedMain] o.a.c.c.C.[Tomcat-1].[localhost].[/]     : Initializing Spring embedded WebApplicationContext
-2025-11-26T15:14:52.078+04:00  INFO 9392 --- [carservices] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1203 ms
-2025-11-26T15:14:52.197+04:00  INFO 9392 --- [carservices] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-11-26T15:14:52.202+04:00  INFO 9392 --- [carservices] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
-2025-11-26T15:14:52.226+04:00  INFO 9392 --- [carservices] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-11-26T15:14:52.229+04:00  INFO 9392 --- [carservices] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-8 - Starting...
-2025-11-26T15:14:52.291+04:00  INFO 9392 --- [carservices] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-8 - Added connection com.p6spy.engine.wrapper.ConnectionWrapper@57476b0
-2025-11-26T15:14:52.292+04:00  INFO 9392 --- [carservices] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-8 - Start completed.
-2025-11-26T15:14:52.300+04:00  WARN 9392 --- [carservices] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2025-11-26T15:14:52.301+04:00  INFO 9392 --- [carservices] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
-	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-8)']
-	Database driver: undefined/unknown
-	Database version: 17.5
-	Autocommit mode: undefined/unknown
-	Isolation level: undefined/unknown
-	Minimum pool size: undefined/unknown
-	Maximum pool size: undefined/unknown
-2025-11-26T15:14:52.698+04:00  INFO 9392 --- [carservices] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-11-26T15:14:52.709+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764155692709 | took 9ms | statement | connection 400| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from information_schema.sequences
-select * from information_schema.sequences;
-2025-11-26T15:14:52.736+04:00  INFO 9392 --- [carservices] [restartedMain] t.s.e.i.AbstractInformationExtractorImpl : HHH000475: Cannot locate column information using identifier [lower((manager_email)::text)]; ignoring index [ux_company_manager_email]
-2025-11-26T15:14:52.737+04:00 DEBUG 9392 --- [carservices] [restartedMain] org.hibernate.SQL                        : 
-    alter table if exists company 
-       drop constraint if exists ux_company_company_name_ci
-2025-11-26T15:14:52.739+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764155692739 | took 1ms | statement | connection 400| url jdbc:p6spy:postgresql://localhost:5433/testdb
-
-    alter table if exists company 
-       drop constraint if exists ux_company_company_name_ci
-
-    alter table if exists company 
-       drop constraint if exists ux_company_company_name_ci;
-2025-11-26T15:14:52.739+04:00  WARN 9392 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
-2025-11-26T15:14:52.739+04:00  WARN 9392 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : constraint "ux_company_company_name_ci" of relation "company" does not exist, skipping
-2025-11-26T15:14:52.739+04:00 DEBUG 9392 --- [carservices] [restartedMain] org.hibernate.SQL                        : 
-    alter table if exists company 
-       add constraint ux_company_company_name_ci unique (company_name)
-2025-11-26T15:14:52.747+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764155692747 | took 6ms | statement | connection 400| url jdbc:p6spy:postgresql://localhost:5433/testdb
-
-    alter table if exists company 
-       add constraint ux_company_company_name_ci unique (company_name)
-
-    alter table if exists company 
-       add constraint ux_company_company_name_ci unique (company_name);
-2025-11-26T15:14:52.747+04:00 DEBUG 9392 --- [carservices] [restartedMain] org.hibernate.SQL                        : 
-    alter table if exists company 
-       drop constraint if exists ux_company_brand_name_ci
-2025-11-26T15:14:52.748+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764155692748 | took 0ms | statement | connection 400| url jdbc:p6spy:postgresql://localhost:5433/testdb
-
-    alter table if exists company 
-       drop constraint if exists ux_company_brand_name_ci
-
-    alter table if exists company 
-       drop constraint if exists ux_company_brand_name_ci;
-2025-11-26T15:14:52.748+04:00  WARN 9392 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
-2025-11-26T15:14:52.749+04:00  WARN 9392 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : constraint "ux_company_brand_name_ci" of relation "company" does not exist, skipping
-2025-11-26T15:14:52.749+04:00 DEBUG 9392 --- [carservices] [restartedMain] org.hibernate.SQL                        : 
-    alter table if exists company 
-       add constraint ux_company_brand_name_ci unique (brand_name)
-2025-11-26T15:14:52.750+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764155692750 | took 2ms | statement | connection 400| url jdbc:p6spy:postgresql://localhost:5433/testdb
-
-    alter table if exists company 
-       add constraint ux_company_brand_name_ci unique (brand_name)
-
-    alter table if exists company 
-       add constraint ux_company_brand_name_ci unique (brand_name);
-2025-11-26T15:14:52.857+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764155692857 | took 2ms | statement | connection 400| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."company" where 1=0
-select * from "public"."company" where 1=0;
-2025-11-26T15:14:52.965+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764155692965 | took 2ms | statement | connection 400| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."branch" where 1=0
-select * from "public"."branch" where 1=0;
-2025-11-26T15:14:52.970+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764155692970 | took 1ms | statement | connection 400| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."brand" where 1=0
-select * from "public"."brand" where 1=0;
-2025-11-26T15:14:52.975+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764155692975 | took 1ms | statement | connection 400| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."service_entity" where 1=0
-select * from "public"."service_entity" where 1=0;
-2025-11-26T15:14:53.069+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764155693069 | took 0ms | statement | connection 400| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."branch" where 1=0
-select * from "public"."branch" where 1=0;
-2025-11-26T15:14:53.073+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764155693073 | took 0ms | statement | connection 400| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."brand" where 1=0
-select * from "public"."brand" where 1=0;
-2025-11-26T15:14:53.078+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764155693078 | took 1ms | statement | connection 400| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."spare_parts" where 1=0
-select * from "public"."spare_parts" where 1=0;
-2025-11-26T15:14:53.222+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764155693222 | took 0ms | statement | connection 400| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."brand" where 1=0
-select * from "public"."brand" where 1=0;
-2025-11-26T15:14:53.307+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764155693307 | took 0ms | statement | connection 400| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."brand" where 1=0
-select * from "public"."brand" where 1=0;
-2025-11-26T15:14:53.312+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764155693312 | took 2ms | statement | connection 400| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."user_registration" where 1=0
-select * from "public"."user_registration" where 1=0;
-2025-11-26T15:14:53.384+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764155693384 | took 0ms | statement | connection 400| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."spare_parts" where 1=0
-select * from "public"."spare_parts" where 1=0;
-2025-11-26T15:14:53.460+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764155693460 | took 1ms | statement | connection 400| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."problem" where 1=0
-select * from "public"."problem" where 1=0;
-2025-11-26T15:14:53.527+04:00  INFO 9392 --- [carservices] [restartedMain] p6spy                                    : #1764155693527 | took 0ms | statement | connection 400| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select * from "public"."branch" where 1=0
-select * from "public"."branch" where 1=0;
-2025-11-26T15:14:53.528+04:00  INFO 9392 --- [carservices] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-11-26T15:14:54.570+04:00  WARN 9392 --- [carservices] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2025-11-26T15:14:54.810+04:00  INFO 9392 --- [carservices] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
-2025-11-26T15:14:54.838+04:00  INFO 9392 --- [carservices] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
-2025-11-26T15:14:54.844+04:00  INFO 9392 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : Started CarservicesApplication in 4.067 seconds (process running for 151818.246)
-2025-11-26T15:14:54.847+04:00  INFO 9392 --- [carservices] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
-2025-11-26T15:15:21.568+04:00  INFO 9392 --- [carservices] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
-2025-11-26T15:15:21.570+04:00  INFO 9392 --- [carservices] [Thread-34] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
-2025-11-26T15:15:21.581+04:00  INFO 9392 --- [carservices] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
-2025-11-26T15:15:21.586+04:00  INFO 9392 --- [carservices] [Thread-34] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2025-11-26T15:15:21.587+04:00  INFO 9392 --- [carservices] [Thread-34] com.zaxxer.hikari.HikariDataSource       : HikariPool-8 - Shutdown initiated...
-2025-11-26T15:15:21.589+04:00  INFO 9392 --- [carservices] [Thread-34] com.zaxxer.hikari.HikariDataSource       : HikariPool-8 - Shutdown completed.
-2025-11-26T15:15:21.724+04:00  INFO 9392 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : Starting CarservicesApplication using Java 21.0.7 with PID 9392 (C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices\target\classes started by lenovo in C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices)
-2025-11-26T15:15:21.724+04:00  INFO 9392 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : No active profile set, falling back to 1 default profile: "default"
+SELECT
+    spr.sparepartsrequest_id          AS sparePartsRequestId,
+    spr.date                          AS date,
+    b.branch_name                     AS branchName,
+    b.address                         AS address,
+    b.city                            AS city,
+    spr.vin_number                    AS vin,
+    sp.spareparts_type                AS sparepartsType,
+    bbsp.state                        AS state,
+    sprd.spare_part                   AS sparePart,
+    sprd.class_type                   AS classType,
+    sprd.qty                          AS qty,
+    sprd.price                        AS price,
+    c.manager_mobile                  AS managerMobile,
+    bbsp.id                           AS id,
+    spr.request_status                AS requestStatus,
+    sprd.id                           AS detailId,
+    br.brand_id                       AS brandId,
+    br.brand_name                     AS brandName
+FROM spare_parts_request spr
+JOIN spare_parts             sp   ON sp.spareparts_id = spr.spareparts_id
+JOIN branch_brand_spare_part bbsp ON bbsp.branch_id = spr.branch_id
+JOIN branch                  b    ON b.branch_id     = bbsp.branch_id
+JOIN company                 c    ON c.company_id    = b.company_id
+JOIN spare_parts_request_details sprd ON sprd.sparepartsrequest_id = spr.sparepartsrequest_id
+JOIN brand                   br   ON br.brand_id     = bbsp.brand_id
+WHERE b.branch_id = 1
+ORDER BY spr.date DESC, b.branch_name ASC
+;
