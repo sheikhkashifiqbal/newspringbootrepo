@@ -36,28 +36,47 @@ public class ReservationServiceRequestServiceImpl implements ReservationServiceR
         return repository.findAll().stream().map(mapper::toDTO).collect(Collectors.toList());
     }
 
-    @Override
-    public ReservationServiceRequestDTO update(Long id, ReservationServiceRequestDTO dto) {
-        ReservationServiceRequest entity = repository.findById(id).orElseThrow();
+@Override
+public ReservationServiceRequestDTO update(Long id, ReservationServiceRequestDTO dto) {
 
+    ReservationServiceRequest entity = repository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Reservation not found with id: " + id));
+
+    // Update fields ONLY if they are provided in request (not null)
+    if (dto.getUserId() != null) {
         entity.setUserId(dto.getUserId());
-
-        // REPLACED: carId -> brandId + modelId
-        entity.setUserId(dto.getUserId());
-        entity.setCarId(dto.getCarId());
-        entity.setBrandId(dto.getBrandId());
-        entity.setModelId(dto.getModelId());
-
-        // keep serviceId active (it exists in your table)
-        entity.setServiceId(dto.getServiceId());
-
-        entity.setReservationDate(dto.getReservationDate());
-        entity.setReservationTime(dto.getReservationTime());
-        entity.setReservationStatus(dto.getReservationStatus());
-        // entity.setBranchId(dto.getBranchId()); // if you expose it
-
-        return mapper.toDTO(repository.save(entity));
     }
+
+    if (dto.getCarId() != null) {
+        entity.setCarId(dto.getCarId());
+    }
+
+    if (dto.getBrandId() != null) {
+        entity.setBrandId(dto.getBrandId());
+    }
+
+    if (dto.getModelId() != null) {
+        entity.setModelId(dto.getModelId());
+    }
+
+    if (dto.getServiceId() != null) {
+        entity.setServiceId(dto.getServiceId());
+    }
+
+    if (dto.getReservationDate() != null) {
+        entity.setReservationDate(dto.getReservationDate());
+    }
+
+    if (dto.getReservationTime() != null) {
+        entity.setReservationTime(dto.getReservationTime());
+    }
+
+    if (dto.getReservationStatus() != null && !dto.getReservationStatus().isBlank()) {
+        entity.setReservationStatus(dto.getReservationStatus());
+    }
+
+    return mapper.toDTO(repository.save(entity));
+}
 
     @Override
     public void delete(Long id) {
