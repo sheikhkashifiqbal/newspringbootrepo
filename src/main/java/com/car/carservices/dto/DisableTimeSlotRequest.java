@@ -7,8 +7,9 @@ public class DisableTimeSlotRequest {
     @JsonProperty("branch_id")
     private Long branchId;
 
+    // optional: can be 1, "1", "" or null
     @JsonProperty("service_id")
-    private Long serviceId; // optional
+    private String serviceId;
 
     @JsonProperty("time_slot")
     private String timeSlot;
@@ -21,11 +22,11 @@ public class DisableTimeSlotRequest {
         this.branchId = branchId;
     }
 
-    public Long getServiceId() {
+    public String getServiceId() {
         return serviceId;
     }
 
-    public void setServiceId(Long serviceId) {
+    public void setServiceId(String serviceId) {
         this.serviceId = serviceId;
     }
 

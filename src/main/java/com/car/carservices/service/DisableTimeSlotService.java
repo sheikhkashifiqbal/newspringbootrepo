@@ -23,14 +23,39 @@ public class DisableTimeSlotService {
         this.reservationCheckRepository = reservationCheckRepository;
     }
 
+    /**
+     * Helper: convert optional String serviceId to Long.
+     * Accepts: "1",  " 1 ", "", null.
+     * Returns: Long or null (for optional behavior).
+     */
+    private Long toServiceIdOrNull(String raw) {
+        if (raw == null) {
+            return null;
+        }
+        String trimmed = raw.trim();
+        if (trimmed.isEmpty()) {
+            return null;
+        }
+        try {
+            return Long.valueOf(trimmed);
+        } catch (NumberFormatException ex) {
+            // If it's not a valid number, treat as "no service filter"
+            return null;
+        }
+    }
+
     // CREATE
     @Transactional
     public Map<String, Object> create(DisableTimeSlotRequest req) {
 
+        Long branchId = req.getBranchId();
+        String timeSlot = req.getTimeSlot();
+        Long serviceId = toServiceIdOrNull(req.getServiceId());
+
         int count = reservationCheckRepository.countReservations(
-                req.getBranchId(),
-                req.getTimeSlot(),
-                req.getServiceId()
+                branchId,
+                timeSlot,
+                serviceId
         );
 
         Map<String, Object> response = new HashMap<>();
@@ -41,9 +66,9 @@ public class DisableTimeSlotService {
         }
 
         DisableTimeSlot entity = new DisableTimeSlot();
-        entity.setBranchId(req.getBranchId());
-        entity.setServiceId(req.getServiceId());
-        entity.setTimeSlot(req.getTimeSlot());
+        entity.setBranchId(branchId);
+        entity.setServiceId(serviceId);
+        entity.setTimeSlot(timeSlot);
 
         DisableTimeSlot saved = disableTimeSlotRepository.save(entity);
 
@@ -75,10 +100,14 @@ public class DisableTimeSlotService {
             return response;
         }
 
+        Long branchId = req.getBranchId();
+        String timeSlot = req.getTimeSlot();
+        Long serviceId = toServiceIdOrNull(req.getServiceId());
+
         int count = reservationCheckRepository.countReservations(
-                req.getBranchId(),
-                req.getTimeSlot(),
-                req.getServiceId()
+                branchId,
+                timeSlot,
+                serviceId
         );
 
         if (count > 0) {
@@ -87,9 +116,9 @@ public class DisableTimeSlotService {
         }
 
         DisableTimeSlot entity = opt.get();
-        entity.setBranchId(req.getBranchId());
-        entity.setServiceId(req.getServiceId());
-        entity.setTimeSlot(req.getTimeSlot());
+        entity.setBranchId(branchId);
+        entity.setServiceId(serviceId);
+        entity.setTimeSlot(timeSlot);
 
         disableTimeSlotRepository.save(entity);
 
