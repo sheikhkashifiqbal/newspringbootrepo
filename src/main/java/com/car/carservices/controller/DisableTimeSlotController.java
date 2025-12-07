@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @RestController
-@RequestMapping("/api/disable-time-slot")
+@RequestMapping("/api/disable-time-slot-service")
 public class DisableTimeSlotController {
 
     private final DisableTimeSlotService service;

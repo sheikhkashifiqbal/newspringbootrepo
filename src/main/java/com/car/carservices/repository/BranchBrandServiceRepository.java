@@ -25,4 +25,19 @@ public interface BranchBrandServiceRepository extends JpaRepository<BranchBrandS
     int updateStatusByBranchAndBrand(@Param("branchId") Long branchId,
                                      @Param("brandId")  Long brandId,
                                      @Param("status")   String status);
+
+
+  // NEW: bulk status update by (branch_id, service_id)
+@Modifying
+@Transactional
+@Query("""
+    update BranchBrandService bbs
+       set bbs.status = :status
+     where bbs.branch.branchId = :branchId
+       and bbs.service.serviceId = :serviceId
+""")
+int updateStatusByBranchAndService(@Param("branchId") Long branchId,
+                                   @Param("serviceId") Long serviceId,
+                                   @Param("status")   String status);
+
 }

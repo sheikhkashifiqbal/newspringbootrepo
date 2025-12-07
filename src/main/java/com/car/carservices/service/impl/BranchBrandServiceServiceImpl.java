@@ -86,4 +86,14 @@ public class BranchBrandServiceServiceImpl implements BranchBrandServiceService 
         }
         return repository.updateStatusByBranchAndBrand(branchId, brandId, normalized);
     }
+   
+    @Override
+    public int updateStatusByBranchAndService(Long branchId, Long serviceId, String status) {
+    String normalized = (status == null ? "active" : status.toLowerCase());
+    if (!normalized.equals("active") && !normalized.equals("inactive")) {
+        throw new IllegalArgumentException("status must be 'active' or 'inactive'");
+    }
+    return repository.updateStatusByBranchAndService(branchId, serviceId, normalized);
+}
+
 }

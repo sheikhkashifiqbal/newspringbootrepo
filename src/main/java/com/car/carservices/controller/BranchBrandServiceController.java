@@ -66,4 +66,34 @@ public class BranchBrandServiceController {
         public String getStatus() { return status; }
         public void setStatus(String status) { this.status = status; }
     }
+
+
+    // NEW: Disable/Enable all services of a branch for a specific service_id
+@PostMapping("/disable-branch-service")
+public ResponseEntity<Map<String, Object>> disableBranchService(@RequestBody DisableBranchServiceRequest req) {
+    int updated = service.updateStatusByBranchAndService(req.getBranch_id(), req.getService_id(), req.getStatus());
+
+    Map<String, Object> body = new HashMap<>();
+    body.put("message", "Record updated successfully");
+    body.put("updated_count", updated);
+
+    return ResponseEntity.ok(body);
+}
+
+// NEW: Small request DTO
+public static class DisableBranchServiceRequest {
+    private Long branch_id;
+    private Long service_id;
+    private String status;
+
+    public Long getBranch_id() { return branch_id; }
+    public void setBranch_id(Long branch_id) { this.branch_id = branch_id; }
+
+    public Long getService_id() { return service_id; }
+    public void setService_id(Long service_id) { this.service_id = service_id; }
+
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
+}
+
 }
