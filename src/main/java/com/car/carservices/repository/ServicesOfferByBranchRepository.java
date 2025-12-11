@@ -26,7 +26,7 @@ public interface ServicesOfferByBranchRepository extends JpaRepository<BranchBra
         FROM branch_brand_service bbs
         JOIN service_entity se ON bbs.service_id = se.service_id
         WHERE bbs.branch_id = :branchId
-          AND (bbs.status IS NULL OR bbs.status = 'active')
+        
         ORDER BY se.service_name ASC
         """,
         nativeQuery = true)
