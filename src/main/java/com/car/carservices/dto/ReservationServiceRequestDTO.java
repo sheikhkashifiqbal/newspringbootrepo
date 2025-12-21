@@ -20,5 +20,5 @@ public class ReservationServiceRequestDTO {
     private Long carId;
 
     // (branchId exists in table; include only if you expose it)
-    // private Long branchId;
+    private Long branchId;
 }

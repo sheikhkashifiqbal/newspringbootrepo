@@ -19,7 +19,7 @@ public class ReservationServiceRequestMapper {
         d.setReservationDate(e.getReservationDate());
         d.setReservationTime(e.getReservationTime());
         d.setReservationStatus(e.getReservationStatus());
-        // d.setBranchId(e.getBranchId());
+        d.setBranchId(e.getBranchId());
         return d;
     }
 
@@ -35,7 +35,7 @@ public class ReservationServiceRequestMapper {
         e.setReservationDate(d.getReservationDate());
         e.setReservationTime(d.getReservationTime());
         e.setReservationStatus(d.getReservationStatus());
-        // e.setBranchId(d.getBranchId());
+         e.setBranchId(d.getBranchId());
         return e;
     }
 }

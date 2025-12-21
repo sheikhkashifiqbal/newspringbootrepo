@@ -43,6 +43,6 @@ public class ReservationServiceRequest {
     private String reservationStatus;
 
     // If you map branch_id too:
-    // @Column(name = "branch_id")
-    // private Long branchId;
+     @Column(name = "branch_id")
+     private Long branchId;
 }

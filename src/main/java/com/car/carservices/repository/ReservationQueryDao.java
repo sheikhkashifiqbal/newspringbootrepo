@@ -1,4 +1,3 @@
-// src/main/java/com/car/carservices/repository/ReservationQueryDao.java
 package com.car.carservices.repository;
 
 import com.car.carservices.dto.ReservationSparePartLine;
@@ -20,101 +19,156 @@ public class ReservationQueryDao {
         this.jdbc = jdbc;
     }
 
+    // ============================================================
+    //   API 1: /api/reservations/by-user
+    // ============================================================
     public List<ReservationRowRaw> findReservationsByUserId(Long userId) {
+
         String sql = """
             SELECT
-                r.user_id                  AS user_id,                 -- 🔹 NEW
+                r.user_id                  AS user_id,
                 r.reservation_id           AS reservation_id,
                 r.reservation_date         AS reservation_date,
                 r.reservation_time         AS reservation_time,
+
                 b.branch_name              AS branch_name,
-                b.address                  AS address,
+                b.branch_address           AS address,       -- ✔ FIXED HERE
                 b.city                     AS city,
                 b.logo_img                 AS logo_img,
+
                 br.brand_name              AS brand_name,
-                cd.car_model               AS model_name,
+                m.model_name               AS model_name,     -- ✔ FIXED MODEL NAME
                 s.service_name             AS service_name,
                 r.reservation_status       AS reservation_status,
+
                 bbs.id                     AS branch_brand_serviceid,
                 cd.plate_number            AS plate_number,
+
                 COALESCE(AVG(re.stars), 0) AS stars
+
             FROM reservation_service_request r
-            JOIN branch b ON b.branch_id = r.branch_id
-            JOIN car_details cd ON cd.car_id = r.car_id
-            JOIN brand br ON br.brand_id = cd.brand_id
-            JOIN service_entity s ON s.service_id = r.service_id
+
+            JOIN branch b
+              ON b.branch_id = r.branch_id
+
+            LEFT JOIN car_details cd
+              ON cd.car_id = r.car_id
+
+            JOIN brand br
+              ON br.brand_id = r.brand_id
+
+            LEFT JOIN car_brand_model m
+              ON m.id = r.model_id
+
+            JOIN service_entity s
+              ON s.service_id = r.service_id
+
             LEFT JOIN branch_brand_service bbs
               ON bbs.branch_id = r.branch_id
              AND bbs.service_id = r.service_id
-             AND bbs.brand_id   = cd.brand_id
+             AND bbs.brand_id   = r.brand_id
+
             LEFT JOIN rate_experience re
               ON re.branch_brand_serviceid = bbs.id
+
             WHERE r.user_id = ?
+
             GROUP BY
-                r.user_id,                                           -- 🔹 NEW
+                r.user_id,
                 r.reservation_id, r.reservation_date, r.reservation_time,
-                b.branch_name, b.address, b.city, b.logo_img,
-                br.brand_name, cd.car_model, s.service_name,
+                b.branch_name, b.branch_address, b.city, b.logo_img,
+                br.brand_name, m.model_name, s.service_name,
                 r.reservation_status, bbs.id, cd.plate_number
+
             ORDER BY r.reservation_date DESC, r.reservation_time DESC
             """;
-        return jdbc.query(sql, RES_ROW_MAPPER, userId);
+
+        return jdbc.query(sql, ROW_MAPPER, userId);
     }
 
-    // 🔹 For the branch endpoint
+    // ============================================================
+    //   API 2: /api/reservations/by-branch
+    // ============================================================
     public List<ReservationRowRaw> findReservationsByBranchId(Long branchId) {
+
         String sql = """
             SELECT
-                r.user_id                  AS user_id,                 -- 🔹 NEW
+                r.user_id                  AS user_id,
                 r.reservation_id           AS reservation_id,
                 r.reservation_date         AS reservation_date,
                 r.reservation_time         AS reservation_time,
+
                 b.branch_name              AS branch_name,
-                b.address                  AS address,
+                b.branch_address           AS address,       -- ✔ FIXED HERE
                 b.city                     AS city,
                 b.logo_img                 AS logo_img,
+
                 br.brand_name              AS brand_name,
-                cd.car_model               AS model_name,
+                m.model_name               AS model_name,
                 s.service_name             AS service_name,
                 r.reservation_status       AS reservation_status,
+
                 bbs.id                     AS branch_brand_serviceid,
                 cd.plate_number            AS plate_number,
+
                 COALESCE(AVG(re.stars), 0) AS stars
+
             FROM reservation_service_request r
-            JOIN branch b ON b.branch_id = r.branch_id
-            JOIN car_details cd ON cd.car_id = r.car_id
-            JOIN brand br ON br.brand_id = cd.brand_id
-            JOIN service_entity s ON s.service_id = r.service_id
+
+            JOIN branch b
+              ON b.branch_id = r.branch_id
+
+            LEFT JOIN car_details cd
+              ON cd.car_id = r.car_id
+
+            JOIN brand br
+              ON br.brand_id = r.brand_id
+
+            LEFT JOIN car_brand_model m
+              ON m.id = r.model_id
+
+            JOIN service_entity s
+              ON s.service_id = r.service_id
+
             LEFT JOIN branch_brand_service bbs
               ON bbs.branch_id = r.branch_id
              AND bbs.service_id = r.service_id
-             AND bbs.brand_id   = cd.brand_id
+             AND bbs.brand_id   = r.brand_id
+
             LEFT JOIN rate_experience re
               ON re.branch_brand_serviceid = bbs.id
+
             WHERE r.branch_id = ?
+
             GROUP BY
-                r.user_id,                                           -- 🔹 NEW
+                r.user_id,
                 r.reservation_id, r.reservation_date, r.reservation_time,
-                b.branch_name, b.address, b.city, b.logo_img,
-                br.brand_name, cd.car_model, s.service_name,
+                b.branch_name, b.branch_address, b.city, b.logo_img,
+                br.brand_name, m.model_name, s.service_name,
                 r.reservation_status, bbs.id, cd.plate_number
+
             ORDER BY r.reservation_date DESC, r.reservation_time DESC
             """;
-        return jdbc.query(sql, RES_ROW_MAPPER, branchId);
+
+        return jdbc.query(sql, ROW_MAPPER, branchId);
     }
 
+    // ============================================================
+    //   Spare Parts Loader
+    // ============================================================
     public Map<Long, List<ReservationSparePartLine>> findSparePartsForReservations(Collection<Long> reservationIds) {
         if (reservationIds == null || reservationIds.isEmpty()) return Map.of();
 
         String placeholders = String.join(",", Collections.nCopies(reservationIds.size(), "?"));
+
         String sql = """
             SELECT
-              rss.reservation_service_sparepart_id,
-              rss.part_name,
-              rss.qty,
-              rss.spareparts_id,
-              sp.spareparts_type,
-              rss.reservation_id
+                rss.reservation_service_sparepart_id,
+                rss.part_name,
+                rss.qty,
+                rss.spareparts_id,
+                sp.spareparts_type,
+                rss.reservation_id
             FROM reservation_service_sparepart rss
             LEFT JOIN spare_parts sp
               ON sp.spareparts_id = rss.spareparts_id
@@ -124,26 +178,30 @@ public class ReservationQueryDao {
 
         Object[] args = reservationIds.toArray();
 
-        List<ReservationSparePartLine> rows = jdbc.query(sql, args, (rs, i) -> new ReservationSparePartLine(
-                rs.getLong("reservation_service_sparepart_id"),
-                rs.getString("part_name"),
-                (Integer) rs.getObject("qty"),
-                (Long) rs.getObject("spareparts_id"),
-                rs.getString("spareparts_type"),
-                rs.getLong("reservation_id")
-        ));
+        List<ReservationSparePartLine> rows = jdbc.query(sql, args, (rs, i) ->
+                new ReservationSparePartLine(
+                        rs.getLong("reservation_service_sparepart_id"),
+                        rs.getString("part_name"),
+                        (Integer) rs.getObject("qty"),
+                        (Long) rs.getObject("spareparts_id"),
+                        rs.getString("spareparts_type"),
+                        rs.getLong("reservation_id")
+                )
+        );
 
-        Map<Long, List<ReservationSparePartLine>> byRes = new LinkedHashMap<>();
+        Map<Long, List<ReservationSparePartLine>> map = new LinkedHashMap<>();
         for (ReservationSparePartLine r : rows) {
-            byRes.computeIfAbsent(r.reservationId(), k -> new ArrayList<>()).add(r);
+            map.computeIfAbsent(r.reservationId(), k -> new ArrayList<>()).add(r);
         }
-        return byRes;
+        return map;
     }
 
-    // --- Raw row holder + mapper ---
+    // ============================================================
+    //   Row Record + Mapper
+    // ============================================================
 
     public record ReservationRowRaw(
-            Long userId,                 // 🔹 NEW
+            Long userId,
             Long reservationId,
             LocalDate reservationDate,
             LocalTime reservationTime,
@@ -160,14 +218,14 @@ public class ReservationQueryDao {
             Double stars
     ) {}
 
-    private static final RowMapper<ReservationRowRaw> RES_ROW_MAPPER = (ResultSet rs, int rowNum) ->
+    private static final RowMapper<ReservationRowRaw> ROW_MAPPER = (ResultSet rs, int rowNum) ->
             new ReservationRowRaw(
-                    rs.getLong("user_id"),                                      // 🔹 NEW
+                    rs.getLong("user_id"),
                     rs.getLong("reservation_id"),
                     rs.getObject("reservation_date", LocalDate.class),
                     rs.getObject("reservation_time", LocalTime.class),
                     rs.getString("branch_name"),
-                    rs.getString("address"),
+                    rs.getString("address"),          // ✔ returns branch_address
                     rs.getString("city"),
                     rs.getString("logo_img"),
                     rs.getString("brand_name"),
