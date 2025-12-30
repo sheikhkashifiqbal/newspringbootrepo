@@ -1,952 +1,777 @@
-2025-12-15T07:10:43.259+04:00  WARN 33472 --- [carservices] [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=9h4m58s327ms164µs100ns).
-2025-12-15T07:25:41.749+04:00 DEBUG 33472 --- [carservices] [http-nio-8081-exec-2] org.hibernate.SQL                        : 
-    SELECT
-        b.branch_id        AS branchId,
-        b.branch_name      AS branchName,
-        b.logo_img         AS logoImg,
-        b.branch_cover_img AS branchCoverImg,
-        s.service_name     AS serviceName,
-        -- NEW: average stars per branch (nullable if no ratings)         AVG(re.stars) OVER (PARTITION 
-    BY
-        b.branch_id) AS avgStars     
-    FROM
-        branch b     
-    LEFT JOIN
-        branch_brand_service bbs 
-            ON bbs.branch_id = b.branch_id     
-    LEFT JOIN
-        service_entity s 
-            ON s.service_id = bbs.service_id     
-    LEFT JOIN
-        rate_experience re 
-            ON re.branch_brand_serviceid = bbs.id     
-    WHERE
-        b.status = 'approved' 
-        OR b.status = 'APPROVED'     
-    ORDER BY
-        b.branch_id 
-2025-12-15T07:25:41.872+04:00  INFO 33472 --- [carservices] [http-nio-8081-exec-6] p6spy                                    : #1765769141872 | took 72ms | statement | connection 222| url jdbc:p6spy:postgresql://localhost:5433/testdb
-SELECT plate_number
-  FROM car_details
- WHERE user_id = ?
- ORDER BY plate_number
-
-SELECT plate_number
-  FROM car_details
- WHERE user_id = 25
- ORDER BY plate_number
-;
-2025-12-15T07:25:41.891+04:00  INFO 33472 --- [carservices] [http-nio-8081-exec-2] p6spy                                    : #1765769141891 | took 94ms | statement | connection 226| url jdbc:p6spy:postgresql://localhost:5433/testdb
-    SELECT
-        b.branch_id        AS branchId,
-        b.branch_name      AS branchName,
-        b.logo_img         AS logoImg,
-        b.branch_cover_img AS branchCoverImg,
-        s.service_name     AS serviceName,
-        -- NEW: average stars per branch (nullable if no ratings)
-        AVG(re.stars) OVER (PARTITION BY b.branch_id) AS avgStars
-    FROM branch b
-    LEFT JOIN branch_brand_service bbs ON bbs.branch_id = b.branch_id
-    LEFT JOIN service_entity s ON s.service_id = bbs.service_id
-    LEFT JOIN rate_experience re ON re.branch_brand_serviceid = bbs.id
-    WHERE b.status = 'approved' OR b.status = 'APPROVED'
-    ORDER BY b.branch_id
-
-    SELECT
-        b.branch_id        AS branchId,
-        b.branch_name      AS branchName,
-        b.logo_img         AS logoImg,
-        b.branch_cover_img AS branchCoverImg,
-        s.service_name     AS serviceName,
-        -- NEW: average stars per branch (nullable if no ratings)
-        AVG(re.stars) OVER (PARTITION BY b.branch_id) AS avgStars
-    FROM branch b
-    LEFT JOIN branch_brand_service bbs ON bbs.branch_id = b.branch_id
-    LEFT JOIN service_entity s ON s.service_id = bbs.service_id
-    LEFT JOIN rate_experience re ON re.branch_brand_serviceid = bbs.id
-    WHERE b.status = 'approved' OR b.status = 'APPROVED'
-    ORDER BY b.branch_id
-;
-2025-12-15T07:25:41.974+04:00 DEBUG 33472 --- [carservices] [http-nio-8081-exec-5] org.hibernate.SQL                        : 
-    select
-        se1_0.service_id,
-        se1_0.service_name,
-        se1_0.service_type 
-    from
-        service_entity se1_0
-2025-12-15T07:25:41.974+04:00 DEBUG 33472 --- [carservices] [http-nio-8081-exec-7] org.hibernate.SQL                        : 
-    select
-        b1_0.brand_id,
-        b1_0.brand_name 
-    from
-        brand b1_0
-2025-12-15T07:25:41.974+04:00 DEBUG 33472 --- [carservices] [http-nio-8081-exec-9] org.hibernate.SQL                        : 
-    select
-        c1_0.id,
-        c1_0.city 
-    from
-        city c1_0
-2025-12-15T07:25:41.991+04:00  INFO 33472 --- [carservices] [http-nio-8081-exec-5] p6spy                                    : #1765769141991 | took 14ms | statement | connection 225| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select se1_0.service_id,se1_0.service_name,se1_0.service_type from service_entity se1_0
-select se1_0.service_id,se1_0.service_name,se1_0.service_type from service_entity se1_0;
-2025-12-15T07:25:41.991+04:00  INFO 33472 --- [carservices] [http-nio-8081-exec-9] p6spy                                    : #1765769141991 | took 14ms | statement | connection 223| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select c1_0.id,c1_0.city from city c1_0
-select c1_0.id,c1_0.city from city c1_0;
-2025-12-15T07:25:41.993+04:00  INFO 33472 --- [carservices] [http-nio-8081-exec-7] p6spy                                    : #1765769141993 | took 19ms | statement | connection 224| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select b1_0.brand_id,b1_0.brand_name from brand b1_0
-select b1_0.brand_id,b1_0.brand_name from brand b1_0;
-2025-12-15T07:25:42.020+04:00  INFO 33472 --- [carservices] [http-nio-8081-exec-7] p6spy                                    : #1765769142020 | took 1ms | commit | connection 224| url jdbc:p6spy:postgresql://localhost:5433/testdb
-
-;
-2025-12-15T07:25:42.020+04:00  INFO 33472 --- [carservices] [http-nio-8081-exec-5] p6spy                                    : #1765769142020 | took 0ms | commit | connection 225| url jdbc:p6spy:postgresql://localhost:5433/testdb
-
-;
-2025-12-15T07:25:42.020+04:00  INFO 33472 --- [carservices] [http-nio-8081-exec-9] p6spy                                    : #1765769142020 | took 1ms | commit | connection 223| url jdbc:p6spy:postgresql://localhost:5433/testdb
-
-;
-2025-12-15T07:53:55.084+04:00  INFO 33472 --- [carservices] [http-nio-8081-exec-4] c.c.c.c.ReservationQueryController       : POST /api/reservations/by-branch body: {"branch_id":67}
-2025-12-15T07:53:55.084+04:00  INFO 33472 --- [carservices] [http-nio-8081-exec-9] c.c.c.c.ReservationQueryController       : POST /api/reservations/by-branch body: {"branch_id":67}
-2025-12-15T07:53:56.026+04:00  INFO 33472 --- [carservices] [http-nio-8081-exec-9] p6spy                                    : #1765770836026 | took 528ms | statement | connection 232| url jdbc:p6spy:postgresql://localhost:5433/testdb
-SELECT
-    r.user_id                  AS user_id,
-    r.reservation_id           AS reservation_id,
-    r.reservation_date         AS reservation_date,
-    r.reservation_time         AS reservation_time,
-
-    b.branch_name              AS branch_name,
-    b.branch_address           AS address,       -- ✔ FIXED HERE
-    b.city                     AS city,
-    b.logo_img                 AS logo_img,
-
-    br.brand_name              AS brand_name,
-    m.model_name               AS model_name,
-    s.service_name             AS service_name,
-    r.reservation_status       AS reservation_status,
-
-    bbs.id                     AS branch_brand_serviceid,
-    cd.plate_number            AS plate_number,
-
-    COALESCE(AVG(re.stars), 0) AS stars
-
-FROM reservation_service_request r
-
-JOIN branch b
-  ON b.branch_id = r.branch_id
-
-LEFT JOIN car_details cd
-  ON cd.car_id = r.car_id
-
-JOIN brand br
-  ON br.brand_id = r.brand_id
-
-LEFT JOIN car_brand_model m
-  ON m.id = r.model_id
-
-JOIN service_entity s
-  ON s.service_id = r.service_id
-
-LEFT JOIN branch_brand_service bbs
-  ON bbs.branch_id = r.branch_id
- AND bbs.service_id = r.service_id
- AND bbs.brand_id   = r.brand_id
-
-LEFT JOIN rate_experience re
-  ON re.branch_brand_serviceid = bbs.id
-
-WHERE r.branch_id = ?
-
-GROUP BY
-    r.user_id,
-    r.reservation_id, r.reservation_date, r.reservation_time,
-    b.branch_name, b.branch_address, b.city, b.logo_img,
-    br.brand_name, m.model_name, s.service_name,
-    r.reservation_status, bbs.id, cd.plate_number
-
-ORDER BY r.reservation_date DESC, r.reservation_time DESC
-
-SELECT
-    r.user_id                  AS user_id,
-    r.reservation_id           AS reservation_id,
-    r.reservation_date         AS reservation_date,
-    r.reservation_time         AS reservation_time,
-
-    b.branch_name              AS branch_name,
-    b.branch_address           AS address,       -- ✔ FIXED HERE
-    b.city                     AS city,
-    b.logo_img                 AS logo_img,
-
-    br.brand_name              AS brand_name,
-    m.model_name               AS model_name,
-    s.service_name             AS service_name,
-    r.reservation_status       AS reservation_status,
-
-    bbs.id                     AS branch_brand_serviceid,
-    cd.plate_number            AS plate_number,
-
-    COALESCE(AVG(re.stars), 0) AS stars
-
-FROM reservation_service_request r
-
-JOIN branch b
-  ON b.branch_id = r.branch_id
-
-LEFT JOIN car_details cd
-  ON cd.car_id = r.car_id
-
-JOIN brand br
-  ON br.brand_id = r.brand_id
-
-LEFT JOIN car_brand_model m
-  ON m.id = r.model_id
-
-JOIN service_entity s
-  ON s.service_id = r.service_id
-
-LEFT JOIN branch_brand_service bbs
-  ON bbs.branch_id = r.branch_id
- AND bbs.service_id = r.service_id
- AND bbs.brand_id   = r.brand_id
-
-LEFT JOIN rate_experience re
-  ON re.branch_brand_serviceid = bbs.id
-
-WHERE r.branch_id = 67
-
-GROUP BY
-    r.user_id,
-    r.reservation_id, r.reservation_date, r.reservation_time,
-    b.branch_name, b.branch_address, b.city, b.logo_img,
-    br.brand_name, m.model_name, s.service_name,
-    r.reservation_status, bbs.id, cd.plate_number
-
-ORDER BY r.reservation_date DESC, r.reservation_time DESC
-;
-2025-12-15T07:53:56.029+04:00  INFO 33472 --- [carservices] [http-nio-8081-exec-4] p6spy                                    : #1765770836029 | took 523ms | statement | connection 233| url jdbc:p6spy:postgresql://localhost:5433/testdb
-SELECT
-    r.user_id                  AS user_id,
-    r.reservation_id           AS reservation_id,
-    r.reservation_date         AS reservation_date,
-    r.reservation_time         AS reservation_time,
-
-    b.branch_name              AS branch_name,
-    b.branch_address           AS address,       -- ✔ FIXED HERE
-    b.city                     AS city,
-    b.logo_img                 AS logo_img,
-
-    br.brand_name              AS brand_name,
-    m.model_name               AS model_name,
-    s.service_name             AS service_name,
-    r.reservation_status       AS reservation_status,
-
-    bbs.id                     AS branch_brand_serviceid,
-    cd.plate_number            AS plate_number,
-
-    COALESCE(AVG(re.stars), 0) AS stars
-
-FROM reservation_service_request r
-
-JOIN branch b
-  ON b.branch_id = r.branch_id
-
-LEFT JOIN car_details cd
-  ON cd.car_id = r.car_id
-
-JOIN brand br
-  ON br.brand_id = r.brand_id
-
-LEFT JOIN car_brand_model m
-  ON m.id = r.model_id
-
-JOIN service_entity s
-  ON s.service_id = r.service_id
-
-LEFT JOIN branch_brand_service bbs
-  ON bbs.branch_id = r.branch_id
- AND bbs.service_id = r.service_id
- AND bbs.brand_id   = r.brand_id
-
-LEFT JOIN rate_experience re
-  ON re.branch_brand_serviceid = bbs.id
-
-WHERE r.branch_id = ?
-
-GROUP BY
-    r.user_id,
-    r.reservation_id, r.reservation_date, r.reservation_time,
-    b.branch_name, b.branch_address, b.city, b.logo_img,
-    br.brand_name, m.model_name, s.service_name,
-    r.reservation_status, bbs.id, cd.plate_number
-
-ORDER BY r.reservation_date DESC, r.reservation_time DESC
-
-SELECT
-    r.user_id                  AS user_id,
-    r.reservation_id           AS reservation_id,
-    r.reservation_date         AS reservation_date,
-    r.reservation_time         AS reservation_time,
-
-    b.branch_name              AS branch_name,
-    b.branch_address           AS address,       -- ✔ FIXED HERE
-    b.city                     AS city,
-    b.logo_img                 AS logo_img,
-
-    br.brand_name              AS brand_name,
-    m.model_name               AS model_name,
-    s.service_name             AS service_name,
-    r.reservation_status       AS reservation_status,
-
-    bbs.id                     AS branch_brand_serviceid,
-    cd.plate_number            AS plate_number,
-
-    COALESCE(AVG(re.stars), 0) AS stars
-
-FROM reservation_service_request r
-
-JOIN branch b
-  ON b.branch_id = r.branch_id
-
-LEFT JOIN car_details cd
-  ON cd.car_id = r.car_id
-
-JOIN brand br
-  ON br.brand_id = r.brand_id
-
-LEFT JOIN car_brand_model m
-  ON m.id = r.model_id
-
-JOIN service_entity s
-  ON s.service_id = r.service_id
-
-LEFT JOIN branch_brand_service bbs
-  ON bbs.branch_id = r.branch_id
- AND bbs.service_id = r.service_id
- AND bbs.brand_id   = r.brand_id
-
-LEFT JOIN rate_experience re
-  ON re.branch_brand_serviceid = bbs.id
-
-WHERE r.branch_id = 67
-
-GROUP BY
-    r.user_id,
-    r.reservation_id, r.reservation_date, r.reservation_time,
-    b.branch_name, b.branch_address, b.city, b.logo_img,
-    br.brand_name, m.model_name, s.service_name,
-    r.reservation_status, bbs.id, cd.plate_number
-
-ORDER BY r.reservation_date DESC, r.reservation_time DESC
-;
-2025-12-15T07:53:56.176+04:00  INFO 33472 --- [carservices] [http-nio-8081-exec-4] p6spy                                    : #1765770836176 | took 26ms | statement | connection 233| url jdbc:p6spy:postgresql://localhost:5433/testdb
-SELECT
-    rss.reservation_service_sparepart_id,
-    rss.part_name,
-    rss.qty,
-    rss.spareparts_id,
-    sp.spareparts_type,
-    rss.reservation_id
-FROM reservation_service_sparepart rss
-LEFT JOIN spare_parts sp
-  ON sp.spareparts_id = rss.spareparts_id
-WHERE rss.reservation_id IN (?)
-ORDER BY rss.reservation_service_sparepart_id
-
-SELECT
-    rss.reservation_service_sparepart_id,
-    rss.part_name,
-    rss.qty,
-    rss.spareparts_id,
-    sp.spareparts_type,
-    rss.reservation_id
-FROM reservation_service_sparepart rss
-LEFT JOIN spare_parts sp
-  ON sp.spareparts_id = rss.spareparts_id
-WHERE rss.reservation_id IN (100)
-ORDER BY rss.reservation_service_sparepart_id
-;
-2025-12-15T07:53:56.180+04:00  INFO 33472 --- [carservices] [http-nio-8081-exec-9] p6spy                                    : #1765770836180 | took 31ms | statement | connection 232| url jdbc:p6spy:postgresql://localhost:5433/testdb
-SELECT
-    rss.reservation_service_sparepart_id,
-    rss.part_name,
-    rss.qty,
-    rss.spareparts_id,
-    sp.spareparts_type,
-    rss.reservation_id
-FROM reservation_service_sparepart rss
-LEFT JOIN spare_parts sp
-  ON sp.spareparts_id = rss.spareparts_id
-WHERE rss.reservation_id IN (?)
-ORDER BY rss.reservation_service_sparepart_id
-
-SELECT
-    rss.reservation_service_sparepart_id,
-    rss.part_name,
-    rss.qty,
-    rss.spareparts_id,
-    sp.spareparts_type,
-    rss.reservation_id
-FROM reservation_service_sparepart rss
-LEFT JOIN spare_parts sp
-  ON sp.spareparts_id = rss.spareparts_id
-WHERE rss.reservation_id IN (100)
-ORDER BY rss.reservation_service_sparepart_id
-;
-2025-12-15T10:11:04.412+04:00 DEBUG 33472 --- [carservices] [http-nio-8081-exec-1] org.hibernate.SQL                        : 
-    select
-        ur1_0.id,
-        ur1_0.birthday,
-        ur1_0.email,
-        ur1_0.full_name,
-        ur1_0.gender,
-        ur1_0.mobile,
-        ur1_0.password 
-    from
-        user_registration ur1_0 
-    where
-        upper(ur1_0.email)=upper(?) 
-    fetch
-        first ? rows only
-2025-12-15T10:11:04.484+04:00 TRACE 33472 --- [carservices] [http-nio-8081-exec-1] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [kashusays1@gmail.com]
-2025-12-15T10:11:04.489+04:00 TRACE 33472 --- [carservices] [http-nio-8081-exec-1] org.hibernate.orm.jdbc.bind              : binding parameter (2:INTEGER) <- [1]
-2025-12-15T10:11:04.566+04:00  INFO 33472 --- [carservices] [http-nio-8081-exec-1] p6spy                                    : #1765779064566 | took 65ms | statement | connection 282| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select ur1_0.id,ur1_0.birthday,ur1_0.email,ur1_0.full_name,ur1_0.gender,ur1_0.mobile,ur1_0.password from user_registration ur1_0 where upper(ur1_0.email)=upper(?) fetch first ? rows only
-select ur1_0.id,ur1_0.birthday,ur1_0.email,ur1_0.full_name,ur1_0.gender,ur1_0.mobile,ur1_0.password from user_registration ur1_0 where upper(ur1_0.email)=upper('kashusays1@gmail.com') fetch first 1 rows only;
-2025-12-15T11:25:12.865+04:00  WARN 33472 --- [carservices] [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=25m44s237ms384µs200ns).
-2025-12-15T11:41:54.084+04:00  WARN 33472 --- [carservices] [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=13m5s377ms128µs600ns).
-2025-12-15T12:37:36.611+04:00  WARN 33472 --- [carservices] [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=18m41s434ms171µs100ns).
-2025-12-15T14:54:06.731+04:00  WARN 33472 --- [carservices] [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2h16m35s544ms584µs500ns).
-2025-12-15T15:01:41.298+04:00  INFO 33472 --- [carservices] [http-nio-8081-exec-7] c.c.c.c.ReservationQueryController       : POST /api/reservations/by-user body: {"userId":1}
-2025-12-15T15:01:41.534+04:00  INFO 33472 --- [carservices] [http-nio-8081-exec-7] p6spy                                    : #1765796501533 | took 143ms | statement | connection 333| url jdbc:p6spy:postgresql://localhost:5433/testdb
-SELECT
-    r.user_id                  AS user_id,
-    r.reservation_id           AS reservation_id,
-    r.reservation_date         AS reservation_date,
-    r.reservation_time         AS reservation_time,
-
-    b.branch_name              AS branch_name,
-    b.branch_address           AS address,       -- ✔ FIXED HERE
-    b.city                     AS city,
-    b.logo_img                 AS logo_img,
-
-    br.brand_name              AS brand_name,
-    m.model_name               AS model_name,     -- ✔ FIXED MODEL NAME
-    s.service_name             AS service_name,
-    r.reservation_status       AS reservation_status,
-
-    bbs.id                     AS branch_brand_serviceid,
-    cd.plate_number            AS plate_number,
-
-    COALESCE(AVG(re.stars), 0) AS stars
-
-FROM reservation_service_request r
-
-JOIN branch b
-  ON b.branch_id = r.branch_id
-
-LEFT JOIN car_details cd
-  ON cd.car_id = r.car_id
-
-JOIN brand br
-  ON br.brand_id = r.brand_id
-
-LEFT JOIN car_brand_model m
-  ON m.id = r.model_id
-
-JOIN service_entity s
-  ON s.service_id = r.service_id
-
-LEFT JOIN branch_brand_service bbs
-  ON bbs.branch_id = r.branch_id
- AND bbs.service_id = r.service_id
- AND bbs.brand_id   = r.brand_id
-
-LEFT JOIN rate_experience re
-  ON re.branch_brand_serviceid = bbs.id
-
-WHERE r.user_id = ?
-
-GROUP BY
-    r.user_id,
-    r.reservation_id, r.reservation_date, r.reservation_time,
-    b.branch_name, b.branch_address, b.city, b.logo_img,
-    br.brand_name, m.model_name, s.service_name,
-    r.reservation_status, bbs.id, cd.plate_number
-
-ORDER BY r.reservation_date DESC, r.reservation_time DESC
-
-SELECT
-    r.user_id                  AS user_id,
-    r.reservation_id           AS reservation_id,
-    r.reservation_date         AS reservation_date,
-    r.reservation_time         AS reservation_time,
-
-    b.branch_name              AS branch_name,
-    b.branch_address           AS address,       -- ✔ FIXED HERE
-    b.city                     AS city,
-    b.logo_img                 AS logo_img,
-
-    br.brand_name              AS brand_name,
-    m.model_name               AS model_name,     -- ✔ FIXED MODEL NAME
-    s.service_name             AS service_name,
-    r.reservation_status       AS reservation_status,
-
-    bbs.id                     AS branch_brand_serviceid,
-    cd.plate_number            AS plate_number,
-
-    COALESCE(AVG(re.stars), 0) AS stars
-
-FROM reservation_service_request r
-
-JOIN branch b
-  ON b.branch_id = r.branch_id
-
-LEFT JOIN car_details cd
-  ON cd.car_id = r.car_id
-
-JOIN brand br
-  ON br.brand_id = r.brand_id
-
-LEFT JOIN car_brand_model m
-  ON m.id = r.model_id
-
-JOIN service_entity s
-  ON s.service_id = r.service_id
-
-LEFT JOIN branch_brand_service bbs
-  ON bbs.branch_id = r.branch_id
- AND bbs.service_id = r.service_id
- AND bbs.brand_id   = r.brand_id
-
-LEFT JOIN rate_experience re
-  ON re.branch_brand_serviceid = bbs.id
-
-WHERE r.user_id = 1
-
-GROUP BY
-    r.user_id,
-    r.reservation_id, r.reservation_date, r.reservation_time,
-    b.branch_name, b.branch_address, b.city, b.logo_img,
-    br.brand_name, m.model_name, s.service_name,
-    r.reservation_status, bbs.id, cd.plate_number
-
-ORDER BY r.reservation_date DESC, r.reservation_time DESC
-;
-2025-12-15T15:01:41.583+04:00  INFO 33472 --- [carservices] [http-nio-8081-exec-7] p6spy                                    : #1765796501583 | took 10ms | statement | connection 333| url jdbc:p6spy:postgresql://localhost:5433/testdb
-SELECT
-    rss.reservation_service_sparepart_id,
-    rss.part_name,
-    rss.qty,
-    rss.spareparts_id,
-    sp.spareparts_type,
-    rss.reservation_id
-FROM reservation_service_sparepart rss
-LEFT JOIN spare_parts sp
-  ON sp.spareparts_id = rss.spareparts_id
-WHERE rss.reservation_id IN (?,?,?,?,?)
-ORDER BY rss.reservation_service_sparepart_id
-
-SELECT
-    rss.reservation_service_sparepart_id,
-    rss.part_name,
-    rss.qty,
-    rss.spareparts_id,
-    sp.spareparts_type,
-    rss.reservation_id
-FROM reservation_service_sparepart rss
-LEFT JOIN spare_parts sp
-  ON sp.spareparts_id = rss.spareparts_id
-WHERE rss.reservation_id IN (89,90,88,1,5)
-ORDER BY rss.reservation_service_sparepart_id
-;
-2025-12-15T15:04:46.932+04:00  WARN 33472 --- [carservices] [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m38s791ms134µs600ns).
-2025-12-15T15:17:30.718+04:00 DEBUG 33472 --- [carservices] [http-nio-8081-exec-1] org.hibernate.SQL                        : 
-    SELECT
-        b.branch_id        AS branchId,
-        b.branch_name      AS branchName,
-        b.logo_img         AS logoImg,
-        b.branch_cover_img AS branchCoverImg,
-        s.service_name     AS serviceName,
-        -- NEW: average stars per branch (nullable if no ratings)         AVG(re.stars) OVER (PARTITION 
-    BY
-        b.branch_id) AS avgStars     
-    FROM
-        branch b     
-    LEFT JOIN
-        branch_brand_service bbs 
-            ON bbs.branch_id = b.branch_id     
-    LEFT JOIN
-        service_entity s 
-            ON s.service_id = bbs.service_id     
-    LEFT JOIN
-        rate_experience re 
-            ON re.branch_brand_serviceid = bbs.id     
-    WHERE
-        b.status = 'approved' 
-        OR b.status = 'APPROVED'     
-    ORDER BY
-        b.branch_id 
-2025-12-15T15:17:30.792+04:00  INFO 33472 --- [carservices] [http-nio-8081-exec-3] p6spy                                    : #1765797450792 | took 55ms | statement | connection 336| url jdbc:p6spy:postgresql://localhost:5433/testdb
-SELECT plate_number
-  FROM car_details
- WHERE user_id = ?
- ORDER BY plate_number
-
-SELECT plate_number
-  FROM car_details
- WHERE user_id = 25
- ORDER BY plate_number
-;
-2025-12-15T15:17:30.816+04:00  INFO 33472 --- [carservices] [http-nio-8081-exec-1] p6spy                                    : #1765797450816 | took 63ms | statement | connection 337| url jdbc:p6spy:postgresql://localhost:5433/testdb
-    SELECT
-        b.branch_id        AS branchId,
-        b.branch_name      AS branchName,
-        b.logo_img         AS logoImg,
-        b.branch_cover_img AS branchCoverImg,
-        s.service_name     AS serviceName,
-        -- NEW: average stars per branch (nullable if no ratings)
-        AVG(re.stars) OVER (PARTITION BY b.branch_id) AS avgStars
-    FROM branch b
-    LEFT JOIN branch_brand_service bbs ON bbs.branch_id = b.branch_id
-    LEFT JOIN service_entity s ON s.service_id = bbs.service_id
-    LEFT JOIN rate_experience re ON re.branch_brand_serviceid = bbs.id
-    WHERE b.status = 'approved' OR b.status = 'APPROVED'
-    ORDER BY b.branch_id
-
-    SELECT
-        b.branch_id        AS branchId,
-        b.branch_name      AS branchName,
-        b.logo_img         AS logoImg,
-        b.branch_cover_img AS branchCoverImg,
-        s.service_name     AS serviceName,
-        -- NEW: average stars per branch (nullable if no ratings)
-        AVG(re.stars) OVER (PARTITION BY b.branch_id) AS avgStars
-    FROM branch b
-    LEFT JOIN branch_brand_service bbs ON bbs.branch_id = b.branch_id
-    LEFT JOIN service_entity s ON s.service_id = bbs.service_id
-    LEFT JOIN rate_experience re ON re.branch_brand_serviceid = bbs.id
-    WHERE b.status = 'approved' OR b.status = 'APPROVED'
-    ORDER BY b.branch_id
-;
-2025-12-15T15:17:30.881+04:00 DEBUG 33472 --- [carservices] [http-nio-8081-exec-10] org.hibernate.SQL                        : 
-    select
-        b1_0.brand_id,
-        b1_0.brand_name 
-    from
-        brand b1_0
-2025-12-15T15:17:30.881+04:00 DEBUG 33472 --- [carservices] [http-nio-8081-exec-8] org.hibernate.SQL                        : 
-    select
-        c1_0.id,
-        c1_0.city 
-    from
-        city c1_0
-2025-12-15T15:17:30.881+04:00 DEBUG 33472 --- [carservices] [http-nio-8081-exec-5] org.hibernate.SQL                        : 
-    select
-        se1_0.service_id,
-        se1_0.service_name,
-        se1_0.service_type 
-    from
-        service_entity se1_0
-2025-12-15T15:17:30.893+04:00  INFO 33472 --- [carservices] [http-nio-8081-exec-10] p6spy                                    : #1765797450893 | took 10ms | statement | connection 333| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select b1_0.brand_id,b1_0.brand_name from brand b1_0
-select b1_0.brand_id,b1_0.brand_name from brand b1_0;
-2025-12-15T15:17:30.899+04:00  INFO 33472 --- [carservices] [http-nio-8081-exec-5] p6spy                                    : #1765797450899 | took 16ms | statement | connection 334| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select se1_0.service_id,se1_0.service_name,se1_0.service_type from service_entity se1_0
-select se1_0.service_id,se1_0.service_name,se1_0.service_type from service_entity se1_0;
-2025-12-15T15:17:30.902+04:00  INFO 33472 --- [carservices] [http-nio-8081-exec-8] p6spy                                    : #1765797450901 | took 19ms | statement | connection 335| url jdbc:p6spy:postgresql://localhost:5433/testdb
-select c1_0.id,c1_0.city from city c1_0
-select c1_0.id,c1_0.city from city c1_0;
-2025-12-15T15:17:30.916+04:00  INFO 33472 --- [carservices] [http-nio-8081-exec-8] p6spy                                    : #1765797450916 | took 1ms | commit | connection 335| url jdbc:p6spy:postgresql://localhost:5433/testdb
-
-;
-2025-12-15T15:17:30.916+04:00  INFO 33472 --- [carservices] [http-nio-8081-exec-5] p6spy                                    : #1765797450916 | took 1ms | commit | connection 334| url jdbc:p6spy:postgresql://localhost:5433/testdb
-
-;
-2025-12-15T15:17:30.916+04:00  INFO 33472 --- [carservices] [http-nio-8081-exec-10] p6spy                                    : #1765797450916 | took 1ms | commit | connection 333| url jdbc:p6spy:postgresql://localhost:5433/testdb
-
-;
-2025-12-15T15:18:00.701+04:00  INFO 33472 --- [carservices] [http-nio-8081-exec-3] c.c.c.c.ReservationQueryController       : POST /api/reservations/by-branch body: {"branch_id":67}
-2025-12-15T15:18:00.701+04:00  INFO 33472 --- [carservices] [http-nio-8081-exec-10] c.c.c.c.ReservationQueryController       : POST /api/reservations/by-branch body: {"branch_id":67}
-2025-12-15T15:18:00.764+04:00  INFO 33472 --- [carservices] [http-nio-8081-exec-10] p6spy                                    : #1765797480764 | took 42ms | statement | connection 333| url jdbc:p6spy:postgresql://localhost:5433/testdb
-SELECT
-    r.user_id                  AS user_id,
-    r.reservation_id           AS reservation_id,
-    r.reservation_date         AS reservation_date,
-    r.reservation_time         AS reservation_time,
-
-    b.branch_name              AS branch_name,
-    b.branch_address           AS address,       -- ✔ FIXED HERE
-    b.city                     AS city,
-    b.logo_img                 AS logo_img,
-
-    br.brand_name              AS brand_name,
-    m.model_name               AS model_name,
-    s.service_name             AS service_name,
-    r.reservation_status       AS reservation_status,
-
-    bbs.id                     AS branch_brand_serviceid,
-    cd.plate_number            AS plate_number,
-
-    COALESCE(AVG(re.stars), 0) AS stars
-
-FROM reservation_service_request r
-
-JOIN branch b
-  ON b.branch_id = r.branch_id
-
-LEFT JOIN car_details cd
-  ON cd.car_id = r.car_id
-
-JOIN brand br
-  ON br.brand_id = r.brand_id
-
-LEFT JOIN car_brand_model m
-  ON m.id = r.model_id
-
-JOIN service_entity s
-  ON s.service_id = r.service_id
-
-LEFT JOIN branch_brand_service bbs
-  ON bbs.branch_id = r.branch_id
- AND bbs.service_id = r.service_id
- AND bbs.brand_id   = r.brand_id
-
-LEFT JOIN rate_experience re
-  ON re.branch_brand_serviceid = bbs.id
-
-WHERE r.branch_id = ?
-
-GROUP BY
-    r.user_id,
-    r.reservation_id, r.reservation_date, r.reservation_time,
-    b.branch_name, b.branch_address, b.city, b.logo_img,
-    br.brand_name, m.model_name, s.service_name,
-    r.reservation_status, bbs.id, cd.plate_number
-
-ORDER BY r.reservation_date DESC, r.reservation_time DESC
-
-SELECT
-    r.user_id                  AS user_id,
-    r.reservation_id           AS reservation_id,
-    r.reservation_date         AS reservation_date,
-    r.reservation_time         AS reservation_time,
-
-    b.branch_name              AS branch_name,
-    b.branch_address           AS address,       -- ✔ FIXED HERE
-    b.city                     AS city,
-    b.logo_img                 AS logo_img,
-
-    br.brand_name              AS brand_name,
-    m.model_name               AS model_name,
-    s.service_name             AS service_name,
-    r.reservation_status       AS reservation_status,
-
-    bbs.id                     AS branch_brand_serviceid,
-    cd.plate_number            AS plate_number,
-
-    COALESCE(AVG(re.stars), 0) AS stars
-
-FROM reservation_service_request r
-
-JOIN branch b
-  ON b.branch_id = r.branch_id
-
-LEFT JOIN car_details cd
-  ON cd.car_id = r.car_id
-
-JOIN brand br
-  ON br.brand_id = r.brand_id
-
-LEFT JOIN car_brand_model m
-  ON m.id = r.model_id
-
-JOIN service_entity s
-  ON s.service_id = r.service_id
-
-LEFT JOIN branch_brand_service bbs
-  ON bbs.branch_id = r.branch_id
- AND bbs.service_id = r.service_id
- AND bbs.brand_id   = r.brand_id
-
-LEFT JOIN rate_experience re
-  ON re.branch_brand_serviceid = bbs.id
-
-WHERE r.branch_id = 67
-
-GROUP BY
-    r.user_id,
-    r.reservation_id, r.reservation_date, r.reservation_time,
-    b.branch_name, b.branch_address, b.city, b.logo_img,
-    br.brand_name, m.model_name, s.service_name,
-    r.reservation_status, bbs.id, cd.plate_number
-
-ORDER BY r.reservation_date DESC, r.reservation_time DESC
-;
-2025-12-15T15:18:00.832+04:00  INFO 33472 --- [carservices] [http-nio-8081-exec-3] p6spy                                    : #1765797480832 | took 111ms | statement | connection 336| url jdbc:p6spy:postgresql://localhost:5433/testdb
-SELECT
-    r.user_id                  AS user_id,
-    r.reservation_id           AS reservation_id,
-    r.reservation_date         AS reservation_date,
-    r.reservation_time         AS reservation_time,
-
-    b.branch_name              AS branch_name,
-    b.branch_address           AS address,       -- ✔ FIXED HERE
-    b.city                     AS city,
-    b.logo_img                 AS logo_img,
-
-    br.brand_name              AS brand_name,
-    m.model_name               AS model_name,
-    s.service_name             AS service_name,
-    r.reservation_status       AS reservation_status,
-
-    bbs.id                     AS branch_brand_serviceid,
-    cd.plate_number            AS plate_number,
-
-    COALESCE(AVG(re.stars), 0) AS stars
-
-FROM reservation_service_request r
-
-JOIN branch b
-  ON b.branch_id = r.branch_id
-
-LEFT JOIN car_details cd
-  ON cd.car_id = r.car_id
-
-JOIN brand br
-  ON br.brand_id = r.brand_id
-
-LEFT JOIN car_brand_model m
-  ON m.id = r.model_id
-
-JOIN service_entity s
-  ON s.service_id = r.service_id
-
-LEFT JOIN branch_brand_service bbs
-  ON bbs.branch_id = r.branch_id
- AND bbs.service_id = r.service_id
- AND bbs.brand_id   = r.brand_id
-
-LEFT JOIN rate_experience re
-  ON re.branch_brand_serviceid = bbs.id
-
-WHERE r.branch_id = ?
-
-GROUP BY
-    r.user_id,
-    r.reservation_id, r.reservation_date, r.reservation_time,
-    b.branch_name, b.branch_address, b.city, b.logo_img,
-    br.brand_name, m.model_name, s.service_name,
-    r.reservation_status, bbs.id, cd.plate_number
-
-ORDER BY r.reservation_date DESC, r.reservation_time DESC
-
-SELECT
-    r.user_id                  AS user_id,
-    r.reservation_id           AS reservation_id,
-    r.reservation_date         AS reservation_date,
-    r.reservation_time         AS reservation_time,
-
-    b.branch_name              AS branch_name,
-    b.branch_address           AS address,       -- ✔ FIXED HERE
-    b.city                     AS city,
-    b.logo_img                 AS logo_img,
-
-    br.brand_name              AS brand_name,
-    m.model_name               AS model_name,
-    s.service_name             AS service_name,
-    r.reservation_status       AS reservation_status,
-
-    bbs.id                     AS branch_brand_serviceid,
-    cd.plate_number            AS plate_number,
-
-    COALESCE(AVG(re.stars), 0) AS stars
-
-FROM reservation_service_request r
-
-JOIN branch b
-  ON b.branch_id = r.branch_id
-
-LEFT JOIN car_details cd
-  ON cd.car_id = r.car_id
-
-JOIN brand br
-  ON br.brand_id = r.brand_id
-
-LEFT JOIN car_brand_model m
-  ON m.id = r.model_id
-
-JOIN service_entity s
-  ON s.service_id = r.service_id
-
-LEFT JOIN branch_brand_service bbs
-  ON bbs.branch_id = r.branch_id
- AND bbs.service_id = r.service_id
- AND bbs.brand_id   = r.brand_id
-
-LEFT JOIN rate_experience re
-  ON re.branch_brand_serviceid = bbs.id
-
-WHERE r.branch_id = 67
-
-GROUP BY
-    r.user_id,
-    r.reservation_id, r.reservation_date, r.reservation_time,
-    b.branch_name, b.branch_address, b.city, b.logo_img,
-    br.brand_name, m.model_name, s.service_name,
-    r.reservation_status, bbs.id, cd.plate_number
-
-ORDER BY r.reservation_date DESC, r.reservation_time DESC
-;
-2025-12-15T15:18:00.839+04:00  INFO 33472 --- [carservices] [http-nio-8081-exec-10] p6spy                                    : #1765797480839 | took 4ms | statement | connection 333| url jdbc:p6spy:postgresql://localhost:5433/testdb
-SELECT
-    rss.reservation_service_sparepart_id,
-    rss.part_name,
-    rss.qty,
-    rss.spareparts_id,
-    sp.spareparts_type,
-    rss.reservation_id
-FROM reservation_service_sparepart rss
-LEFT JOIN spare_parts sp
-  ON sp.spareparts_id = rss.spareparts_id
-WHERE rss.reservation_id IN (?)
-ORDER BY rss.reservation_service_sparepart_id
-
-SELECT
-    rss.reservation_service_sparepart_id,
-    rss.part_name,
-    rss.qty,
-    rss.spareparts_id,
-    sp.spareparts_type,
-    rss.reservation_id
-FROM reservation_service_sparepart rss
-LEFT JOIN spare_parts sp
-  ON sp.spareparts_id = rss.spareparts_id
-WHERE rss.reservation_id IN (100)
-ORDER BY rss.reservation_service_sparepart_id
-;
-2025-12-15T15:18:00.855+04:00  INFO 33472 --- [carservices] [http-nio-8081-exec-3] p6spy                                    : #1765797480855 | took 17ms | statement | connection 336| url jdbc:p6spy:postgresql://localhost:5433/testdb
-SELECT
-    rss.reservation_service_sparepart_id,
-    rss.part_name,
-    rss.qty,
-    rss.spareparts_id,
-    sp.spareparts_type,
-    rss.reservation_id
-FROM reservation_service_sparepart rss
-LEFT JOIN spare_parts sp
-  ON sp.spareparts_id = rss.spareparts_id
-WHERE rss.reservation_id IN (?)
-ORDER BY rss.reservation_service_sparepart_id
-
-SELECT
-    rss.reservation_service_sparepart_id,
-    rss.part_name,
-    rss.qty,
-    rss.spareparts_id,
-    sp.spareparts_type,
-    rss.reservation_id
-FROM reservation_service_sparepart rss
-LEFT JOIN spare_parts sp
-  ON sp.spareparts_id = rss.spareparts_id
-WHERE rss.reservation_id IN (100)
-ORDER BY rss.reservation_service_sparepart_id
-;
-2025-12-15T18:34:49.273+04:00  WARN 33472 --- [carservices] [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2h8m28s954ms410µs600ns).
+2025-12-30T12:38:06.818+04:00  WARN 16880 --- [carservices] [main] ory$DuplicateJsonObjectContextCustomizer : 
+
+Found multiple occurrences of org.json.JSONObject on the class path:
+
+	jar:file:/C:/Users/lenovo/.m2/repository/org/json/json/20240303/json-20240303.jar!/org/json/JSONObject.class
+	jar:file:/C:/Users/lenovo/.m2/repository/com/vaadin/external/google/android-json/0.0.20131108.vaadin1/android-json-0.0.20131108.vaadin1.jar!/org/json/JSONObject.class
+
+You may wish to exclude one of them to ensure predictable runtime behavior
+
+2025-12-30T12:38:06.852+04:00  INFO 16880 --- [carservices] [main] c.c.c.CarservicesApplicationTests        : Starting CarservicesApplicationTests using Java 21.0.7 with PID 16880 (started by lenovo in C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices)
+2025-12-30T12:38:06.853+04:00  INFO 16880 --- [carservices] [main] c.c.c.CarservicesApplicationTests        : The following 1 profile is active: "test"
+2025-12-30T12:38:08.393+04:00  INFO 16880 --- [carservices] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-30T12:38:08.683+04:00  INFO 16880 --- [carservices] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 279 ms. Found 40 JPA repository interfaces.
+2025-12-30T12:38:09.485+04:00  INFO 16880 --- [carservices] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-12-30T12:38:09.587+04:00  INFO 16880 --- [carservices] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.13.Final
+2025-12-30T12:38:09.627+04:00  INFO 16880 --- [carservices] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-12-30T12:38:10.035+04:00  INFO 16880 --- [carservices] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-12-30T12:38:10.074+04:00  INFO 16880 --- [carservices] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-12-30T12:38:10.373+04:00  INFO 16880 --- [carservices] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@3e6acec2
+2025-12-30T12:38:10.374+04:00  INFO 16880 --- [carservices] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-12-30T12:38:10.468+04:00  WARN 16880 --- [carservices] [main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-12-30T12:38:10.495+04:00  INFO 16880 --- [carservices] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 17.5
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-12-30T12:38:11.860+04:00  INFO 16880 --- [carservices] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-12-30T12:38:12.056+04:00  INFO 16880 --- [carservices] [main] t.s.e.i.AbstractInformationExtractorImpl : HHH000475: Cannot locate column information using identifier [lower((manager_email)::text)]; ignoring index [ux_company_manager_email]
+2025-12-30T12:38:12.069+04:00  WARN 16880 --- [carservices] [main] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2025-12-30T12:38:12.069+04:00  WARN 16880 --- [carservices] [main] o.h.engine.jdbc.spi.SqlExceptionHelper   : constraint "ux_company_company_name_ci" of relation "company" does not exist, skipping
+2025-12-30T12:38:12.109+04:00  WARN 16880 --- [carservices] [main] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2025-12-30T12:38:12.110+04:00  WARN 16880 --- [carservices] [main] o.h.engine.jdbc.spi.SqlExceptionHelper   : constraint "ux_company_brand_name_ci" of relation "company" does not exist, skipping
+2025-12-30T12:38:12.831+04:00  INFO 16880 --- [carservices] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-12-30T12:38:13.294+04:00  INFO 16880 --- [carservices] [main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-12-30T12:38:15.361+04:00  WARN 16880 --- [carservices] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-12-30T12:38:16.242+04:00  INFO 16880 --- [carservices] [main] c.c.c.CarservicesApplicationTests        : Started CarservicesApplicationTests in 10.01 seconds (process running for 11.629)
+2025-12-30T12:38:16.771+04:00  INFO 16880 --- [carservices] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-12-30T12:38:16.776+04:00  INFO 16880 --- [carservices] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-12-30T12:38:16.781+04:00  INFO 16880 --- [carservices] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-12-30T12:39:41.543+04:00  INFO 36232 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : Starting CarservicesApplication using Java 21.0.7 with PID 36232 (C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices\target\classes started by lenovo in C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices)
+2025-12-30T12:39:41.547+04:00  INFO 36232 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : No active profile set, falling back to 1 default profile: "default"
+2025-12-30T12:39:41.626+04:00  INFO 36232 --- [carservices] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-12-30T12:39:41.626+04:00  INFO 36232 --- [carservices] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-12-30T12:39:43.079+04:00  INFO 36232 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-30T12:39:43.385+04:00  INFO 36232 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 290 ms. Found 40 JPA repository interfaces.
+2025-12-30T12:39:44.552+04:00  INFO 36232 --- [carservices] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2025-12-30T12:39:44.574+04:00  INFO 36232 --- [carservices] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-12-30T12:39:44.575+04:00  INFO 36232 --- [carservices] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.40]
+2025-12-30T12:39:44.648+04:00  INFO 36232 --- [carservices] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-12-30T12:39:44.649+04:00  INFO 36232 --- [carservices] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 3021 ms
+2025-12-30T12:39:44.885+04:00  INFO 36232 --- [carservices] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-12-30T12:39:44.978+04:00  INFO 36232 --- [carservices] [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.13.Final
+2025-12-30T12:39:45.041+04:00  INFO 36232 --- [carservices] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-12-30T12:39:45.521+04:00  INFO 36232 --- [carservices] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-12-30T12:39:45.569+04:00  INFO 36232 --- [carservices] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-12-30T12:39:45.994+04:00  INFO 36232 --- [carservices] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@2d4b0d1c
+2025-12-30T12:39:45.997+04:00  INFO 36232 --- [carservices] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-12-30T12:39:46.075+04:00  WARN 36232 --- [carservices] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-12-30T12:39:46.101+04:00  INFO 36232 --- [carservices] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 17.5
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-12-30T12:39:48.551+04:00  INFO 36232 --- [carservices] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-12-30T12:39:48.684+04:00  INFO 36232 --- [carservices] [restartedMain] t.s.e.i.AbstractInformationExtractorImpl : HHH000475: Cannot locate column information using identifier [lower((manager_email)::text)]; ignoring index [ux_company_manager_email]
+2025-12-30T12:39:48.693+04:00  WARN 36232 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2025-12-30T12:39:48.694+04:00  WARN 36232 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : constraint "ux_company_company_name_ci" of relation "company" does not exist, skipping
+2025-12-30T12:39:48.729+04:00  WARN 36232 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2025-12-30T12:39:48.730+04:00  WARN 36232 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : constraint "ux_company_brand_name_ci" of relation "company" does not exist, skipping
+2025-12-30T12:39:49.493+04:00  INFO 36232 --- [carservices] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-12-30T12:39:50.037+04:00  INFO 36232 --- [carservices] [restartedMain] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-12-30T12:39:52.811+04:00  WARN 36232 --- [carservices] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-12-30T12:39:53.642+04:00  INFO 36232 --- [carservices] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-12-30T12:39:53.702+04:00  INFO 36232 --- [carservices] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
+2025-12-30T12:39:53.715+04:00  INFO 36232 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : Started CarservicesApplication in 12.902 seconds (process running for 13.578)
+2025-12-30T12:42:42.261+04:00  INFO 36232 --- [carservices] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-12-30T12:42:42.283+04:00  INFO 36232 --- [carservices] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-12-30T12:42:42.306+04:00  INFO 36232 --- [carservices] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-12-30T12:42:42.322+04:00  INFO 36232 --- [carservices] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-12-30T12:42:42.330+04:00  INFO 36232 --- [carservices] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-12-30T12:43:24.576+04:00  INFO 13664 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : Starting CarservicesApplication using Java 21.0.7 with PID 13664 (C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices\target\classes started by lenovo in C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices)
+2025-12-30T12:43:24.577+04:00  INFO 13664 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : No active profile set, falling back to 1 default profile: "default"
+2025-12-30T12:43:24.629+04:00  INFO 13664 --- [carservices] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-12-30T12:43:24.629+04:00  INFO 13664 --- [carservices] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-12-30T12:43:25.769+04:00  INFO 13664 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-30T12:43:25.998+04:00  INFO 13664 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 216 ms. Found 40 JPA repository interfaces.
+2025-12-30T12:43:26.695+04:00  INFO 13664 --- [carservices] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2025-12-30T12:43:26.712+04:00  INFO 13664 --- [carservices] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-12-30T12:43:26.713+04:00  INFO 13664 --- [carservices] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.40]
+2025-12-30T12:43:26.778+04:00  INFO 13664 --- [carservices] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-12-30T12:43:26.779+04:00  INFO 13664 --- [carservices] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2148 ms
+2025-12-30T12:43:26.954+04:00  INFO 13664 --- [carservices] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-12-30T12:43:27.033+04:00  INFO 13664 --- [carservices] [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.13.Final
+2025-12-30T12:43:27.076+04:00  INFO 13664 --- [carservices] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-12-30T12:43:27.381+04:00  INFO 13664 --- [carservices] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-12-30T12:43:27.415+04:00  INFO 13664 --- [carservices] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-12-30T12:43:27.429+04:00  WARN 13664 --- [carservices] [restartedMain] o.h.e.j.e.i.JdbcEnvironmentInitiator     : HHH000342: Could not obtain connection to query metadata
+
+java.lang.RuntimeException: Driver com.p6spy.engine.spy.P6SpyDriver claims to not accept jdbcUrl, jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;MODE=PostgreSQL
+	at com.zaxxer.hikari.util.DriverDataSource.<init>(DriverDataSource.java:109) ~[HikariCP-5.1.0.jar:na]
+	at com.zaxxer.hikari.pool.PoolBase.initializeDataSource(PoolBase.java:327) ~[HikariCP-5.1.0.jar:na]
+	at com.zaxxer.hikari.pool.PoolBase.<init>(PoolBase.java:113) ~[HikariCP-5.1.0.jar:na]
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:91) ~[HikariCP-5.1.0.jar:na]
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:111) ~[HikariCP-5.1.0.jar:na]
+	at org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl.getConnection(DatasourceConnectionProviderImpl.java:126) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess.obtainConnection(JdbcEnvironmentInitiator.java:467) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.resource.transaction.backend.jdbc.internal.JdbcIsolationDelegate.delegateWork(JdbcIsolationDelegate.java:61) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.getJdbcEnvironmentUsingJdbcMetadata(JdbcEnvironmentInitiator.java:320) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:129) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:81) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.boot.registry.internal.StandardServiceRegistryImpl.initiateService(StandardServiceRegistryImpl.java:130) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.createService(AbstractServiceRegistryImpl.java:263) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:238) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:215) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.boot.model.relational.Database.<init>(Database.java:45) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.getDatabase(InFlightMetadataCollectorImpl.java:226) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.<init>(InFlightMetadataCollectorImpl.java:194) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.complete(MetadataBuildingProcess.java:171) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.metadata(EntityManagerFactoryBuilderImpl.java:1442) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1513) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:66) ~[spring-orm-6.2.6.jar:6.2.6]
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:390) ~[spring-orm-6.2.6.jar:6.2.6]
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:419) ~[spring-orm-6.2.6.jar:6.2.6]
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:400) ~[spring-orm-6.2.6.jar:6.2.6]
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:366) ~[spring-orm-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1865) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1814) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:607) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:371) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:207) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:970) ~[spring-context-6.2.6.jar:6.2.6]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:627) ~[spring-context-6.2.6.jar:6.2.6]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.4.5.jar:3.4.5]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:753) ~[spring-boot-3.4.5.jar:3.4.5]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439) ~[spring-boot-3.4.5.jar:3.4.5]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:318) ~[spring-boot-3.4.5.jar:3.4.5]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1362) ~[spring-boot-3.4.5.jar:3.4.5]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1351) ~[spring-boot-3.4.5.jar:3.4.5]
+	at com.car.carservices.CarservicesApplication.main(CarservicesApplication.java:11) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50) ~[spring-boot-devtools-3.4.5.jar:3.4.5]
+
+2025-12-30T12:43:27.461+04:00  WARN 13664 --- [carservices] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-12-30T12:43:27.473+04:00  INFO 13664 --- [carservices] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (null)']
+	Database driver: undefined/unknown
+	Database version: 12.0
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-12-30T12:43:28.639+04:00  INFO 13664 --- [carservices] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-12-30T12:43:28.663+04:00  INFO 13664 --- [carservices] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-12-30T12:43:28.670+04:00 ERROR 13664 --- [carservices] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Failed to initialize JPA EntityManagerFactory: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is java.lang.RuntimeException: Driver com.p6spy.engine.spy.P6SpyDriver claims to not accept jdbcUrl, jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;MODE=PostgreSQL
+2025-12-30T12:43:28.671+04:00  WARN 13664 --- [carservices] [restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is java.lang.RuntimeException: Driver com.p6spy.engine.spy.P6SpyDriver claims to not accept jdbcUrl, jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;MODE=PostgreSQL
+2025-12-30T12:43:28.675+04:00  INFO 13664 --- [carservices] [restartedMain] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2025-12-30T12:43:28.690+04:00  INFO 13664 --- [carservices] [restartedMain] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2025-12-30T12:43:28.717+04:00 ERROR 13664 --- [carservices] [restartedMain] o.s.boot.SpringApplication               : Application run failed
+
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is java.lang.RuntimeException: Driver com.p6spy.engine.spy.P6SpyDriver claims to not accept jdbcUrl, jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;MODE=PostgreSQL
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1818) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:607) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:371) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:207) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:970) ~[spring-context-6.2.6.jar:6.2.6]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:627) ~[spring-context-6.2.6.jar:6.2.6]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.4.5.jar:3.4.5]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:753) ~[spring-boot-3.4.5.jar:3.4.5]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439) ~[spring-boot-3.4.5.jar:3.4.5]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:318) ~[spring-boot-3.4.5.jar:3.4.5]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1362) ~[spring-boot-3.4.5.jar:3.4.5]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1351) ~[spring-boot-3.4.5.jar:3.4.5]
+	at com.car.carservices.CarservicesApplication.main(CarservicesApplication.java:11) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50) ~[spring-boot-devtools-3.4.5.jar:3.4.5]
+Caused by: jakarta.persistence.PersistenceException: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is java.lang.RuntimeException: Driver com.p6spy.engine.spy.P6SpyDriver claims to not accept jdbcUrl, jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;MODE=PostgreSQL
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:431) ~[spring-orm-6.2.6.jar:6.2.6]
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:400) ~[spring-orm-6.2.6.jar:6.2.6]
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:366) ~[spring-orm-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1865) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1814) ~[spring-beans-6.2.6.jar:6.2.6]
+	... 18 common frames omitted
+Caused by: java.lang.RuntimeException: Driver com.p6spy.engine.spy.P6SpyDriver claims to not accept jdbcUrl, jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;MODE=PostgreSQL
+	at com.zaxxer.hikari.util.DriverDataSource.<init>(DriverDataSource.java:109) ~[HikariCP-5.1.0.jar:na]
+	at com.zaxxer.hikari.pool.PoolBase.initializeDataSource(PoolBase.java:327) ~[HikariCP-5.1.0.jar:na]
+	at com.zaxxer.hikari.pool.PoolBase.<init>(PoolBase.java:113) ~[HikariCP-5.1.0.jar:na]
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:91) ~[HikariCP-5.1.0.jar:na]
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:111) ~[HikariCP-5.1.0.jar:na]
+	at org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl.getConnection(DatasourceConnectionProviderImpl.java:126) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess.obtainConnection(JdbcEnvironmentInitiator.java:467) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.resource.transaction.backend.jdbc.internal.DdlTransactionIsolatorNonJtaImpl.getIsolatedConnection(DdlTransactionIsolatorNonJtaImpl.java:46) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.resource.transaction.backend.jdbc.internal.DdlTransactionIsolatorNonJtaImpl.getIsolatedConnection(DdlTransactionIsolatorNonJtaImpl.java:39) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.tool.schema.internal.exec.ImprovedExtractionContextImpl.getJdbcConnection(ImprovedExtractionContextImpl.java:63) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.tool.schema.extract.spi.ExtractionContext.getQueryResults(ExtractionContext.java:43) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.tool.schema.extract.internal.SequenceInformationExtractorLegacyImpl.extractMetadata(SequenceInformationExtractorLegacyImpl.java:39) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.tool.schema.extract.internal.DatabaseInformationImpl.initializeSequences(DatabaseInformationImpl.java:66) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.tool.schema.extract.internal.DatabaseInformationImpl.<init>(DatabaseInformationImpl.java:60) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.tool.schema.internal.Helper.buildDatabaseInformation(Helper.java:185) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.doMigration(AbstractSchemaMigrator.java:93) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.performDatabaseAction(SchemaManagementToolCoordinator.java:280) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.lambda$process$5(SchemaManagementToolCoordinator.java:144) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at java.base/java.util.HashMap.forEach(HashMap.java:1429) ~[na:na]
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.process(SchemaManagementToolCoordinator.java:141) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.boot.internal.SessionFactoryObserverForSchemaExport.sessionFactoryCreated(SessionFactoryObserverForSchemaExport.java:37) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.internal.SessionFactoryObserverChain.sessionFactoryCreated(SessionFactoryObserverChain.java:35) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.internal.SessionFactoryImpl.<init>(SessionFactoryImpl.java:324) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.boot.internal.SessionFactoryBuilderImpl.build(SessionFactoryBuilderImpl.java:463) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1517) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:66) ~[spring-orm-6.2.6.jar:6.2.6]
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:390) ~[spring-orm-6.2.6.jar:6.2.6]
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:419) ~[spring-orm-6.2.6.jar:6.2.6]
+	... 22 common frames omitted
+
+2025-12-30T12:46:46.924+04:00  INFO 12088 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : Starting CarservicesApplication using Java 21.0.7 with PID 12088 (C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices\target\classes started by lenovo in C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices)
+2025-12-30T12:46:46.927+04:00  INFO 12088 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : No active profile set, falling back to 1 default profile: "default"
+2025-12-30T12:46:46.987+04:00  INFO 12088 --- [carservices] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-12-30T12:46:46.988+04:00  INFO 12088 --- [carservices] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-12-30T12:46:48.962+04:00  INFO 12088 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-30T12:46:49.237+04:00  INFO 12088 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 265 ms. Found 40 JPA repository interfaces.
+2025-12-30T12:46:50.115+04:00  INFO 12088 --- [carservices] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2025-12-30T12:46:50.137+04:00  INFO 12088 --- [carservices] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-12-30T12:46:50.138+04:00  INFO 12088 --- [carservices] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.40]
+2025-12-30T12:46:50.201+04:00  INFO 12088 --- [carservices] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-12-30T12:46:50.201+04:00  INFO 12088 --- [carservices] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 3211 ms
+2025-12-30T12:46:50.412+04:00  INFO 12088 --- [carservices] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-12-30T12:46:50.495+04:00  INFO 12088 --- [carservices] [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.13.Final
+2025-12-30T12:46:50.539+04:00  INFO 12088 --- [carservices] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-12-30T12:46:50.858+04:00  INFO 12088 --- [carservices] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-12-30T12:46:50.892+04:00  INFO 12088 --- [carservices] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-12-30T12:46:50.902+04:00  WARN 12088 --- [carservices] [restartedMain] o.h.e.j.e.i.JdbcEnvironmentInitiator     : HHH000342: Could not obtain connection to query metadata
+
+java.lang.RuntimeException: Driver com.p6spy.engine.spy.P6SpyDriver claims to not accept jdbcUrl, jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;MODE=PostgreSQL
+	at com.zaxxer.hikari.util.DriverDataSource.<init>(DriverDataSource.java:109) ~[HikariCP-5.1.0.jar:na]
+	at com.zaxxer.hikari.pool.PoolBase.initializeDataSource(PoolBase.java:327) ~[HikariCP-5.1.0.jar:na]
+	at com.zaxxer.hikari.pool.PoolBase.<init>(PoolBase.java:113) ~[HikariCP-5.1.0.jar:na]
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:91) ~[HikariCP-5.1.0.jar:na]
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:111) ~[HikariCP-5.1.0.jar:na]
+	at org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl.getConnection(DatasourceConnectionProviderImpl.java:126) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess.obtainConnection(JdbcEnvironmentInitiator.java:467) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.resource.transaction.backend.jdbc.internal.JdbcIsolationDelegate.delegateWork(JdbcIsolationDelegate.java:61) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.getJdbcEnvironmentUsingJdbcMetadata(JdbcEnvironmentInitiator.java:320) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:129) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:81) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.boot.registry.internal.StandardServiceRegistryImpl.initiateService(StandardServiceRegistryImpl.java:130) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.createService(AbstractServiceRegistryImpl.java:263) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:238) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:215) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.boot.model.relational.Database.<init>(Database.java:45) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.getDatabase(InFlightMetadataCollectorImpl.java:226) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.<init>(InFlightMetadataCollectorImpl.java:194) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.complete(MetadataBuildingProcess.java:171) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.metadata(EntityManagerFactoryBuilderImpl.java:1442) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1513) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:66) ~[spring-orm-6.2.6.jar:6.2.6]
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:390) ~[spring-orm-6.2.6.jar:6.2.6]
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:419) ~[spring-orm-6.2.6.jar:6.2.6]
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:400) ~[spring-orm-6.2.6.jar:6.2.6]
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:366) ~[spring-orm-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1865) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1814) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:607) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:371) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:207) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:970) ~[spring-context-6.2.6.jar:6.2.6]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:627) ~[spring-context-6.2.6.jar:6.2.6]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.4.5.jar:3.4.5]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:753) ~[spring-boot-3.4.5.jar:3.4.5]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439) ~[spring-boot-3.4.5.jar:3.4.5]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:318) ~[spring-boot-3.4.5.jar:3.4.5]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1362) ~[spring-boot-3.4.5.jar:3.4.5]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1351) ~[spring-boot-3.4.5.jar:3.4.5]
+	at com.car.carservices.CarservicesApplication.main(CarservicesApplication.java:11) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50) ~[spring-boot-devtools-3.4.5.jar:3.4.5]
+
+2025-12-30T12:46:50.937+04:00  WARN 12088 --- [carservices] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-12-30T12:46:50.951+04:00  INFO 12088 --- [carservices] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (null)']
+	Database driver: undefined/unknown
+	Database version: 12.0
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-12-30T12:46:52.082+04:00  INFO 12088 --- [carservices] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-12-30T12:46:52.106+04:00  INFO 12088 --- [carservices] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-12-30T12:46:52.110+04:00 ERROR 12088 --- [carservices] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Failed to initialize JPA EntityManagerFactory: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is java.lang.RuntimeException: Driver com.p6spy.engine.spy.P6SpyDriver claims to not accept jdbcUrl, jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;MODE=PostgreSQL
+2025-12-30T12:46:52.112+04:00  WARN 12088 --- [carservices] [restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is java.lang.RuntimeException: Driver com.p6spy.engine.spy.P6SpyDriver claims to not accept jdbcUrl, jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;MODE=PostgreSQL
+2025-12-30T12:46:52.115+04:00  INFO 12088 --- [carservices] [restartedMain] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2025-12-30T12:46:52.130+04:00  INFO 12088 --- [carservices] [restartedMain] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2025-12-30T12:46:52.152+04:00 ERROR 12088 --- [carservices] [restartedMain] o.s.boot.SpringApplication               : Application run failed
+
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is java.lang.RuntimeException: Driver com.p6spy.engine.spy.P6SpyDriver claims to not accept jdbcUrl, jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;MODE=PostgreSQL
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1818) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:607) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:371) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:207) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:970) ~[spring-context-6.2.6.jar:6.2.6]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:627) ~[spring-context-6.2.6.jar:6.2.6]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.4.5.jar:3.4.5]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:753) ~[spring-boot-3.4.5.jar:3.4.5]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439) ~[spring-boot-3.4.5.jar:3.4.5]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:318) ~[spring-boot-3.4.5.jar:3.4.5]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1362) ~[spring-boot-3.4.5.jar:3.4.5]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1351) ~[spring-boot-3.4.5.jar:3.4.5]
+	at com.car.carservices.CarservicesApplication.main(CarservicesApplication.java:11) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50) ~[spring-boot-devtools-3.4.5.jar:3.4.5]
+Caused by: jakarta.persistence.PersistenceException: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is java.lang.RuntimeException: Driver com.p6spy.engine.spy.P6SpyDriver claims to not accept jdbcUrl, jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;MODE=PostgreSQL
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:431) ~[spring-orm-6.2.6.jar:6.2.6]
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:400) ~[spring-orm-6.2.6.jar:6.2.6]
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:366) ~[spring-orm-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1865) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1814) ~[spring-beans-6.2.6.jar:6.2.6]
+	... 18 common frames omitted
+Caused by: java.lang.RuntimeException: Driver com.p6spy.engine.spy.P6SpyDriver claims to not accept jdbcUrl, jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;MODE=PostgreSQL
+	at com.zaxxer.hikari.util.DriverDataSource.<init>(DriverDataSource.java:109) ~[HikariCP-5.1.0.jar:na]
+	at com.zaxxer.hikari.pool.PoolBase.initializeDataSource(PoolBase.java:327) ~[HikariCP-5.1.0.jar:na]
+	at com.zaxxer.hikari.pool.PoolBase.<init>(PoolBase.java:113) ~[HikariCP-5.1.0.jar:na]
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:91) ~[HikariCP-5.1.0.jar:na]
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:111) ~[HikariCP-5.1.0.jar:na]
+	at org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl.getConnection(DatasourceConnectionProviderImpl.java:126) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess.obtainConnection(JdbcEnvironmentInitiator.java:467) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.resource.transaction.backend.jdbc.internal.DdlTransactionIsolatorNonJtaImpl.getIsolatedConnection(DdlTransactionIsolatorNonJtaImpl.java:46) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.resource.transaction.backend.jdbc.internal.DdlTransactionIsolatorNonJtaImpl.getIsolatedConnection(DdlTransactionIsolatorNonJtaImpl.java:39) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.tool.schema.internal.exec.ImprovedExtractionContextImpl.getJdbcConnection(ImprovedExtractionContextImpl.java:63) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.tool.schema.extract.spi.ExtractionContext.getQueryResults(ExtractionContext.java:43) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.tool.schema.extract.internal.SequenceInformationExtractorLegacyImpl.extractMetadata(SequenceInformationExtractorLegacyImpl.java:39) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.tool.schema.extract.internal.DatabaseInformationImpl.initializeSequences(DatabaseInformationImpl.java:66) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.tool.schema.extract.internal.DatabaseInformationImpl.<init>(DatabaseInformationImpl.java:60) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.tool.schema.internal.Helper.buildDatabaseInformation(Helper.java:185) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.doMigration(AbstractSchemaMigrator.java:93) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.performDatabaseAction(SchemaManagementToolCoordinator.java:280) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.lambda$process$5(SchemaManagementToolCoordinator.java:144) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at java.base/java.util.HashMap.forEach(HashMap.java:1429) ~[na:na]
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.process(SchemaManagementToolCoordinator.java:141) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.boot.internal.SessionFactoryObserverForSchemaExport.sessionFactoryCreated(SessionFactoryObserverForSchemaExport.java:37) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.internal.SessionFactoryObserverChain.sessionFactoryCreated(SessionFactoryObserverChain.java:35) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.internal.SessionFactoryImpl.<init>(SessionFactoryImpl.java:324) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.boot.internal.SessionFactoryBuilderImpl.build(SessionFactoryBuilderImpl.java:463) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1517) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:66) ~[spring-orm-6.2.6.jar:6.2.6]
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:390) ~[spring-orm-6.2.6.jar:6.2.6]
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:419) ~[spring-orm-6.2.6.jar:6.2.6]
+	... 22 common frames omitted
+
+2025-12-30T12:52:58.468+04:00  INFO 30116 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : Starting CarservicesApplication using Java 21.0.7 with PID 30116 (C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices\target\classes started by lenovo in C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices)
+2025-12-30T12:52:58.473+04:00  INFO 30116 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : No active profile set, falling back to 1 default profile: "default"
+2025-12-30T12:52:58.573+04:00  INFO 30116 --- [carservices] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-12-30T12:52:58.574+04:00  INFO 30116 --- [carservices] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-12-30T12:53:00.717+04:00  INFO 30116 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-30T12:53:01.317+04:00  INFO 30116 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 576 ms. Found 40 JPA repository interfaces.
+2025-12-30T12:53:02.816+04:00  INFO 30116 --- [carservices] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2025-12-30T12:53:02.856+04:00  INFO 30116 --- [carservices] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-12-30T12:53:02.858+04:00  INFO 30116 --- [carservices] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.40]
+2025-12-30T12:53:02.949+04:00  INFO 30116 --- [carservices] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-12-30T12:53:02.949+04:00  INFO 30116 --- [carservices] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 4374 ms
+2025-12-30T12:53:03.305+04:00  INFO 30116 --- [carservices] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-12-30T12:53:03.415+04:00  INFO 30116 --- [carservices] [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.13.Final
+2025-12-30T12:53:03.457+04:00  INFO 30116 --- [carservices] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-12-30T12:53:03.785+04:00  INFO 30116 --- [carservices] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-12-30T12:53:03.822+04:00  INFO 30116 --- [carservices] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-12-30T12:53:03.831+04:00  WARN 30116 --- [carservices] [restartedMain] o.h.e.j.e.i.JdbcEnvironmentInitiator     : HHH000342: Could not obtain connection to query metadata
+
+java.lang.RuntimeException: Driver com.p6spy.engine.spy.P6SpyDriver claims to not accept jdbcUrl, jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;MODE=PostgreSQL
+	at com.zaxxer.hikari.util.DriverDataSource.<init>(DriverDataSource.java:109) ~[HikariCP-5.1.0.jar:na]
+	at com.zaxxer.hikari.pool.PoolBase.initializeDataSource(PoolBase.java:327) ~[HikariCP-5.1.0.jar:na]
+	at com.zaxxer.hikari.pool.PoolBase.<init>(PoolBase.java:113) ~[HikariCP-5.1.0.jar:na]
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:91) ~[HikariCP-5.1.0.jar:na]
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:111) ~[HikariCP-5.1.0.jar:na]
+	at org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl.getConnection(DatasourceConnectionProviderImpl.java:126) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess.obtainConnection(JdbcEnvironmentInitiator.java:467) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.resource.transaction.backend.jdbc.internal.JdbcIsolationDelegate.delegateWork(JdbcIsolationDelegate.java:61) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.getJdbcEnvironmentUsingJdbcMetadata(JdbcEnvironmentInitiator.java:320) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:129) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:81) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.boot.registry.internal.StandardServiceRegistryImpl.initiateService(StandardServiceRegistryImpl.java:130) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.createService(AbstractServiceRegistryImpl.java:263) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:238) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:215) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.boot.model.relational.Database.<init>(Database.java:45) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.getDatabase(InFlightMetadataCollectorImpl.java:226) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.<init>(InFlightMetadataCollectorImpl.java:194) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.complete(MetadataBuildingProcess.java:171) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.metadata(EntityManagerFactoryBuilderImpl.java:1442) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1513) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:66) ~[spring-orm-6.2.6.jar:6.2.6]
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:390) ~[spring-orm-6.2.6.jar:6.2.6]
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:419) ~[spring-orm-6.2.6.jar:6.2.6]
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:400) ~[spring-orm-6.2.6.jar:6.2.6]
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:366) ~[spring-orm-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1865) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1814) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:607) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:371) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:207) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:970) ~[spring-context-6.2.6.jar:6.2.6]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:627) ~[spring-context-6.2.6.jar:6.2.6]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.4.5.jar:3.4.5]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:753) ~[spring-boot-3.4.5.jar:3.4.5]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439) ~[spring-boot-3.4.5.jar:3.4.5]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:318) ~[spring-boot-3.4.5.jar:3.4.5]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1362) ~[spring-boot-3.4.5.jar:3.4.5]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1351) ~[spring-boot-3.4.5.jar:3.4.5]
+	at com.car.carservices.CarservicesApplication.main(CarservicesApplication.java:11) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50) ~[spring-boot-devtools-3.4.5.jar:3.4.5]
+
+2025-12-30T12:53:03.859+04:00  WARN 30116 --- [carservices] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-12-30T12:53:03.873+04:00  INFO 30116 --- [carservices] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (null)']
+	Database driver: undefined/unknown
+	Database version: 12.0
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-12-30T12:53:05.935+04:00  INFO 30116 --- [carservices] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-12-30T12:53:05.980+04:00  INFO 30116 --- [carservices] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-12-30T12:53:05.988+04:00 ERROR 30116 --- [carservices] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Failed to initialize JPA EntityManagerFactory: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is java.lang.RuntimeException: Driver com.p6spy.engine.spy.P6SpyDriver claims to not accept jdbcUrl, jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;MODE=PostgreSQL
+2025-12-30T12:53:05.989+04:00  WARN 30116 --- [carservices] [restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is java.lang.RuntimeException: Driver com.p6spy.engine.spy.P6SpyDriver claims to not accept jdbcUrl, jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;MODE=PostgreSQL
+2025-12-30T12:53:05.995+04:00  INFO 30116 --- [carservices] [restartedMain] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2025-12-30T12:53:06.019+04:00  INFO 30116 --- [carservices] [restartedMain] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2025-12-30T12:53:06.066+04:00 ERROR 30116 --- [carservices] [restartedMain] o.s.boot.SpringApplication               : Application run failed
+
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is java.lang.RuntimeException: Driver com.p6spy.engine.spy.P6SpyDriver claims to not accept jdbcUrl, jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;MODE=PostgreSQL
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1818) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:607) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:371) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:207) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:970) ~[spring-context-6.2.6.jar:6.2.6]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:627) ~[spring-context-6.2.6.jar:6.2.6]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.4.5.jar:3.4.5]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:753) ~[spring-boot-3.4.5.jar:3.4.5]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439) ~[spring-boot-3.4.5.jar:3.4.5]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:318) ~[spring-boot-3.4.5.jar:3.4.5]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1362) ~[spring-boot-3.4.5.jar:3.4.5]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1351) ~[spring-boot-3.4.5.jar:3.4.5]
+	at com.car.carservices.CarservicesApplication.main(CarservicesApplication.java:11) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50) ~[spring-boot-devtools-3.4.5.jar:3.4.5]
+Caused by: jakarta.persistence.PersistenceException: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is java.lang.RuntimeException: Driver com.p6spy.engine.spy.P6SpyDriver claims to not accept jdbcUrl, jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;MODE=PostgreSQL
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:431) ~[spring-orm-6.2.6.jar:6.2.6]
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:400) ~[spring-orm-6.2.6.jar:6.2.6]
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:366) ~[spring-orm-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1865) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1814) ~[spring-beans-6.2.6.jar:6.2.6]
+	... 18 common frames omitted
+Caused by: java.lang.RuntimeException: Driver com.p6spy.engine.spy.P6SpyDriver claims to not accept jdbcUrl, jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;MODE=PostgreSQL
+	at com.zaxxer.hikari.util.DriverDataSource.<init>(DriverDataSource.java:109) ~[HikariCP-5.1.0.jar:na]
+	at com.zaxxer.hikari.pool.PoolBase.initializeDataSource(PoolBase.java:327) ~[HikariCP-5.1.0.jar:na]
+	at com.zaxxer.hikari.pool.PoolBase.<init>(PoolBase.java:113) ~[HikariCP-5.1.0.jar:na]
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:91) ~[HikariCP-5.1.0.jar:na]
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:111) ~[HikariCP-5.1.0.jar:na]
+	at org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl.getConnection(DatasourceConnectionProviderImpl.java:126) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess.obtainConnection(JdbcEnvironmentInitiator.java:467) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.resource.transaction.backend.jdbc.internal.DdlTransactionIsolatorNonJtaImpl.getIsolatedConnection(DdlTransactionIsolatorNonJtaImpl.java:46) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.resource.transaction.backend.jdbc.internal.DdlTransactionIsolatorNonJtaImpl.getIsolatedConnection(DdlTransactionIsolatorNonJtaImpl.java:39) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.tool.schema.internal.exec.ImprovedExtractionContextImpl.getJdbcConnection(ImprovedExtractionContextImpl.java:63) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.tool.schema.extract.spi.ExtractionContext.getQueryResults(ExtractionContext.java:43) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.tool.schema.extract.internal.SequenceInformationExtractorLegacyImpl.extractMetadata(SequenceInformationExtractorLegacyImpl.java:39) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.tool.schema.extract.internal.DatabaseInformationImpl.initializeSequences(DatabaseInformationImpl.java:66) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.tool.schema.extract.internal.DatabaseInformationImpl.<init>(DatabaseInformationImpl.java:60) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.tool.schema.internal.Helper.buildDatabaseInformation(Helper.java:185) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.doMigration(AbstractSchemaMigrator.java:93) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.performDatabaseAction(SchemaManagementToolCoordinator.java:280) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.lambda$process$5(SchemaManagementToolCoordinator.java:144) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at java.base/java.util.HashMap.forEach(HashMap.java:1429) ~[na:na]
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.process(SchemaManagementToolCoordinator.java:141) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.boot.internal.SessionFactoryObserverForSchemaExport.sessionFactoryCreated(SessionFactoryObserverForSchemaExport.java:37) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.internal.SessionFactoryObserverChain.sessionFactoryCreated(SessionFactoryObserverChain.java:35) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.internal.SessionFactoryImpl.<init>(SessionFactoryImpl.java:324) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.boot.internal.SessionFactoryBuilderImpl.build(SessionFactoryBuilderImpl.java:463) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1517) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:66) ~[spring-orm-6.2.6.jar:6.2.6]
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:390) ~[spring-orm-6.2.6.jar:6.2.6]
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:419) ~[spring-orm-6.2.6.jar:6.2.6]
+	... 22 common frames omitted
+
+2025-12-30T13:11:33.902+04:00  INFO 10816 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : Starting CarservicesApplication using Java 21.0.7 with PID 10816 (C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices\target\classes started by lenovo in C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices)
+2025-12-30T13:11:33.904+04:00  INFO 10816 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : No active profile set, falling back to 1 default profile: "default"
+2025-12-30T13:11:33.954+04:00  INFO 10816 --- [carservices] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-12-30T13:11:33.955+04:00  INFO 10816 --- [carservices] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-12-30T13:11:34.999+04:00  INFO 10816 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-30T13:11:35.234+04:00  INFO 10816 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 222 ms. Found 40 JPA repository interfaces.
+2025-12-30T13:11:35.936+04:00  INFO 10816 --- [carservices] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2025-12-30T13:11:35.959+04:00  INFO 10816 --- [carservices] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-12-30T13:11:35.959+04:00  INFO 10816 --- [carservices] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.40]
+2025-12-30T13:11:36.013+04:00  INFO 10816 --- [carservices] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-12-30T13:11:36.013+04:00  INFO 10816 --- [carservices] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2058 ms
+2025-12-30T13:11:36.208+04:00  INFO 10816 --- [carservices] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-12-30T13:11:36.286+04:00  INFO 10816 --- [carservices] [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.13.Final
+2025-12-30T13:11:36.332+04:00  INFO 10816 --- [carservices] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-12-30T13:11:36.644+04:00  INFO 10816 --- [carservices] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-12-30T13:11:36.681+04:00  INFO 10816 --- [carservices] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-12-30T13:11:36.690+04:00  WARN 10816 --- [carservices] [restartedMain] o.h.e.j.e.i.JdbcEnvironmentInitiator     : HHH000342: Could not obtain connection to query metadata
+
+java.lang.RuntimeException: Driver com.p6spy.engine.spy.P6SpyDriver claims to not accept jdbcUrl, jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;MODE=PostgreSQL
+	at com.zaxxer.hikari.util.DriverDataSource.<init>(DriverDataSource.java:109) ~[HikariCP-5.1.0.jar:na]
+	at com.zaxxer.hikari.pool.PoolBase.initializeDataSource(PoolBase.java:327) ~[HikariCP-5.1.0.jar:na]
+	at com.zaxxer.hikari.pool.PoolBase.<init>(PoolBase.java:113) ~[HikariCP-5.1.0.jar:na]
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:91) ~[HikariCP-5.1.0.jar:na]
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:111) ~[HikariCP-5.1.0.jar:na]
+	at org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl.getConnection(DatasourceConnectionProviderImpl.java:126) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess.obtainConnection(JdbcEnvironmentInitiator.java:467) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.resource.transaction.backend.jdbc.internal.JdbcIsolationDelegate.delegateWork(JdbcIsolationDelegate.java:61) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.getJdbcEnvironmentUsingJdbcMetadata(JdbcEnvironmentInitiator.java:320) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:129) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:81) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.boot.registry.internal.StandardServiceRegistryImpl.initiateService(StandardServiceRegistryImpl.java:130) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.createService(AbstractServiceRegistryImpl.java:263) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:238) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:215) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.boot.model.relational.Database.<init>(Database.java:45) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.getDatabase(InFlightMetadataCollectorImpl.java:226) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.<init>(InFlightMetadataCollectorImpl.java:194) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.complete(MetadataBuildingProcess.java:171) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.metadata(EntityManagerFactoryBuilderImpl.java:1442) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1513) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:66) ~[spring-orm-6.2.6.jar:6.2.6]
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:390) ~[spring-orm-6.2.6.jar:6.2.6]
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:419) ~[spring-orm-6.2.6.jar:6.2.6]
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:400) ~[spring-orm-6.2.6.jar:6.2.6]
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:366) ~[spring-orm-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1865) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1814) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:607) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:371) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:207) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:970) ~[spring-context-6.2.6.jar:6.2.6]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:627) ~[spring-context-6.2.6.jar:6.2.6]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.4.5.jar:3.4.5]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:753) ~[spring-boot-3.4.5.jar:3.4.5]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439) ~[spring-boot-3.4.5.jar:3.4.5]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:318) ~[spring-boot-3.4.5.jar:3.4.5]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1362) ~[spring-boot-3.4.5.jar:3.4.5]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1351) ~[spring-boot-3.4.5.jar:3.4.5]
+	at com.car.carservices.CarservicesApplication.main(CarservicesApplication.java:11) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50) ~[spring-boot-devtools-3.4.5.jar:3.4.5]
+
+2025-12-30T13:11:36.720+04:00  WARN 10816 --- [carservices] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-12-30T13:11:36.734+04:00  INFO 10816 --- [carservices] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (null)']
+	Database driver: undefined/unknown
+	Database version: 2.1.214
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-12-30T13:11:37.886+04:00  INFO 10816 --- [carservices] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-12-30T13:11:37.909+04:00  INFO 10816 --- [carservices] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-12-30T13:11:37.914+04:00 ERROR 10816 --- [carservices] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Failed to initialize JPA EntityManagerFactory: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is java.lang.RuntimeException: Driver com.p6spy.engine.spy.P6SpyDriver claims to not accept jdbcUrl, jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;MODE=PostgreSQL
+2025-12-30T13:11:37.915+04:00  WARN 10816 --- [carservices] [restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is java.lang.RuntimeException: Driver com.p6spy.engine.spy.P6SpyDriver claims to not accept jdbcUrl, jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;MODE=PostgreSQL
+2025-12-30T13:11:37.920+04:00  INFO 10816 --- [carservices] [restartedMain] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2025-12-30T13:11:37.934+04:00  INFO 10816 --- [carservices] [restartedMain] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2025-12-30T13:11:37.958+04:00 ERROR 10816 --- [carservices] [restartedMain] o.s.boot.SpringApplication               : Application run failed
+
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is java.lang.RuntimeException: Driver com.p6spy.engine.spy.P6SpyDriver claims to not accept jdbcUrl, jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;MODE=PostgreSQL
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1818) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:607) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:371) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:207) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:970) ~[spring-context-6.2.6.jar:6.2.6]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:627) ~[spring-context-6.2.6.jar:6.2.6]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.4.5.jar:3.4.5]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:753) ~[spring-boot-3.4.5.jar:3.4.5]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439) ~[spring-boot-3.4.5.jar:3.4.5]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:318) ~[spring-boot-3.4.5.jar:3.4.5]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1362) ~[spring-boot-3.4.5.jar:3.4.5]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1351) ~[spring-boot-3.4.5.jar:3.4.5]
+	at com.car.carservices.CarservicesApplication.main(CarservicesApplication.java:11) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50) ~[spring-boot-devtools-3.4.5.jar:3.4.5]
+Caused by: jakarta.persistence.PersistenceException: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is java.lang.RuntimeException: Driver com.p6spy.engine.spy.P6SpyDriver claims to not accept jdbcUrl, jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;MODE=PostgreSQL
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:431) ~[spring-orm-6.2.6.jar:6.2.6]
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:400) ~[spring-orm-6.2.6.jar:6.2.6]
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:366) ~[spring-orm-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1865) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1814) ~[spring-beans-6.2.6.jar:6.2.6]
+	... 18 common frames omitted
+Caused by: java.lang.RuntimeException: Driver com.p6spy.engine.spy.P6SpyDriver claims to not accept jdbcUrl, jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;MODE=PostgreSQL
+	at com.zaxxer.hikari.util.DriverDataSource.<init>(DriverDataSource.java:109) ~[HikariCP-5.1.0.jar:na]
+	at com.zaxxer.hikari.pool.PoolBase.initializeDataSource(PoolBase.java:327) ~[HikariCP-5.1.0.jar:na]
+	at com.zaxxer.hikari.pool.PoolBase.<init>(PoolBase.java:113) ~[HikariCP-5.1.0.jar:na]
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:91) ~[HikariCP-5.1.0.jar:na]
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:111) ~[HikariCP-5.1.0.jar:na]
+	at org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl.getConnection(DatasourceConnectionProviderImpl.java:126) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess.obtainConnection(JdbcEnvironmentInitiator.java:467) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.resource.transaction.backend.jdbc.internal.DdlTransactionIsolatorNonJtaImpl.getIsolatedConnection(DdlTransactionIsolatorNonJtaImpl.java:46) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.resource.transaction.backend.jdbc.internal.DdlTransactionIsolatorNonJtaImpl.getIsolatedConnection(DdlTransactionIsolatorNonJtaImpl.java:39) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.tool.schema.internal.exec.ImprovedExtractionContextImpl.getJdbcConnection(ImprovedExtractionContextImpl.java:63) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.tool.schema.extract.spi.ExtractionContext.getQueryResults(ExtractionContext.java:43) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.tool.schema.extract.internal.SequenceInformationExtractorLegacyImpl.extractMetadata(SequenceInformationExtractorLegacyImpl.java:39) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.tool.schema.extract.internal.DatabaseInformationImpl.initializeSequences(DatabaseInformationImpl.java:66) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.tool.schema.extract.internal.DatabaseInformationImpl.<init>(DatabaseInformationImpl.java:60) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.tool.schema.internal.Helper.buildDatabaseInformation(Helper.java:185) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.doMigration(AbstractSchemaMigrator.java:93) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.performDatabaseAction(SchemaManagementToolCoordinator.java:280) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.lambda$process$5(SchemaManagementToolCoordinator.java:144) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at java.base/java.util.HashMap.forEach(HashMap.java:1429) ~[na:na]
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.process(SchemaManagementToolCoordinator.java:141) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.boot.internal.SessionFactoryObserverForSchemaExport.sessionFactoryCreated(SessionFactoryObserverForSchemaExport.java:37) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.internal.SessionFactoryObserverChain.sessionFactoryCreated(SessionFactoryObserverChain.java:35) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.internal.SessionFactoryImpl.<init>(SessionFactoryImpl.java:324) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.boot.internal.SessionFactoryBuilderImpl.build(SessionFactoryBuilderImpl.java:463) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1517) ~[hibernate-core-6.6.13.Final.jar:6.6.13.Final]
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:66) ~[spring-orm-6.2.6.jar:6.2.6]
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:390) ~[spring-orm-6.2.6.jar:6.2.6]
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:419) ~[spring-orm-6.2.6.jar:6.2.6]
+	... 22 common frames omitted
+
+2025-12-30T13:12:23.897+04:00  INFO 35576 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : Starting CarservicesApplication using Java 21.0.7 with PID 35576 (C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices\target\classes started by lenovo in C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices)
+2025-12-30T13:12:23.900+04:00  INFO 35576 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : No active profile set, falling back to 1 default profile: "default"
+2025-12-30T13:12:23.949+04:00  INFO 35576 --- [carservices] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-12-30T13:12:23.949+04:00  INFO 35576 --- [carservices] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-12-30T13:12:24.855+04:00  INFO 35576 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-30T13:12:25.081+04:00  INFO 35576 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 214 ms. Found 40 JPA repository interfaces.
+2025-12-30T13:12:25.643+04:00  INFO 35576 --- [carservices] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2025-12-30T13:12:25.655+04:00  INFO 35576 --- [carservices] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-12-30T13:12:25.657+04:00  INFO 35576 --- [carservices] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.40]
+2025-12-30T13:12:25.702+04:00  INFO 35576 --- [carservices] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-12-30T13:12:25.702+04:00  INFO 35576 --- [carservices] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1752 ms
+2025-12-30T13:12:25.783+04:00  WARN 35576 --- [carservices] [restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Failed to initialize dependency 'dataSourceScriptDatabaseInitializer' of LoadTimeWeaverAware bean 'entityManagerFactory': Error creating bean with name 'dataSourceScriptDatabaseInitializer' defined in class path resource [org/springframework/boot/autoconfigure/sql/init/DataSourceInitializationConfiguration.class]: Unsatisfied dependency expressed through method 'dataSourceScriptDatabaseInitializer' parameter 0: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception with message: Cannot load driver class: org.h2.Driver
+2025-12-30T13:12:25.787+04:00  INFO 35576 --- [carservices] [restartedMain] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2025-12-30T13:12:25.802+04:00  INFO 35576 --- [carservices] [restartedMain] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2025-12-30T13:12:25.819+04:00 ERROR 35576 --- [carservices] [restartedMain] o.s.boot.SpringApplication               : Application run failed
+
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Failed to initialize dependency 'dataSourceScriptDatabaseInitializer' of LoadTimeWeaverAware bean 'entityManagerFactory': Error creating bean with name 'dataSourceScriptDatabaseInitializer' defined in class path resource [org/springframework/boot/autoconfigure/sql/init/DataSourceInitializationConfiguration.class]: Unsatisfied dependency expressed through method 'dataSourceScriptDatabaseInitializer' parameter 0: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception with message: Cannot load driver class: org.h2.Driver
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:328) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:207) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:970) ~[spring-context-6.2.6.jar:6.2.6]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:627) ~[spring-context-6.2.6.jar:6.2.6]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.4.5.jar:3.4.5]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:753) ~[spring-boot-3.4.5.jar:3.4.5]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439) ~[spring-boot-3.4.5.jar:3.4.5]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:318) ~[spring-boot-3.4.5.jar:3.4.5]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1362) ~[spring-boot-3.4.5.jar:3.4.5]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1351) ~[spring-boot-3.4.5.jar:3.4.5]
+	at com.car.carservices.CarservicesApplication.main(CarservicesApplication.java:11) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50) ~[spring-boot-devtools-3.4.5.jar:3.4.5]
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'dataSourceScriptDatabaseInitializer' defined in class path resource [org/springframework/boot/autoconfigure/sql/init/DataSourceInitializationConfiguration.class]: Unsatisfied dependency expressed through method 'dataSourceScriptDatabaseInitializer' parameter 0: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception with message: Cannot load driver class: org.h2.Driver
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:804) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:546) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1367) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1197) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:569) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:371) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:315) ~[spring-beans-6.2.6.jar:6.2.6]
+	... 13 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception with message: Cannot load driver class: org.h2.Driver
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:657) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:645) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1367) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1197) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:569) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:371) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1681) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1627) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:913) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:791) ~[spring-beans-6.2.6.jar:6.2.6]
+	... 23 common frames omitted
+Caused by: org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception with message: Cannot load driver class: org.h2.Driver
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.lambda$instantiate$0(SimpleInstantiationStrategy.java:199) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiateWithFactoryMethod(SimpleInstantiationStrategy.java:88) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:168) ~[spring-beans-6.2.6.jar:6.2.6]
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:653) ~[spring-beans-6.2.6.jar:6.2.6]
+	... 36 common frames omitted
+Caused by: java.lang.IllegalStateException: Cannot load driver class: org.h2.Driver
+	at org.springframework.util.Assert.state(Assert.java:101) ~[spring-core-6.2.6.jar:6.2.6]
+	at org.springframework.boot.autoconfigure.jdbc.DataSourceProperties.findDriverClassName(DataSourceProperties.java:184) ~[spring-boot-autoconfigure-3.4.5.jar:3.4.5]
+	at org.springframework.boot.autoconfigure.jdbc.DataSourceProperties.determineDriverClassName(DataSourceProperties.java:174) ~[spring-boot-autoconfigure-3.4.5.jar:3.4.5]
+	at org.springframework.boot.autoconfigure.jdbc.PropertiesJdbcConnectionDetails.getDriverClassName(PropertiesJdbcConnectionDetails.java:49) ~[spring-boot-autoconfigure-3.4.5.jar:3.4.5]
+	at org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration.createDataSource(DataSourceConfiguration.java:62) ~[spring-boot-autoconfigure-3.4.5.jar:3.4.5]
+	at org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration$Hikari.dataSource(DataSourceConfiguration.java:127) ~[spring-boot-autoconfigure-3.4.5.jar:3.4.5]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.lambda$instantiate$0(SimpleInstantiationStrategy.java:171) ~[spring-beans-6.2.6.jar:6.2.6]
+	... 39 common frames omitted
+
+2025-12-30T13:39:40.432+04:00  INFO 30316 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : Starting CarservicesApplication using Java 21.0.7 with PID 30316 (C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices\target\classes started by lenovo in C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices)
+2025-12-30T13:39:40.438+04:00  INFO 30316 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : No active profile set, falling back to 1 default profile: "default"
+2025-12-30T13:39:40.502+04:00  INFO 30316 --- [carservices] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-12-30T13:39:40.502+04:00  INFO 30316 --- [carservices] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-12-30T13:39:41.638+04:00  INFO 30316 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-30T13:39:41.866+04:00  INFO 30316 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 214 ms. Found 40 JPA repository interfaces.
+2025-12-30T13:39:42.593+04:00  INFO 30316 --- [carservices] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2025-12-30T13:39:42.611+04:00  INFO 30316 --- [carservices] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-12-30T13:39:42.611+04:00  INFO 30316 --- [carservices] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.40]
+2025-12-30T13:39:42.661+04:00  INFO 30316 --- [carservices] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-12-30T13:39:42.661+04:00  INFO 30316 --- [carservices] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2158 ms
+2025-12-30T13:39:42.851+04:00  INFO 30316 --- [carservices] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-12-30T13:39:42.915+04:00  INFO 30316 --- [carservices] [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.13.Final
+2025-12-30T13:39:42.956+04:00  INFO 30316 --- [carservices] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-12-30T13:39:43.271+04:00  INFO 30316 --- [carservices] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-12-30T13:39:43.308+04:00  INFO 30316 --- [carservices] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-12-30T13:39:43.572+04:00  INFO 30316 --- [carservices] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@46856267
+2025-12-30T13:39:43.575+04:00  INFO 30316 --- [carservices] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-12-30T13:39:43.649+04:00  WARN 30316 --- [carservices] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-12-30T13:39:43.671+04:00  INFO 30316 --- [carservices] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 17.5
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-12-30T13:39:44.911+04:00  INFO 30316 --- [carservices] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-12-30T13:39:45.051+04:00  INFO 30316 --- [carservices] [restartedMain] t.s.e.i.AbstractInformationExtractorImpl : HHH000475: Cannot locate column information using identifier [lower((manager_email)::text)]; ignoring index [ux_company_manager_email]
+2025-12-30T13:39:45.060+04:00  WARN 30316 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2025-12-30T13:39:45.060+04:00  WARN 30316 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : constraint "ux_company_company_name_ci" of relation "company" does not exist, skipping
+2025-12-30T13:39:45.083+04:00  WARN 30316 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2025-12-30T13:39:45.083+04:00  WARN 30316 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : constraint "ux_company_brand_name_ci" of relation "company" does not exist, skipping
+2025-12-30T13:39:45.723+04:00  INFO 30316 --- [carservices] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-12-30T13:39:46.084+04:00  INFO 30316 --- [carservices] [restartedMain] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-12-30T13:39:48.650+04:00  WARN 30316 --- [carservices] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-12-30T13:39:49.280+04:00  INFO 30316 --- [carservices] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-12-30T13:39:49.324+04:00  INFO 30316 --- [carservices] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
+2025-12-30T13:39:49.331+04:00  INFO 30316 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : Started CarservicesApplication in 9.333 seconds (process running for 9.753)
