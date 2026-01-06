@@ -19,7 +19,10 @@ target/
 *.iml
 *.ipr
 
-### NetBeans ###
+### NetBeans ### main\resources\application.properties
+!**/src/main/resources/application.properties
+!**/src/main/java/com/car/carservices/CarservicesApplication.java
+
 /nbproject/private/
 /nbbuild/
 /dist/
@@ -31,3 +34,5 @@ build/
 
 ### VS Code ###
 .vscode/
+src/main/resources/application.properties
+src/main/java/com/car/carservices/CarservicesApplication - Copy.java
