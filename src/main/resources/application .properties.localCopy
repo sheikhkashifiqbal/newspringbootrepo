@@ -1,16 +1,19 @@
-server.port=8081
+server.port=server.port=${PORT:8080}
 spring.application.name=carservices
 
 # ===============================
 # H2 DATABASE CONFIGURATION
 # ===============================
+<<<<<<< HEAD:src/main/resources/application .properties.localCopy
 spring.datasource.url=jdbc:postgresql://localhost:5433/testdb
 
 spring.datasource.driver-class-name=org.postgresql.Driver
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
 
 spring.datasource.username=postgres
-spring.datasource.password=abc123
+spring.datasource.password=${PGPASSWORD}
+spring.datasource.driver-class-name=org.postgresql.Driver
+
 
 # Enable H2 Console (for testing/debugging)
 spring.h2.console.enabled=true
@@ -50,7 +53,6 @@ spring.mail.properties.mail.smtp.timeout=10000
 spring.mail.properties.mail.smtp.writetimeout=10000
 spring.mail.properties.mail.debug=true
 app.mail.from=kashusays1@gmail.com
-
 # ===============================
 # LOGGING
 # ===============================
