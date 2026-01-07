@@ -2,3 +2,485 @@
 2026-01-07T10:38:10.826+04:00  INFO 24836 --- [carservices] [http-nio-8081-exec-8] c.c.c.c.ReservationQueryController       : POST /api/reservations/by-user body: {"userId":1}
 2026-01-07T11:12:00.194+04:00  INFO 24836 --- [carservices] [http-nio-8081-exec-6] c.c.c.c.ReservationQueryController       : POST /api/reservations/by-user body: {"userId":1}
 2026-01-07T11:41:12.655+04:00  INFO 24836 --- [carservices] [http-nio-8081-exec-2] c.c.c.c.ReservationQueryController       : POST /api/reservations/by-user body: {"userId":1}
+2026-01-07T15:32:00.800+04:00  INFO 24836 --- [carservices] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 460 class path changes (0 additions, 460 deletions, 0 modifications)
+2026-01-07T15:32:01.104+04:00  INFO 24836 --- [carservices] [Thread-63] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-01-07T15:32:01.341+04:00  INFO 24836 --- [carservices] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2026-01-07T15:32:01.517+04:00  INFO 24836 --- [carservices] [Thread-63] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-01-07T15:32:01.606+04:00  INFO 24836 --- [carservices] [Thread-63] com.zaxxer.hikari.HikariDataSource       : HikariPool-16 - Shutdown initiated...
+2026-01-07T15:32:01.624+04:00  INFO 24836 --- [carservices] [Thread-63] com.zaxxer.hikari.HikariDataSource       : HikariPool-16 - Shutdown completed.
+2026-01-07T15:32:13.214+04:00  INFO 24836 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : Starting CarservicesApplication using Java 21.0.7 with PID 24836 (C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices\target\classes started by lenovo in C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices)
+2026-01-07T15:32:13.215+04:00  INFO 24836 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : No active profile set, falling back to 1 default profile: "default"
+2026-01-07T15:32:14.572+04:00  INFO 24836 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-07T15:32:15.027+04:00  INFO 24836 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 451 ms. Found 41 JPA repository interfaces.
+2026-01-07T15:32:15.440+04:00  INFO 24836 --- [carservices] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2026-01-07T15:32:15.443+04:00  INFO 24836 --- [carservices] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-07T15:32:15.445+04:00  INFO 24836 --- [carservices] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.40]
+2026-01-07T15:32:15.540+04:00  INFO 24836 --- [carservices] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-01-07T15:32:15.541+04:00  INFO 24836 --- [carservices] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2320 ms
+2026-01-07T15:32:15.751+04:00  INFO 24836 --- [carservices] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-01-07T15:32:15.759+04:00  INFO 24836 --- [carservices] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-01-07T15:32:15.793+04:00  INFO 24836 --- [carservices] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-01-07T15:32:15.795+04:00  INFO 24836 --- [carservices] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-18 - Starting...
+2026-01-07T15:32:16.042+04:00  INFO 24836 --- [carservices] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-18 - Added connection org.postgresql.jdbc.PgConnection@6f0781e9
+2026-01-07T15:32:16.043+04:00  INFO 24836 --- [carservices] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-18 - Start completed.
+2026-01-07T15:32:16.110+04:00  WARN 24836 --- [carservices] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-01-07T15:32:16.117+04:00  INFO 24836 --- [carservices] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-18)']
+	Database driver: undefined/unknown
+	Database version: 17.5
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-01-07T15:32:16.973+04:00  INFO 24836 --- [carservices] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-01-07T15:32:17.126+04:00  INFO 24836 --- [carservices] [restartedMain] t.s.e.i.AbstractInformationExtractorImpl : HHH000475: Cannot locate column information using identifier [lower((manager_email)::text)]; ignoring index [ux_company_manager_email]
+2026-01-07T15:32:17.149+04:00  WARN 24836 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2026-01-07T15:32:17.150+04:00  WARN 24836 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : constraint "ux_company_company_name_ci" of relation "company" does not exist, skipping
+2026-01-07T15:32:17.202+04:00  WARN 24836 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2026-01-07T15:32:17.205+04:00  WARN 24836 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : constraint "ux_company_brand_name_ci" of relation "company" does not exist, skipping
+2026-01-07T15:32:19.201+04:00  INFO 24836 --- [carservices] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-01-07T15:32:21.320+04:00  WARN 24836 --- [carservices] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-01-07T15:32:21.808+04:00  INFO 24836 --- [carservices] [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:postgresql://localhost:5433/testdb'
+2026-01-07T15:32:21.865+04:00  INFO 24836 --- [carservices] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-01-07T15:32:21.914+04:00  INFO 24836 --- [carservices] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
+2026-01-07T15:32:21.922+04:00  INFO 24836 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : Started CarservicesApplication in 8.825 seconds (process running for 88861.814)
+2026-01-07T15:32:21.928+04:00  INFO 24836 --- [carservices] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2026-01-07T16:38:30.219+04:00  INFO 24836 --- [carservices] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2026-01-07T16:38:30.525+04:00  INFO 24836 --- [carservices] [Thread-71] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-01-07T16:38:30.609+04:00  INFO 24836 --- [carservices] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2026-01-07T16:38:30.709+04:00  INFO 24836 --- [carservices] [Thread-71] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-01-07T16:38:30.769+04:00  INFO 24836 --- [carservices] [Thread-71] com.zaxxer.hikari.HikariDataSource       : HikariPool-18 - Shutdown initiated...
+2026-01-07T16:38:30.870+04:00  INFO 24836 --- [carservices] [Thread-71] com.zaxxer.hikari.HikariDataSource       : HikariPool-18 - Shutdown completed.
+2026-01-07T16:38:33.992+04:00  INFO 24836 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : Starting CarservicesApplication using Java 21.0.7 with PID 24836 (C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices\target\classes started by lenovo in C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices)
+2026-01-07T16:38:33.999+04:00  INFO 24836 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : No active profile set, falling back to 1 default profile: "default"
+2026-01-07T16:38:41.516+04:00  INFO 24836 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-07T16:38:42.276+04:00  INFO 24836 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 753 ms. Found 41 JPA repository interfaces.
+2026-01-07T16:38:44.349+04:00  INFO 24836 --- [carservices] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2026-01-07T16:38:44.368+04:00  INFO 24836 --- [carservices] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-07T16:38:44.371+04:00  INFO 24836 --- [carservices] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.40]
+2026-01-07T16:38:44.536+04:00  INFO 24836 --- [carservices] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-01-07T16:38:44.537+04:00  INFO 24836 --- [carservices] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 10448 ms
+2026-01-07T16:38:45.235+04:00  INFO 24836 --- [carservices] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-01-07T16:38:45.279+04:00  INFO 24836 --- [carservices] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-01-07T16:38:45.390+04:00  INFO 24836 --- [carservices] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-01-07T16:38:45.402+04:00  INFO 24836 --- [carservices] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-19 - Starting...
+2026-01-07T16:38:45.819+04:00  INFO 24836 --- [carservices] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-19 - Added connection org.postgresql.jdbc.PgConnection@47a40b1a
+2026-01-07T16:38:45.820+04:00  INFO 24836 --- [carservices] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-19 - Start completed.
+2026-01-07T16:38:45.976+04:00  WARN 24836 --- [carservices] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-01-07T16:38:46.007+04:00  INFO 24836 --- [carservices] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-19)']
+	Database driver: undefined/unknown
+	Database version: 17.5
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-01-07T16:38:48.422+04:00  INFO 24836 --- [carservices] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-01-07T16:38:48.592+04:00  INFO 24836 --- [carservices] [restartedMain] t.s.e.i.AbstractInformationExtractorImpl : HHH000475: Cannot locate column information using identifier [lower((manager_email)::text)]; ignoring index [ux_company_manager_email]
+2026-01-07T16:38:48.608+04:00  WARN 24836 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2026-01-07T16:38:48.608+04:00  WARN 24836 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : constraint "ux_company_company_name_ci" of relation "company" does not exist, skipping
+2026-01-07T16:38:48.649+04:00  WARN 24836 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2026-01-07T16:38:48.650+04:00  WARN 24836 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : constraint "ux_company_brand_name_ci" of relation "company" does not exist, skipping
+2026-01-07T16:38:51.593+04:00  INFO 24836 --- [carservices] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-01-07T16:38:57.227+04:00  WARN 24836 --- [carservices] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-01-07T16:38:59.246+04:00  INFO 24836 --- [carservices] [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:postgresql://localhost:5433/testdb'
+2026-01-07T16:38:59.432+04:00  INFO 24836 --- [carservices] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-01-07T16:38:59.529+04:00  INFO 24836 --- [carservices] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
+2026-01-07T16:38:59.554+04:00  INFO 24836 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : Started CarservicesApplication in 26.495 seconds (process running for 92859.446)
+2026-01-07T16:38:59.564+04:00  INFO 24836 --- [carservices] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2026-01-07T16:39:12.844+04:00  INFO 24836 --- [carservices] [http-nio-8081-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-01-07T16:39:12.848+04:00  INFO 24836 --- [carservices] [http-nio-8081-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-01-07T16:39:12.871+04:00  INFO 24836 --- [carservices] [http-nio-8081-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 13 ms
+2026-01-07T18:30:09.810+04:00  INFO 24836 --- [carservices] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 461 class path changes (1 addition, 460 deletions, 0 modifications)
+2026-01-07T18:30:09.989+04:00  INFO 24836 --- [carservices] [Thread-76] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-01-07T18:30:10.094+04:00  INFO 24836 --- [carservices] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2026-01-07T18:30:10.226+04:00  INFO 24836 --- [carservices] [Thread-76] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-01-07T18:30:10.275+04:00  INFO 24836 --- [carservices] [Thread-76] com.zaxxer.hikari.HikariDataSource       : HikariPool-19 - Shutdown initiated...
+2026-01-07T18:30:10.317+04:00  INFO 24836 --- [carservices] [Thread-76] com.zaxxer.hikari.HikariDataSource       : HikariPool-19 - Shutdown completed.
+2026-01-07T18:30:17.660+04:00  INFO 24836 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : Starting CarservicesApplication using Java 21.0.7 with PID 24836 (C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices\target\classes started by lenovo in C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices)
+2026-01-07T18:30:17.661+04:00  INFO 24836 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : No active profile set, falling back to 1 default profile: "default"
+2026-01-07T18:30:18.645+04:00  INFO 24836 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-07T18:30:19.036+04:00  INFO 24836 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 388 ms. Found 41 JPA repository interfaces.
+2026-01-07T18:30:19.582+04:00  INFO 24836 --- [carservices] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2026-01-07T18:30:19.589+04:00  INFO 24836 --- [carservices] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-07T18:30:19.591+04:00  INFO 24836 --- [carservices] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.40]
+2026-01-07T18:30:19.639+04:00  INFO 24836 --- [carservices] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-01-07T18:30:19.639+04:00  INFO 24836 --- [carservices] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1974 ms
+2026-01-07T18:30:19.829+04:00  INFO 24836 --- [carservices] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-01-07T18:30:19.839+04:00  INFO 24836 --- [carservices] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-01-07T18:30:19.894+04:00  INFO 24836 --- [carservices] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-01-07T18:30:19.899+04:00  INFO 24836 --- [carservices] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-20 - Starting...
+2026-01-07T18:30:20.041+04:00  INFO 24836 --- [carservices] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-20 - Added connection org.postgresql.jdbc.PgConnection@d0c6cc1
+2026-01-07T18:30:20.043+04:00  INFO 24836 --- [carservices] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-20 - Start completed.
+2026-01-07T18:30:20.062+04:00  WARN 24836 --- [carservices] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-01-07T18:30:20.065+04:00  INFO 24836 --- [carservices] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-20)']
+	Database driver: undefined/unknown
+	Database version: 17.5
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-01-07T18:30:21.009+04:00  INFO 24836 --- [carservices] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-01-07T18:30:21.083+04:00  INFO 24836 --- [carservices] [restartedMain] t.s.e.i.AbstractInformationExtractorImpl : HHH000475: Cannot locate column information using identifier [lower((manager_email)::text)]; ignoring index [ux_company_manager_email]
+2026-01-07T18:30:21.092+04:00  WARN 24836 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2026-01-07T18:30:21.093+04:00  WARN 24836 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : constraint "ux_company_company_name_ci" of relation "company" does not exist, skipping
+2026-01-07T18:30:21.129+04:00  WARN 24836 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2026-01-07T18:30:21.129+04:00  WARN 24836 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : constraint "ux_company_brand_name_ci" of relation "company" does not exist, skipping
+2026-01-07T18:30:22.169+04:00  INFO 24836 --- [carservices] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-01-07T18:30:23.764+04:00  WARN 24836 --- [carservices] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-01-07T18:30:24.101+04:00  INFO 24836 --- [carservices] [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:postgresql://localhost:5433/testdb'
+2026-01-07T18:30:24.146+04:00  INFO 24836 --- [carservices] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-01-07T18:30:24.169+04:00  INFO 24836 --- [carservices] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
+2026-01-07T18:30:24.177+04:00  INFO 24836 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : Started CarservicesApplication in 6.588 seconds (process running for 99544.068)
+2026-01-07T18:30:24.179+04:00  INFO 24836 --- [carservices] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2026-01-07T18:30:26.971+04:00  INFO 24836 --- [carservices] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2026-01-07T18:30:26.974+04:00  INFO 24836 --- [carservices] [Thread-80] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-01-07T18:30:26.985+04:00  INFO 24836 --- [carservices] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2026-01-07T18:30:26.996+04:00  INFO 24836 --- [carservices] [Thread-80] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-01-07T18:30:27.009+04:00  INFO 24836 --- [carservices] [Thread-80] com.zaxxer.hikari.HikariDataSource       : HikariPool-20 - Shutdown initiated...
+2026-01-07T18:30:27.019+04:00  INFO 24836 --- [carservices] [Thread-80] com.zaxxer.hikari.HikariDataSource       : HikariPool-20 - Shutdown completed.
+2026-01-07T18:30:27.190+04:00  INFO 24836 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : Starting CarservicesApplication using Java 21.0.7 with PID 24836 (C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices\target\classes started by lenovo in C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices)
+2026-01-07T18:30:27.190+04:00  INFO 24836 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : No active profile set, falling back to 1 default profile: "default"
+2026-01-07T18:30:27.912+04:00  INFO 24836 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-07T18:30:28.102+04:00  INFO 24836 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 189 ms. Found 41 JPA repository interfaces.
+2026-01-07T18:30:28.331+04:00  INFO 24836 --- [carservices] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2026-01-07T18:30:28.332+04:00  INFO 24836 --- [carservices] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-07T18:30:28.333+04:00  INFO 24836 --- [carservices] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.40]
+2026-01-07T18:30:28.368+04:00  INFO 24836 --- [carservices] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-01-07T18:30:28.368+04:00  INFO 24836 --- [carservices] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1174 ms
+2026-01-07T18:30:28.453+04:00  INFO 24836 --- [carservices] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-01-07T18:30:28.460+04:00  INFO 24836 --- [carservices] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-01-07T18:30:28.480+04:00  INFO 24836 --- [carservices] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-01-07T18:30:28.481+04:00  INFO 24836 --- [carservices] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-21 - Starting...
+2026-01-07T18:30:28.536+04:00  INFO 24836 --- [carservices] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-21 - Added connection org.postgresql.jdbc.PgConnection@b55cc66
+2026-01-07T18:30:28.537+04:00  INFO 24836 --- [carservices] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-21 - Start completed.
+2026-01-07T18:30:28.544+04:00  WARN 24836 --- [carservices] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-01-07T18:30:28.545+04:00  INFO 24836 --- [carservices] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-21)']
+	Database driver: undefined/unknown
+	Database version: 17.5
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-01-07T18:30:28.959+04:00  INFO 24836 --- [carservices] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-01-07T18:30:29.015+04:00  INFO 24836 --- [carservices] [restartedMain] t.s.e.i.AbstractInformationExtractorImpl : HHH000475: Cannot locate column information using identifier [lower((manager_email)::text)]; ignoring index [ux_company_manager_email]
+2026-01-07T18:30:29.020+04:00  WARN 24836 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2026-01-07T18:30:29.021+04:00  WARN 24836 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : constraint "ux_company_company_name_ci" of relation "company" does not exist, skipping
+2026-01-07T18:30:29.033+04:00  WARN 24836 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2026-01-07T18:30:29.034+04:00  WARN 24836 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : constraint "ux_company_brand_name_ci" of relation "company" does not exist, skipping
+2026-01-07T18:30:29.775+04:00  INFO 24836 --- [carservices] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-01-07T18:30:30.854+04:00  WARN 24836 --- [carservices] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-01-07T18:30:31.034+04:00  INFO 24836 --- [carservices] [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:postgresql://localhost:5433/testdb'
+2026-01-07T18:30:31.075+04:00  INFO 24836 --- [carservices] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-01-07T18:30:31.095+04:00  INFO 24836 --- [carservices] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
+2026-01-07T18:30:31.099+04:00  INFO 24836 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : Started CarservicesApplication in 3.976 seconds (process running for 99550.99)
+2026-01-07T18:30:31.101+04:00  INFO 24836 --- [carservices] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2026-01-07T18:31:54.701+04:00  INFO 24836 --- [carservices] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 393 class path changes (1 addition, 0 deletions, 392 modifications)
+2026-01-07T18:31:54.704+04:00  INFO 24836 --- [carservices] [Thread-87] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-01-07T18:31:54.715+04:00  INFO 24836 --- [carservices] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2026-01-07T18:31:54.724+04:00  INFO 24836 --- [carservices] [Thread-87] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-01-07T18:31:54.727+04:00  INFO 24836 --- [carservices] [Thread-87] com.zaxxer.hikari.HikariDataSource       : HikariPool-21 - Shutdown initiated...
+2026-01-07T18:31:54.729+04:00  INFO 24836 --- [carservices] [Thread-87] com.zaxxer.hikari.HikariDataSource       : HikariPool-21 - Shutdown completed.
+2026-01-07T18:31:54.925+04:00  INFO 24836 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : Starting CarservicesApplication using Java 21.0.7 with PID 24836 (C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices\target\classes started by lenovo in C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices)
+2026-01-07T18:31:54.926+04:00  INFO 24836 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : No active profile set, falling back to 1 default profile: "default"
+2026-01-07T18:31:55.918+04:00  INFO 24836 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-07T18:31:56.181+04:00  INFO 24836 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 260 ms. Found 41 JPA repository interfaces.
+2026-01-07T18:31:56.486+04:00  INFO 24836 --- [carservices] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2026-01-07T18:31:56.487+04:00  INFO 24836 --- [carservices] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-07T18:31:56.488+04:00  INFO 24836 --- [carservices] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.40]
+2026-01-07T18:31:56.538+04:00  INFO 24836 --- [carservices] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-01-07T18:31:56.539+04:00  INFO 24836 --- [carservices] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1610 ms
+2026-01-07T18:31:56.648+04:00  INFO 24836 --- [carservices] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-01-07T18:31:56.653+04:00  INFO 24836 --- [carservices] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-01-07T18:31:56.685+04:00  INFO 24836 --- [carservices] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-01-07T18:31:56.688+04:00  INFO 24836 --- [carservices] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-22 - Starting...
+2026-01-07T18:31:56.893+04:00  INFO 24836 --- [carservices] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-22 - Added connection org.postgresql.jdbc.PgConnection@5238d849
+2026-01-07T18:31:56.895+04:00  INFO 24836 --- [carservices] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-22 - Start completed.
+2026-01-07T18:31:56.910+04:00  WARN 24836 --- [carservices] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-01-07T18:31:56.912+04:00  INFO 24836 --- [carservices] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-22)']
+	Database driver: undefined/unknown
+	Database version: 17.5
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-01-07T18:31:57.435+04:00  INFO 24836 --- [carservices] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-01-07T18:31:57.486+04:00  INFO 24836 --- [carservices] [restartedMain] t.s.e.i.AbstractInformationExtractorImpl : HHH000475: Cannot locate column information using identifier [lower((manager_email)::text)]; ignoring index [ux_company_manager_email]
+2026-01-07T18:31:57.489+04:00  WARN 24836 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2026-01-07T18:31:57.489+04:00  WARN 24836 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : constraint "ux_company_company_name_ci" of relation "company" does not exist, skipping
+2026-01-07T18:31:57.505+04:00  WARN 24836 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2026-01-07T18:31:57.505+04:00  WARN 24836 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : constraint "ux_company_brand_name_ci" of relation "company" does not exist, skipping
+2026-01-07T18:31:58.383+04:00  INFO 24836 --- [carservices] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-01-07T18:31:59.422+04:00  WARN 24836 --- [carservices] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-01-07T18:31:59.611+04:00  INFO 24836 --- [carservices] [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:postgresql://localhost:5433/testdb'
+2026-01-07T18:31:59.638+04:00  INFO 24836 --- [carservices] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-01-07T18:31:59.654+04:00  INFO 24836 --- [carservices] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
+2026-01-07T18:31:59.658+04:00  INFO 24836 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : Started CarservicesApplication in 4.822 seconds (process running for 99639.55)
+2026-01-07T18:31:59.659+04:00  INFO 24836 --- [carservices] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2026-01-07T18:32:07.063+04:00  INFO 24836 --- [carservices] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2026-01-07T18:32:07.066+04:00  INFO 24836 --- [carservices] [Thread-91] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-01-07T18:32:07.082+04:00  INFO 24836 --- [carservices] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2026-01-07T18:32:07.089+04:00  INFO 24836 --- [carservices] [Thread-91] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-01-07T18:32:07.091+04:00  INFO 24836 --- [carservices] [Thread-91] com.zaxxer.hikari.HikariDataSource       : HikariPool-22 - Shutdown initiated...
+2026-01-07T18:32:07.097+04:00  INFO 24836 --- [carservices] [Thread-91] com.zaxxer.hikari.HikariDataSource       : HikariPool-22 - Shutdown completed.
+2026-01-07T18:32:07.218+04:00  INFO 24836 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : Starting CarservicesApplication using Java 21.0.7 with PID 24836 (C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices\target\classes started by lenovo in C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices)
+2026-01-07T18:32:07.219+04:00  INFO 24836 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : No active profile set, falling back to 1 default profile: "default"
+2026-01-07T18:32:07.969+04:00  INFO 24836 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-07T18:32:08.226+04:00  INFO 24836 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 256 ms. Found 41 JPA repository interfaces.
+2026-01-07T18:32:08.447+04:00  INFO 24836 --- [carservices] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2026-01-07T18:32:08.448+04:00  INFO 24836 --- [carservices] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-07T18:32:08.449+04:00  INFO 24836 --- [carservices] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.40]
+2026-01-07T18:32:08.478+04:00  INFO 24836 --- [carservices] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-01-07T18:32:08.479+04:00  INFO 24836 --- [carservices] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1257 ms
+2026-01-07T18:32:08.572+04:00  INFO 24836 --- [carservices] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-01-07T18:32:08.578+04:00  INFO 24836 --- [carservices] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-01-07T18:32:08.591+04:00  INFO 24836 --- [carservices] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-01-07T18:32:08.592+04:00  INFO 24836 --- [carservices] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-23 - Starting...
+2026-01-07T18:32:08.674+04:00  INFO 24836 --- [carservices] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-23 - Added connection org.postgresql.jdbc.PgConnection@749764a0
+2026-01-07T18:32:08.675+04:00  INFO 24836 --- [carservices] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-23 - Start completed.
+2026-01-07T18:32:08.683+04:00  WARN 24836 --- [carservices] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-01-07T18:32:08.684+04:00  INFO 24836 --- [carservices] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-23)']
+	Database driver: undefined/unknown
+	Database version: 17.5
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-01-07T18:32:09.037+04:00  INFO 24836 --- [carservices] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-01-07T18:32:09.070+04:00  INFO 24836 --- [carservices] [restartedMain] t.s.e.i.AbstractInformationExtractorImpl : HHH000475: Cannot locate column information using identifier [lower((manager_email)::text)]; ignoring index [ux_company_manager_email]
+2026-01-07T18:32:09.076+04:00  WARN 24836 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2026-01-07T18:32:09.076+04:00  WARN 24836 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : constraint "ux_company_company_name_ci" of relation "company" does not exist, skipping
+2026-01-07T18:32:09.087+04:00  WARN 24836 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2026-01-07T18:32:09.087+04:00  WARN 24836 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : constraint "ux_company_brand_name_ci" of relation "company" does not exist, skipping
+2026-01-07T18:32:09.742+04:00  INFO 24836 --- [carservices] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-01-07T18:32:10.650+04:00  WARN 24836 --- [carservices] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-01-07T18:32:10.924+04:00  INFO 24836 --- [carservices] [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:postgresql://localhost:5433/testdb'
+2026-01-07T18:32:10.949+04:00  INFO 24836 --- [carservices] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-01-07T18:32:10.973+04:00  INFO 24836 --- [carservices] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
+2026-01-07T18:32:10.977+04:00  INFO 24836 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : Started CarservicesApplication in 3.798 seconds (process running for 99650.869)
+2026-01-07T18:32:10.979+04:00  INFO 24836 --- [carservices] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2026-01-07T18:32:18.485+04:00  INFO 24836 --- [carservices] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2026-01-07T18:32:18.487+04:00  INFO 24836 --- [carservices] [Thread-95] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-01-07T18:32:18.497+04:00  INFO 24836 --- [carservices] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2026-01-07T18:32:18.504+04:00  INFO 24836 --- [carservices] [Thread-95] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-01-07T18:32:18.508+04:00  INFO 24836 --- [carservices] [Thread-95] com.zaxxer.hikari.HikariDataSource       : HikariPool-23 - Shutdown initiated...
+2026-01-07T18:32:18.510+04:00  INFO 24836 --- [carservices] [Thread-95] com.zaxxer.hikari.HikariDataSource       : HikariPool-23 - Shutdown completed.
+2026-01-07T18:32:18.635+04:00  INFO 24836 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : Starting CarservicesApplication using Java 21.0.7 with PID 24836 (C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices\target\classes started by lenovo in C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices)
+2026-01-07T18:32:18.636+04:00  INFO 24836 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : No active profile set, falling back to 1 default profile: "default"
+2026-01-07T18:32:19.291+04:00  INFO 24836 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-07T18:32:19.526+04:00  INFO 24836 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 234 ms. Found 41 JPA repository interfaces.
+2026-01-07T18:32:19.733+04:00  INFO 24836 --- [carservices] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2026-01-07T18:32:19.734+04:00  INFO 24836 --- [carservices] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-07T18:32:19.735+04:00  INFO 24836 --- [carservices] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.40]
+2026-01-07T18:32:19.777+04:00  INFO 24836 --- [carservices] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-01-07T18:32:19.778+04:00  INFO 24836 --- [carservices] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1141 ms
+2026-01-07T18:32:19.872+04:00  INFO 24836 --- [carservices] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-01-07T18:32:19.901+04:00  INFO 24836 --- [carservices] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-01-07T18:32:19.917+04:00  INFO 24836 --- [carservices] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-01-07T18:32:19.920+04:00  INFO 24836 --- [carservices] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-24 - Starting...
+2026-01-07T18:32:19.996+04:00  INFO 24836 --- [carservices] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-24 - Added connection org.postgresql.jdbc.PgConnection@3a71b5ba
+2026-01-07T18:32:19.996+04:00  INFO 24836 --- [carservices] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-24 - Start completed.
+2026-01-07T18:32:20.006+04:00  WARN 24836 --- [carservices] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-01-07T18:32:20.008+04:00  INFO 24836 --- [carservices] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-24)']
+	Database driver: undefined/unknown
+	Database version: 17.5
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-01-07T18:32:20.297+04:00  INFO 24836 --- [carservices] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-01-07T18:32:20.328+04:00  INFO 24836 --- [carservices] [restartedMain] t.s.e.i.AbstractInformationExtractorImpl : HHH000475: Cannot locate column information using identifier [lower((manager_email)::text)]; ignoring index [ux_company_manager_email]
+2026-01-07T18:32:20.331+04:00  WARN 24836 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2026-01-07T18:32:20.331+04:00  WARN 24836 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : constraint "ux_company_company_name_ci" of relation "company" does not exist, skipping
+2026-01-07T18:32:20.340+04:00  WARN 24836 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2026-01-07T18:32:20.341+04:00  WARN 24836 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : constraint "ux_company_brand_name_ci" of relation "company" does not exist, skipping
+2026-01-07T18:32:21.113+04:00  INFO 24836 --- [carservices] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-01-07T18:32:22.137+04:00  WARN 24836 --- [carservices] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-01-07T18:32:22.330+04:00  INFO 24836 --- [carservices] [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:postgresql://localhost:5433/testdb'
+2026-01-07T18:32:22.363+04:00  INFO 24836 --- [carservices] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-01-07T18:32:22.389+04:00  INFO 24836 --- [carservices] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
+2026-01-07T18:32:22.392+04:00  INFO 24836 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : Started CarservicesApplication in 3.799 seconds (process running for 99662.284)
+2026-01-07T18:32:22.395+04:00  INFO 24836 --- [carservices] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2026-01-07T18:32:54.073+04:00  INFO 24836 --- [carservices] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 393 class path changes (1 addition, 0 deletions, 392 modifications)
+2026-01-07T18:32:54.075+04:00  INFO 24836 --- [carservices] [Thread-99] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-01-07T18:32:54.083+04:00  INFO 24836 --- [carservices] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2026-01-07T18:32:54.092+04:00  INFO 24836 --- [carservices] [Thread-99] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-01-07T18:32:54.095+04:00  INFO 24836 --- [carservices] [Thread-99] com.zaxxer.hikari.HikariDataSource       : HikariPool-24 - Shutdown initiated...
+2026-01-07T18:32:54.097+04:00  INFO 24836 --- [carservices] [Thread-99] com.zaxxer.hikari.HikariDataSource       : HikariPool-24 - Shutdown completed.
+2026-01-07T18:32:54.235+04:00  INFO 24836 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : Starting CarservicesApplication using Java 21.0.7 with PID 24836 (C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices\target\classes started by lenovo in C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices)
+2026-01-07T18:32:54.236+04:00  INFO 24836 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : No active profile set, falling back to 1 default profile: "default"
+2026-01-07T18:32:55.023+04:00  INFO 24836 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-07T18:32:55.311+04:00  INFO 24836 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 286 ms. Found 41 JPA repository interfaces.
+2026-01-07T18:32:55.560+04:00  INFO 24836 --- [carservices] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2026-01-07T18:32:55.561+04:00  INFO 24836 --- [carservices] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-07T18:32:55.561+04:00  INFO 24836 --- [carservices] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.40]
+2026-01-07T18:32:55.592+04:00  INFO 24836 --- [carservices] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-01-07T18:32:55.592+04:00  INFO 24836 --- [carservices] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1351 ms
+2026-01-07T18:32:55.695+04:00  INFO 24836 --- [carservices] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-01-07T18:32:55.701+04:00  INFO 24836 --- [carservices] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-01-07T18:32:55.714+04:00  INFO 24836 --- [carservices] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-01-07T18:32:55.717+04:00  INFO 24836 --- [carservices] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-25 - Starting...
+2026-01-07T18:32:55.800+04:00  INFO 24836 --- [carservices] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-25 - Added connection org.postgresql.jdbc.PgConnection@6b955418
+2026-01-07T18:32:55.800+04:00  INFO 24836 --- [carservices] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-25 - Start completed.
+2026-01-07T18:32:55.810+04:00  WARN 24836 --- [carservices] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-01-07T18:32:55.812+04:00  INFO 24836 --- [carservices] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-25)']
+	Database driver: undefined/unknown
+	Database version: 17.5
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-01-07T18:32:56.248+04:00  INFO 24836 --- [carservices] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-01-07T18:32:56.300+04:00  INFO 24836 --- [carservices] [restartedMain] t.s.e.i.AbstractInformationExtractorImpl : HHH000475: Cannot locate column information using identifier [lower((manager_email)::text)]; ignoring index [ux_company_manager_email]
+2026-01-07T18:32:56.303+04:00  WARN 24836 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2026-01-07T18:32:56.305+04:00  WARN 24836 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : constraint "ux_company_company_name_ci" of relation "company" does not exist, skipping
+2026-01-07T18:32:56.317+04:00  WARN 24836 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2026-01-07T18:32:56.317+04:00  WARN 24836 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : constraint "ux_company_brand_name_ci" of relation "company" does not exist, skipping
+2026-01-07T18:32:57.088+04:00  INFO 24836 --- [carservices] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-01-07T18:32:58.044+04:00  WARN 24836 --- [carservices] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-01-07T18:32:58.327+04:00  INFO 24836 --- [carservices] [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:postgresql://localhost:5433/testdb'
+2026-01-07T18:32:58.363+04:00  INFO 24836 --- [carservices] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-01-07T18:32:58.387+04:00  INFO 24836 --- [carservices] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
+2026-01-07T18:32:58.391+04:00  INFO 24836 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : Started CarservicesApplication in 4.208 seconds (process running for 99698.283)
+2026-01-07T18:32:58.394+04:00  INFO 24836 --- [carservices] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2026-01-07T18:33:12.441+04:00  INFO 24836 --- [carservices] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 461 class path changes (1 addition, 460 deletions, 0 modifications)
+2026-01-07T18:33:12.451+04:00  INFO 24836 --- [carservices] [Thread-103] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-01-07T18:33:12.491+04:00  INFO 24836 --- [carservices] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2026-01-07T18:33:12.513+04:00  INFO 24836 --- [carservices] [Thread-103] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-01-07T18:33:12.521+04:00  INFO 24836 --- [carservices] [Thread-103] com.zaxxer.hikari.HikariDataSource       : HikariPool-25 - Shutdown initiated...
+2026-01-07T18:33:12.546+04:00  INFO 24836 --- [carservices] [Thread-103] com.zaxxer.hikari.HikariDataSource       : HikariPool-25 - Shutdown completed.
+2026-01-07T19:01:26.761+04:00  INFO 31036 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : Starting CarservicesApplication using Java 21.0.7 with PID 31036 (C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices\target\classes started by lenovo in C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices)
+2026-01-07T19:01:26.763+04:00  INFO 31036 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : No active profile set, falling back to 1 default profile: "default"
+2026-01-07T19:01:26.820+04:00  INFO 31036 --- [carservices] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-01-07T19:01:26.820+04:00  INFO 31036 --- [carservices] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-01-07T19:01:27.930+04:00  INFO 31036 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-07T19:01:28.170+04:00  INFO 31036 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 229 ms. Found 41 JPA repository interfaces.
+2026-01-07T19:01:28.870+04:00  INFO 31036 --- [carservices] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2026-01-07T19:01:28.895+04:00  INFO 31036 --- [carservices] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-07T19:01:28.895+04:00  INFO 31036 --- [carservices] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.40]
+2026-01-07T19:01:28.942+04:00  INFO 31036 --- [carservices] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-01-07T19:01:28.942+04:00  INFO 31036 --- [carservices] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2121 ms
+2026-01-07T19:01:29.139+04:00  INFO 31036 --- [carservices] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-01-07T19:01:29.218+04:00  INFO 31036 --- [carservices] [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.13.Final
+2026-01-07T19:01:29.259+04:00  INFO 31036 --- [carservices] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-01-07T19:01:29.575+04:00  INFO 31036 --- [carservices] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-01-07T19:01:29.615+04:00  INFO 31036 --- [carservices] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-01-07T19:01:29.942+04:00  INFO 31036 --- [carservices] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@89c9116
+2026-01-07T19:01:29.945+04:00  INFO 31036 --- [carservices] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-01-07T19:01:30.012+04:00  WARN 31036 --- [carservices] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-01-07T19:01:30.032+04:00  INFO 31036 --- [carservices] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 17.5
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-01-07T19:01:31.272+04:00  INFO 31036 --- [carservices] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-01-07T19:01:31.408+04:00  INFO 31036 --- [carservices] [restartedMain] t.s.e.i.AbstractInformationExtractorImpl : HHH000475: Cannot locate column information using identifier [lower((manager_email)::text)]; ignoring index [ux_company_manager_email]
+2026-01-07T19:01:31.420+04:00  WARN 31036 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2026-01-07T19:01:31.420+04:00  WARN 31036 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : constraint "ux_company_company_name_ci" of relation "company" does not exist, skipping
+2026-01-07T19:01:31.446+04:00  WARN 31036 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2026-01-07T19:01:31.446+04:00  WARN 31036 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : constraint "ux_company_brand_name_ci" of relation "company" does not exist, skipping
+2026-01-07T19:01:32.193+04:00  INFO 31036 --- [carservices] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-01-07T19:01:32.605+04:00  INFO 31036 --- [carservices] [restartedMain] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-01-07T19:01:34.795+04:00  WARN 31036 --- [carservices] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-01-07T19:01:35.235+04:00  INFO 31036 --- [carservices] [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:postgresql://localhost:5433/testdb'
+2026-01-07T19:01:35.364+04:00  INFO 31036 --- [carservices] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-01-07T19:01:35.408+04:00  INFO 31036 --- [carservices] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
+2026-01-07T19:01:35.415+04:00  INFO 31036 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : Started CarservicesApplication in 9.201 seconds (process running for 9.713)
+2026-01-07T19:04:38.014+04:00  INFO 31036 --- [carservices] [http-nio-8081-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-01-07T19:04:38.016+04:00  INFO 31036 --- [carservices] [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-01-07T19:04:38.019+04:00  INFO 31036 --- [carservices] [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2026-01-07T20:53:18.043+04:00  INFO 31036 --- [carservices] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2026-01-07T20:53:18.138+04:00  INFO 31036 --- [carservices] [Thread-5] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-01-07T20:53:18.193+04:00  INFO 31036 --- [carservices] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2026-01-07T20:53:18.260+04:00  INFO 31036 --- [carservices] [Thread-5] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-01-07T20:53:18.331+04:00  INFO 31036 --- [carservices] [Thread-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-01-07T20:53:18.353+04:00  INFO 31036 --- [carservices] [Thread-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-01-07T20:53:18.798+04:00  INFO 31036 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : Starting CarservicesApplication using Java 21.0.7 with PID 31036 (C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices\target\classes started by lenovo in C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices)
+2026-01-07T20:53:18.800+04:00  INFO 31036 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : No active profile set, falling back to 1 default profile: "default"
+2026-01-07T20:53:20.316+04:00  INFO 31036 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-07T20:53:20.574+04:00  INFO 31036 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 255 ms. Found 41 JPA repository interfaces.
+2026-01-07T20:53:21.083+04:00  INFO 31036 --- [carservices] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2026-01-07T20:53:21.087+04:00  INFO 31036 --- [carservices] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-07T20:53:21.087+04:00  INFO 31036 --- [carservices] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.40]
+2026-01-07T20:53:21.143+04:00  INFO 31036 --- [carservices] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-01-07T20:53:21.144+04:00  INFO 31036 --- [carservices] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2327 ms
+2026-01-07T20:53:21.299+04:00  INFO 31036 --- [carservices] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-01-07T20:53:21.310+04:00  INFO 31036 --- [carservices] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-01-07T20:53:21.362+04:00  INFO 31036 --- [carservices] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-01-07T20:53:21.369+04:00  INFO 31036 --- [carservices] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2026-01-07T20:53:21.576+04:00  INFO 31036 --- [carservices] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-2 - Added connection org.postgresql.jdbc.PgConnection@44f11f5c
+2026-01-07T20:53:21.576+04:00  INFO 31036 --- [carservices] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2026-01-07T20:53:21.614+04:00  WARN 31036 --- [carservices] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-01-07T20:53:21.621+04:00  INFO 31036 --- [carservices] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-2)']
+	Database driver: undefined/unknown
+	Database version: 17.5
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-01-07T20:53:22.262+04:00  INFO 31036 --- [carservices] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-01-07T20:53:22.422+04:00  INFO 31036 --- [carservices] [restartedMain] t.s.e.i.AbstractInformationExtractorImpl : HHH000475: Cannot locate column information using identifier [lower((manager_email)::text)]; ignoring index [ux_company_manager_email]
+2026-01-07T20:53:22.442+04:00  WARN 31036 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2026-01-07T20:53:22.443+04:00  WARN 31036 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : constraint "ux_company_company_name_ci" of relation "company" does not exist, skipping
+2026-01-07T20:53:22.475+04:00  WARN 31036 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2026-01-07T20:53:22.477+04:00  WARN 31036 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : constraint "ux_company_brand_name_ci" of relation "company" does not exist, skipping
+2026-01-07T20:53:23.184+04:00  INFO 31036 --- [carservices] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-01-07T20:53:24.729+04:00  WARN 31036 --- [carservices] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-01-07T20:53:25.020+04:00  INFO 31036 --- [carservices] [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:postgresql://localhost:5433/testdb'
+2026-01-07T20:53:25.059+04:00  INFO 31036 --- [carservices] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-01-07T20:53:25.082+04:00  INFO 31036 --- [carservices] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
+2026-01-07T20:53:25.091+04:00  INFO 31036 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : Started CarservicesApplication in 6.442 seconds (process running for 6719.389)
+2026-01-07T20:53:25.096+04:00  INFO 31036 --- [carservices] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2026-01-07T20:54:59.603+04:00  INFO 31036 --- [carservices] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2026-01-07T20:54:59.607+04:00  INFO 31036 --- [carservices] [Thread-7] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-01-07T20:54:59.615+04:00  INFO 31036 --- [carservices] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2026-01-07T20:54:59.620+04:00  INFO 31036 --- [carservices] [Thread-7] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-01-07T20:54:59.621+04:00  INFO 31036 --- [carservices] [Thread-7] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown initiated...
+2026-01-07T20:54:59.624+04:00  INFO 31036 --- [carservices] [Thread-7] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown completed.
+2026-01-07T20:54:59.764+04:00  INFO 31036 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : Starting CarservicesApplication using Java 21.0.7 with PID 31036 (C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices\target\classes started by lenovo in C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices)
+2026-01-07T20:54:59.765+04:00  INFO 31036 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : No active profile set, falling back to 1 default profile: "default"
+2026-01-07T20:55:00.548+04:00  INFO 31036 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-07T20:55:00.792+04:00  INFO 31036 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 241 ms. Found 41 JPA repository interfaces.
+2026-01-07T20:55:01.029+04:00  INFO 31036 --- [carservices] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2026-01-07T20:55:01.033+04:00  INFO 31036 --- [carservices] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-07T20:55:01.034+04:00  INFO 31036 --- [carservices] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.40]
+2026-01-07T20:55:01.062+04:00  INFO 31036 --- [carservices] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-01-07T20:55:01.063+04:00  INFO 31036 --- [carservices] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1293 ms
+2026-01-07T20:55:01.141+04:00  INFO 31036 --- [carservices] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-01-07T20:55:01.145+04:00  INFO 31036 --- [carservices] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-01-07T20:55:01.164+04:00  INFO 31036 --- [carservices] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-01-07T20:55:01.167+04:00  INFO 31036 --- [carservices] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Starting...
+2026-01-07T20:55:01.225+04:00  INFO 31036 --- [carservices] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-3 - Added connection org.postgresql.jdbc.PgConnection@29e234c5
+2026-01-07T20:55:01.226+04:00  INFO 31036 --- [carservices] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Start completed.
+2026-01-07T20:55:01.233+04:00  WARN 31036 --- [carservices] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-01-07T20:55:01.235+04:00  INFO 31036 --- [carservices] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-3)']
+	Database driver: undefined/unknown
+	Database version: 17.5
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-01-07T20:55:01.640+04:00  INFO 31036 --- [carservices] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-01-07T20:55:01.680+04:00  INFO 31036 --- [carservices] [restartedMain] t.s.e.i.AbstractInformationExtractorImpl : HHH000475: Cannot locate column information using identifier [lower((manager_email)::text)]; ignoring index [ux_company_manager_email]
+2026-01-07T20:55:01.684+04:00  WARN 31036 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2026-01-07T20:55:01.684+04:00  WARN 31036 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : constraint "ux_company_company_name_ci" of relation "company" does not exist, skipping
+2026-01-07T20:55:01.694+04:00  WARN 31036 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2026-01-07T20:55:01.694+04:00  WARN 31036 --- [carservices] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : constraint "ux_company_brand_name_ci" of relation "company" does not exist, skipping
+2026-01-07T20:55:02.477+04:00  INFO 31036 --- [carservices] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-01-07T20:55:03.660+04:00  WARN 31036 --- [carservices] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-01-07T20:55:03.934+04:00  INFO 31036 --- [carservices] [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:postgresql://localhost:5433/testdb'
+2026-01-07T20:55:03.973+04:00  INFO 31036 --- [carservices] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-01-07T20:55:04.007+04:00  INFO 31036 --- [carservices] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
+2026-01-07T20:55:04.012+04:00  INFO 31036 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : Started CarservicesApplication in 4.301 seconds (process running for 6818.31)
+2026-01-07T20:55:04.014+04:00  INFO 31036 --- [carservices] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged

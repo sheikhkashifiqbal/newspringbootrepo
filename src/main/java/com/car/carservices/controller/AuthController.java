@@ -20,7 +20,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = {"http://localhost:3000","http://localhost:3001"}, allowCredentials = "true")
+//@CrossOrigin(origins = {"http://localhost:3000","http://localhost:3001"}, allowCredentials = "true")
  
 public class AuthController {
 
@@ -135,7 +135,7 @@ public ResponseEntity<?> login(@RequestBody LoginRequestDTO req) {
 
                  cookie = ResponseCookie.from("access_token", jwtToken)
                 .httpOnly(true)
-                .secure(false)                  // set true in production (HTTPS)
+                .secure(true)                  // set true in production (HTTPS)
                 .sameSite("None")                // or "None" + secure=true if cross-site
                 .path("/")
                 .maxAge(60 * 60)
