@@ -39,124 +39,88 @@ public class AuthController {
 public ResponseEntity<?> login(@RequestBody LoginRequestDTO req) {
     try {
         LoginResponseDTO res = authService.login(req);
-        ResponseCookie cookie;
-        String jwtToken;
-        Map<String, Object> loginResponse;
-        switch (res.getRole()) { // <— changed: decide by ACTUAL authenticated role
-            case "branch_manager":
-                loginResponse = new HashMap<>();
 
-                loginResponse.put("branch_id",  res.getBranchId());
-                loginResponse.put("company_id", res.getCompanyId());
-                loginResponse.put("branch_name", res.getBranchName());
+        if (res == null) {
+            return ResponseEntity.status(500).body("Login error: empty response from authService");
+        }
 
-                jwtToken = prJwtService.createAccessToken(
-                res.getEmail(),                // subject (email or userId)
-                60 * 60                         // TTL: 15 minutes
-        );
+        String role = res.getRole() == null ? "" : res.getRole().trim().toLowerCase();
 
-                cookie = ResponseCookie.from("access_token", jwtToken)
+        String jwtToken = prJwtService.createAccessToken(res.getEmail(), 60 * 60);
+
+        ResponseCookie cookie = ResponseCookie.from("access_token", jwtToken)
                 .httpOnly(true)
-                .secure(false)                  // set true in production (HTTPS)
-                .sameSite("none")                // or "None" + secure=true if cross-site
+                .secure(true)      // ✅ required for SameSite=None
+                .sameSite("None")  // ✅ required for cross-site cookie
                 .path("/")
                 .maxAge(60 * 60)
                 .build();
 
-        // Optional: also return token in JSON for Postman/mobile
-                loginResponse.put("token", jwtToken);
+        Map<String, Object> loginResponse = new HashMap<>();
+        loginResponse.put("token", jwtToken);
+
+        switch (role) {
+            case "branch_manager":
+                loginResponse.put("branch_id", res.getBranchId());
+                loginResponse.put("company_id", res.getCompanyId());
+                loginResponse.put("branch_name", res.getBranchName());
+                loginResponse.put("email", res.getEmail());
 
                 return ResponseEntity.ok()
-                    .header(HttpHeaders.SET_COOKIE, cookie.toString())
-                    .body(loginResponse);
+                        .header(HttpHeaders.SET_COOKIE, cookie.toString())
+                        .body(loginResponse);
 
             case "company_manager":
-                loginResponse = new HashMap<>();
-                loginResponse.put("company_id",  res.getCompanyId());
+                loginResponse.put("company_id", res.getCompanyId());
                 loginResponse.put("company_name", res.getCompanyName());
+                loginResponse.put("email", res.getEmail());
 
-                // NEW: fetch branch IDs for this company
-                //List<Long> branchIds = branchRepository.findBranchIdsByCompanyId(res.getCompanyId());
-                
-
-       List<Map<String, Object>> branchList = jdbcTemplate.query(
-            "SELECT branch_id, branch_name FROM branch WHERE company_id = ? ORDER BY branch_id",
-            (rs, rowNum) -> {
-                Map<String, Object> m = new HashMap<>();
-                m.put("branch_id",   rs.getLong("branch_id"));
-                m.put("branch_name", rs.getString("branch_name"));
-                return m;
-            },
-            res.getCompanyId()  // <-- your variable that holds the resolved company_id
-        );
-
-                // put the list in the response
-                loginResponse.put("branch_list", branchList);
-
-                // set branch_id to the first element of branch_list (if present)
-                if (!branchList.isEmpty()) {
-                    Object idVal = branchList.get(0).get("branch_id");
-                    Long firstBranchId = (idVal instanceof Number) ? ((Number) idVal).longValue() : null;
-                    if (firstBranchId != null) {
-                        loginResponse.put("branch_id", firstBranchId);
-                    }
-                }
-                jwtToken = prJwtService.createAccessToken(
-                        res.getEmail(),       // subject (email or userId)
-                        60 * 60               // TTL: 60 minutes
+                List<Map<String, Object>> branchList = jdbcTemplate.query(
+                        "SELECT branch_id, branch_name FROM branch WHERE company_id = ? ORDER BY branch_id",
+                        (rs, rowNum) -> {
+                            Map<String, Object> m = new HashMap<>();
+                            m.put("branch_id", rs.getLong("branch_id"));
+                            m.put("branch_name", rs.getString("branch_name"));
+                            return m;
+                        },
+                        res.getCompanyId()
                 );
 
-                cookie = ResponseCookie.from("access_token", jwtToken)
-                        .httpOnly(true)
-                        .secure(false)        // set true in production (HTTPS)
-                        .sameSite("none")      // or "None" + secure=true if cross-site
-                        .path("/")
-                        .maxAge(60 * 60)
-                        .build();
+                loginResponse.put("branch_list", branchList);
 
-                loginResponse.put("token", jwtToken);
+                if (!branchList.isEmpty()) {
+                    Object idVal = branchList.get(0).get("branch_id");
+                    if (idVal instanceof Number n) {
+                        loginResponse.put("branch_id", n.longValue());
+                    }
+                }
 
                 return ResponseEntity.ok()
                         .header(HttpHeaders.SET_COOKIE, cookie.toString())
                         .body(loginResponse);
 
             case "user":
-
-            loginResponse = new HashMap<>();
-            loginResponse.put("id",  res.getId());
-            loginResponse.put("full_name", res.getFullName());
-            loginResponse.put("email", res.getEmail());
-
-                
-                jwtToken = prJwtService.createAccessToken(
-                res.getEmail(),                // subject (email or userId)
-                60 * 60                         // TTL: 15 minutes
-        );
-
-                 cookie = ResponseCookie.from("access_token", jwtToken)
-                .httpOnly(true)
-                .secure(true)                  // set true in production (HTTPS)
-                .sameSite("None")                // or "None" + secure=true if cross-site
-                .path("/")
-                .maxAge(60 * 60)
-                .build();
-
-        // Optional: also return token in JSON for Postman/mobile
-                loginResponse.put("token", jwtToken);
+                loginResponse.put("id", res.getId());
+                loginResponse.put("full_name", res.getFullName());
+                loginResponse.put("email", res.getEmail());
 
                 return ResponseEntity.ok()
-                    .header(HttpHeaders.SET_COOKIE, cookie.toString())
-                    .body(loginResponse);
+                        .header(HttpHeaders.SET_COOKIE, cookie.toString())
+                        .body(loginResponse);
 
             default:
-                return ResponseEntity.status(500).body("Login error");
+                // ✅ don’t hide the real issue
+                return ResponseEntity.status(500).body("Login error: unknown role=" + res.getRole());
         }
+
     } catch (IllegalStateException notApproved) {
         return ResponseEntity.status(403).body("Account not approved");
     } catch (IllegalArgumentException badCreds) {
         return ResponseEntity.status(401).body("Invalid email or password");
     } catch (Exception ex) {
-        return ResponseEntity.status(500).body("Login error");
+        // ✅ At least log server-side
+        ex.printStackTrace();
+        return ResponseEntity.status(500).body("Login error: " + ex.getMessage());
     }
 }
 
