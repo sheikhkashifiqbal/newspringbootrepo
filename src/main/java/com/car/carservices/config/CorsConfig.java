@@ -15,7 +15,7 @@ public class CorsConfig {
   @Bean
   public CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration c = new CorsConfiguration();
-    c.setAllowedOrigins(List.of("http://localhost:3000", "http://localhost:3001"));
+    c.setAllowedOrigins(List.of("https://spareparts-staging-dtfzamatf2cqgzct.canadacentral-01.azurewebsites.net", "http://localhost:3001"));
     c.setAllowedMethods(List.of("GET","POST","PUT","PATCH","DELETE","OPTIONS"));
     c.setAllowedHeaders(List.of("*"));
     c.setExposedHeaders(List.of("Location","Content-Disposition"));
