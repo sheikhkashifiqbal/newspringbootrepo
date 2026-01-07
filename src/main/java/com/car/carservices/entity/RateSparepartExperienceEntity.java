@@ -18,6 +18,8 @@ private Long rateExperienceId;
 @Column(name = "branch_brand_sparepart_id", nullable = false)
 private Long branchBrandSparepartId;
 
+@Column(name = "user_id", nullable = false)
+private Long userId;
 
 @Column(name = "description", length = 1000)
 private String description;
@@ -51,7 +53,13 @@ public String getDescription() {
 return description;
 }
 
+public void setUserId(Long userId) {
+  this.userId = userId;
+}
 
+public Long getUserId() {
+  return userId;
+}
 public void setDescription(String description) {
 this.description = description;
 }

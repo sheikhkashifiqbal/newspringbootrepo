@@ -9,7 +9,8 @@ public class RateSparepartExperienceRequestDTO {
 
 @NotNull
 private Long branchBrandSparepartId;
-
+@NotNull
+private Long userId;
 
 @Size(max = 1000)
 private String description;
@@ -30,6 +31,13 @@ public void setBranchBrandSparepartId(Long branchBrandSparepartId) {
 this.branchBrandSparepartId = branchBrandSparepartId;
 }
 
+public void setUserId(Long userId) {
+  this.userId = userId;
+}
+
+public Long getUserId() {
+  return userId;
+}
 
 public String getDescription() {
 return description;

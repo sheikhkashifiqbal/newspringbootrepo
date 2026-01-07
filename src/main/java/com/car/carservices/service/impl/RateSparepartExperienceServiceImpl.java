@@ -38,6 +38,7 @@ RateSparepartExperienceEntity entity = repository.findById(id)
 
 
 entity.setBranchBrandSparepartId(dto.getBranchBrandSparepartId());
+entity.setUserId(dto.getUserId());
 entity.setDescription(dto.getDescription());
 entity.setStars(dto.getStars());
 
