@@ -39,7 +39,7 @@ public class SecurityConfig {
 
                 // protect ONLY these endpoints
                // .requestMatchers("/api/reservations/**").authenticated()
-
+                .requestMatchers("/api/**").permitAll()
                 // everything else open
                 .anyRequest().permitAll()
             )
