@@ -27,33 +27,20 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http,
-                                                   PRJwtAuthFilter prJwtAuthFilter) throws Exception {
-        http
-            .cors(Customizer.withDefaults())
-            .csrf(csrf -> csrf.disable()) // <- IMPORTANT for POST/PUT/DELETE with JWT
+     public SecurityFilterChain securityFilterChain(HttpSecurity http,
+                                               PRJwtAuthFilter prJwtAuthFilter) throws Exception {
+    http
+        .cors(Customizer.withDefaults())
+        .csrf(csrf -> csrf.disable())
+        .authorizeHttpRequests(auth -> auth
+            .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+            .requestMatchers("/api/**").permitAll()
+            .anyRequest().permitAll()
+        )
+        .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
-            .authorizeHttpRequests(auth -> auth
-                // allow preflight
-                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+    http.addFilterBefore(prJwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
-                // protect ONLY these endpoints
-               // .requestMatchers("/api/reservations/**").authenticated()
-                .requestMatchers("/api/**").permitAll()
-                // everything else open
-                .anyRequest().permitAll()
-            )
-
-            .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-
-            // Optional: make unauthenticated hit return 401 (not 403)
-            .exceptionHandling(ex -> ex
-                .authenticationEntryPoint((req, res, e) -> res.sendError(401))
-            );
-
-        // JWT filter must run before UsernamePasswordAuthenticationFilter
-        http.addFilterBefore(prJwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
-
-        return http.build();
-    }
+    return http.build();
+}
 }
