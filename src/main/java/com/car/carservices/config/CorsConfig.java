@@ -1,29 +1,36 @@
-// src/main/java/com/car/carservices/config/CorsConfig.java
 package com.car.carservices.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
 @Configuration
 public class CorsConfig {
 
-  @Bean
-  public CorsConfigurationSource corsConfigurationSource() {
-    CorsConfiguration c = new CorsConfiguration();
-    c.setAllowedOrigins(List.of("http://localhost:3000", "http://localhost:3001"));
-    c.setAllowedMethods(List.of("GET","POST","PUT","PATCH","DELETE","OPTIONS"));
-    c.setAllowedHeaders(List.of("*"));
-    c.setExposedHeaders(List.of("Location","Content-Disposition"));
-    c.setAllowCredentials(true); // needed if you send cookies
-    c.setMaxAge(3600L);
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration config = new CorsConfiguration();
 
-    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-    source.registerCorsConfiguration("/**", c);
-    return source;
-  }
+        // ✅ Must be explicit (no "*") when allowCredentials=true
+        config.setAllowedOrigins(List.of(
+                "https://gentle-beach-07ba6f81e.2.azurestaticapps.net"
+        ));
+
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+        config.setAllowedHeaders(List.of("*"));
+
+        // ✅ This is the header the error is complaining about
+        config.setAllowCredentials(true);
+
+        // Optional but useful
+        config.setExposedHeaders(List.of("Set-Cookie", "Authorization"));
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+        return source;
+    }
 }
