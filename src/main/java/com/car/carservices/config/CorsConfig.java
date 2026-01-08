@@ -15,19 +15,20 @@ public class CorsConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
 
-        // ✅ Must be explicit (no "*") when allowCredentials=true
+        // ✅ Your Azure Static Web Apps domain (frontend)
         config.setAllowedOrigins(List.of(
                 "https://gentle-beach-07ba6f81e.2.azurestaticapps.net"
+                
         ));
 
-        config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+        config.setAllowedMethods(List.of("GET","POST","PUT","PATCH","DELETE","OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
 
-        // ✅ This is the header the error is complaining about
+        // If you use cookies (you do read cookie "access_token"), keep this true:
         config.setAllowCredentials(true);
 
-        // Optional but useful
-        config.setExposedHeaders(List.of("Set-Cookie", "Authorization"));
+        // Optional
+        config.setExposedHeaders(List.of("Authorization", "Content-Disposition"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
