@@ -14,37 +14,24 @@ import java.util.List;
 public class CorsConfig {
 
     @Bean
-    @Order(Ordered.HIGHEST_PRECEDENCE)
     public CorsConfigurationSource corsConfigurationSource() {
-
         CorsConfiguration config = new CorsConfiguration();
 
-        // ✅ Use patterns for Azure (more stable than a single exact host)
+        // ✅ Best for Azure Static Web Apps + local dev
         config.setAllowedOriginPatterns(List.of(
                 "https://gentle-beach-07ba6f81e.2.azurestaticapps.net",
-                "https://*.azurestaticapps.net",
                 "http://localhost:3000",
                 "http://localhost:3001"
         ));
 
-        config.setAllowCredentials(true); // ✅ REQUIRED because you use cookies + credentials: include
+        config.setAllowedMethods(List.of("GET","POST","PUT","PATCH","DELETE","OPTIONS"));
 
-        config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+        // Be explicit for auth
+        config.setAllowedHeaders(List.of("Authorization", "Content-Type", "Accept", "Origin"));
+        config.setExposedHeaders(List.of("Authorization", "Set-Cookie"));
 
-        // ✅ Don’t rely on "*" for headers in tricky deployments
-        config.setAllowedHeaders(List.of(
-                "Authorization",
-                "Content-Type",
-                "Accept",
-                "Origin",
-                "X-Requested-With",
-                "Access-Control-Request-Method",
-                "Access-Control-Request-Headers"
-        ));
-
-        // Optional but helpful
-        config.setExposedHeaders(List.of("Set-Cookie", "Authorization"));
-        config.setMaxAge(3600L);
+        // ✅ required because you are setting/reading cookies (access_token)
+        config.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
