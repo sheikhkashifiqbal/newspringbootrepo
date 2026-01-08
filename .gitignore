@@ -38,3 +38,4 @@ src/main/resources/application.properties
 src/main/java/com/car/carservices/CarservicesApplication - Copy.java
 pom.xml
 src/main/java/com/car/carservices/config/SecurityConfig.java
+src/main/java/com/car/carservices/config/CorsConfig.java

@@ -81,7 +81,8 @@ public class ReservationScheduleDao {
                 b.brand_name,
                 r.model_id,
                 m.model_name,
-                cd.plate_number,
+                
+                'plate number' as plate_number,
                 r.service_id,
                 s.service_name,
                 u.email
@@ -90,8 +91,7 @@ public class ReservationScheduleDao {
               ON b.brand_id = r.brand_id
             JOIN car_brand_model m
               ON m.id = r.model_id
-            JOIN car_details cd
-              ON cd.car_id = r.car_id
+            
             JOIN service_entity s
               ON s.service_id = r.service_id
             JOIN user_registration u
