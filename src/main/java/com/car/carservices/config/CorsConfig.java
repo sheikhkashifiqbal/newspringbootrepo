@@ -15,20 +15,36 @@ public class CorsConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
 
-        // ✅ Your Azure Static Web Apps domain (frontend)
-        config.setAllowedOrigins(List.of(
-                "https://gentle-beach-07ba6f81e.2.azurestaticapps.net"
-                
+        // ✅ IMPORTANT: When allowCredentials=true, you CANNOT use "*" in allowedOrigins.
+        // Use exact origins or allowedOriginPatterns.
+        config.setAllowedOriginPatterns(List.of(
+                "https://gentle-beach-07ba6f81e.2.azurestaticapps.net",
+                "https://*.azurestaticapps.net",
+                "http://localhost:3000",
+                "http://localhost:3001"
         ));
 
-        config.setAllowedMethods(List.of("GET","POST","PUT","PATCH","DELETE","OPTIONS"));
-        config.setAllowedHeaders(List.of("*"));
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
 
-        // If you use cookies (you do read cookie "access_token"), keep this true:
+        // Safer than "*" for some proxies / setups
+        config.setAllowedHeaders(List.of(
+                "Authorization",
+                "Content-Type",
+                "X-Requested-With",
+                "Accept",
+                "Origin",
+                "Access-Control-Request-Method",
+                "Access-Control-Request-Headers"
+        ));
+
+        // ✅ You are using credentials: 'include' so this MUST be true
         config.setAllowCredentials(true);
 
-        // Optional
-        config.setExposedHeaders(List.of("Authorization", "Content-Disposition"));
+        // Optional: if you want frontend to read these headers
+        config.setExposedHeaders(List.of("Authorization", "Set-Cookie", "Content-Disposition"));
+
+        // Optional: cache preflight
+        config.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
