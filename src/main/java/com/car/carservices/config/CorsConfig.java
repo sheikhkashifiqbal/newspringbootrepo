@@ -2,8 +2,6 @@ package com.car.carservices.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -17,21 +15,20 @@ public class CorsConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
 
-        // ✅ Best for Azure Static Web Apps + local dev
-        config.setAllowedOriginPatterns(List.of(
-                "https://gentle-beach-07ba6f81e.2.azurestaticapps.net",
-                "http://localhost:3000",
-                "http://localhost:3001"
+        // ✅ Your Azure Static Web Apps domain (frontend)
+        config.setAllowedOrigins(List.of(
+                "https://gentle-beach-07ba6f81e.2.azurestaticapps.net"
+                
         ));
 
         config.setAllowedMethods(List.of("GET","POST","PUT","PATCH","DELETE","OPTIONS"));
+        config.setAllowedHeaders(List.of("*"));
 
-        // Be explicit for auth
-        config.setAllowedHeaders(List.of("Authorization", "Content-Type", "Accept", "Origin"));
-        config.setExposedHeaders(List.of("Authorization", "Set-Cookie"));
-
-        // ✅ required because you are setting/reading cookies (access_token)
+        // If you use cookies (you do read cookie "access_token"), keep this true:
         config.setAllowCredentials(true);
+
+        // Optional
+        config.setExposedHeaders(List.of("Authorization", "Content-Disposition"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
