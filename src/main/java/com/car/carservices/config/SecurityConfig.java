@@ -1,7 +1,6 @@
 package com.car.carservices.config;
 
 import com.car.carservices.security.PRJwtAuthFilter;
-import com.car.carservices.security.PRJwtService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -16,31 +15,38 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 public class SecurityConfig {
 
-    @Bean
-    public PRJwtAuthFilter prJwtAuthFilter(PRJwtService prJwtService) {
-        return new PRJwtAuthFilter(prJwtService);
+    private final PRJwtAuthFilter prJwtAuthFilter;
+
+    public SecurityConfig(PRJwtAuthFilter prJwtAuthFilter) {
+        this.prJwtAuthFilter = prJwtAuthFilter;
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration cfg) throws Exception {
-        return cfg.getAuthenticationManager();
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
+        http
+            // ✅ This makes Spring Security apply CorsConfigurationSource
+            .cors(Customizer.withDefaults())
+            .csrf(csrf -> csrf.disable())
+            .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .authorizeHttpRequests(auth -> auth
+                // ✅ Always permit preflight
+                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+
+                // (adjust these as you need)
+                .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers("/api/**").permitAll()
+
+                .anyRequest().permitAll()
+            );
+
+        http.addFilterBefore(prJwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+
+        return http.build();
     }
 
     @Bean
-     public SecurityFilterChain securityFilterChain(HttpSecurity http,
-                                               PRJwtAuthFilter prJwtAuthFilter) throws Exception {
-    http
-        .cors(Customizer.withDefaults())
-        .csrf(csrf -> csrf.disable())
-        .authorizeHttpRequests(auth -> auth
-            .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-            .requestMatchers("/api/**").permitAll()
-            .anyRequest().permitAll()
-        )
-        .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-
-    http.addFilterBefore(prJwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
-
-    return http.build();
-}
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+        return config.getAuthenticationManager();
+    }
 }
