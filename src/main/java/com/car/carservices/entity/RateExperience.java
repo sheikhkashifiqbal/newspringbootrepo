@@ -29,4 +29,11 @@ public class RateExperience {
 
     @Column(name = "date")
     private LocalDate date;
+
+    // inside RateExperience entity
+
+    @Column(name = "reservation_id")
+    private Long reservationId;
+
+    
 }

@@ -14,6 +14,7 @@ public class RateExperienceMapper {
         dto.setUserId(entity.getUserId());
         dto.setStars(entity.getStars());
         dto.setDescription(entity.getDescription());
+        dto.setReservationId(entity.getReservationId());
         dto.setDate(entity.getDate());
         return dto;
     }
@@ -25,7 +26,9 @@ public class RateExperienceMapper {
         entity.setUserId(dto.getUserId());
         entity.setStars(dto.getStars());
         entity.setDescription(dto.getDescription());
+        entity.setReservationId(dto.getReservationId());
         entity.setDate(dto.getDate());
+
         return entity;
     }
 }

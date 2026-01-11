@@ -11,4 +11,7 @@ public class RateExperienceDTO {
     private String description;
     private Integer stars;
     private LocalDate date;
+
+    private Long reservationId;
+
 }

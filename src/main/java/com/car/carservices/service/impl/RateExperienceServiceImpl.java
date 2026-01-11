@@ -5,6 +5,7 @@ import com.car.carservices.entity.RateExperience;
 import com.car.carservices.mapper.RateExperienceMapper;
 import com.car.carservices.repository.RateExperienceRepository;
 import com.car.carservices.repository.UserRegistrationRepository;
+import com.car.carservices.repository.ReservationServiceRequestRepository;
 import com.car.carservices.service.RateExperienceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,31 +21,66 @@ public class RateExperienceServiceImpl implements RateExperienceService {
     @Autowired private RateExperienceMapper mapper;
     @Autowired private UserRegistrationRepository userRepo;
 
+    // ✅ NEW: to validate reservation_id FK
+    @Autowired private ReservationServiceRequestRepository reservationRepo;
+
     @Override
     public RateExperienceDTO create(RateExperienceDTO dto) {
+        // ✅ Validate reservation_id (only if provided)
+        if (dto.getReservationId() != null) {
+            boolean exists = reservationRepo.existsById(dto.getReservationId());
+            if (!exists) {
+                throw new IllegalArgumentException(
+                    "reservation_service_request not found with id=" + dto.getReservationId()
+                );
+            }
+        }
+
         RateExperience entity = mapper.toEntity(dto);
         if (entity.getDate() == null) entity.setDate(java.time.LocalDate.now());
         return mapper.toDTO(repository.save(entity));
     }
 
-    @Override public RateExperienceDTO get(Long id) { return mapper.toDTO(repository.findById(id).orElseThrow()); }
+    @Override
+    public RateExperienceDTO get(Long id) {
+        return mapper.toDTO(repository.findById(id).orElseThrow());
+    }
 
-    @Override public List<RateExperienceDTO> getAll() {
+    @Override
+    public List<RateExperienceDTO> getAll() {
         return repository.findAll().stream().map(mapper::toDTO).collect(Collectors.toList());
     }
 
     @Override
     public RateExperienceDTO update(Long id, RateExperienceDTO dto) {
         RateExperience entity = repository.findById(id).orElseThrow();
-        entity.setBranchBrandServiceID(dto.getBranchBrandServiceID()); // ✅ correct
+
+        // ✅ Validate reservation_id (only if provided)
+        if (dto.getReservationId() != null) {
+            boolean exists = reservationRepo.existsById(dto.getReservationId());
+            if (!exists) {
+                throw new IllegalArgumentException(
+                    "reservation_service_request not found with id=" + dto.getReservationId()
+                );
+            }
+        }
+
+        entity.setBranchBrandServiceID(dto.getBranchBrandServiceID());
         entity.setUserId(dto.getUserId());
         entity.setStars(dto.getStars());
         entity.setDescription(dto.getDescription());
         entity.setDate(dto.getDate());
+
+        // ✅ NEW: persist reservation_id (null allowed)
+        entity.setReservationId(dto.getReservationId());
+
         return mapper.toDTO(repository.save(entity));
     }
 
-    @Override public void delete(Long id) { repository.deleteById(id); }
+    @Override
+    public void delete(Long id) {
+        repository.deleteById(id);
+    }
 
     @Override
     public Map<String, Object> getBranchSummary(Long branchId) {
@@ -59,6 +95,10 @@ public class RateExperienceServiceImpl implements RateExperienceService {
             item.put("user_name", userRepo.findById(r.getUserId()).map(u -> u.getFullName()).orElse("Unknown"));
             item.put("stars", r.getStars());
             item.put("description", r.getDescription());
+
+            // ✅ NEW: include reservation_id in response (non-breaking additive field)
+            item.put("reservation_id", r.getReservationId());
+
             return item;
         }).collect(Collectors.toList());
 

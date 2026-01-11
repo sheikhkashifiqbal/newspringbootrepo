@@ -69,7 +69,7 @@ public class ReservationQueryDao {
              AND bbs.brand_id   = r.brand_id
 
             LEFT JOIN rate_experience re
-              ON re.branch_brand_serviceid = bbs.id
+              ON re.reservation_id = r.reservation_id
 
             WHERE r.user_id = ?
 
