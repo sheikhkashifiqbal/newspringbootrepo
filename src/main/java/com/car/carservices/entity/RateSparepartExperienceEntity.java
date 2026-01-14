@@ -18,6 +18,9 @@ private Long rateExperienceId;
 @Column(name = "branch_brand_sparepart_id", nullable = false)
 private Long branchBrandSparepartId;
 
+@Column(name = "sparepartsrequest_id")
+private Long sparepartsrequestId;
+
 @Column(name = "user_id", nullable = false)
 private Long userId;
 
@@ -37,6 +40,9 @@ return rateExperienceId;
 public void setRateExperienceId(Long rateExperienceId) {
 this.rateExperienceId = rateExperienceId;
 }
+
+public Long getSparepartsrequestId() { return sparepartsrequestId; }
+public void setSparepartsrequestId(Long sparepartsrequestId) { this.sparepartsrequestId = sparepartsrequestId; }
 
 
 public Long getBranchBrandSparepartId() {

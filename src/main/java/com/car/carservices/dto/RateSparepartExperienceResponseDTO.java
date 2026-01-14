@@ -6,7 +6,9 @@ public class RateSparepartExperienceResponseDTO {
 
 private Long rateExperienceId;
 private Long branchBrandSparepartId;
- private Long userId;
+private Long sparepartsrequestId;
+
+private Long userId;
 private String description;
 private Integer stars;
 
@@ -33,6 +35,8 @@ public Long getBranchBrandSparepartId() {
 return branchBrandSparepartId;
 }
 
+public Long getSparepartsrequestId() { return sparepartsrequestId; }
+public void setSparepartsrequestId(Long sparepartsrequestId) { this.sparepartsrequestId = sparepartsrequestId; }
 
 public void setBranchBrandSparepartId(Long branchBrandSparepartId) {
 this.branchBrandSparepartId = branchBrandSparepartId;

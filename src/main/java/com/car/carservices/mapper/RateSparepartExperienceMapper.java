@@ -12,6 +12,8 @@ public static RateSparepartExperienceEntity toEntity(RateSparepartExperienceRequ
 RateSparepartExperienceEntity entity = new RateSparepartExperienceEntity();
 entity.setBranchBrandSparepartId(dto.getBranchBrandSparepartId());
 
+entity.setSparepartsrequestId(dto.getSparepartsrequestId());
+
 entity.setUserId(dto.getUserId());
 
 entity.setDescription(dto.getDescription());
@@ -23,6 +25,7 @@ return entity;
 public static RateSparepartExperienceResponseDTO toDTO(RateSparepartExperienceEntity entity) {
 RateSparepartExperienceResponseDTO dto = new RateSparepartExperienceResponseDTO();
 dto.setRateExperienceId(entity.getRateExperienceId());
+dto.setSparepartsrequestId(entity.getSparepartsrequestId());
  dto.setUserId(entity.getUserId());
  
 dto.setBranchBrandSparepartId(entity.getBranchBrandSparepartId());

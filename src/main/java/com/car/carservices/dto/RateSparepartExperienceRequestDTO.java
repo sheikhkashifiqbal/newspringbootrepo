@@ -12,6 +12,8 @@ private Long branchBrandSparepartId;
 @NotNull
 private Long userId;
 
+private Long sparepartsrequestId;
+
 @Size(max = 1000)
 private String description;
 
@@ -35,6 +37,8 @@ public void setUserId(Long userId) {
   this.userId = userId;
 }
 
+public Long getSparepartsrequestId() { return sparepartsrequestId; }
+public void setSparepartsrequestId(Long sparepartsrequestId) { this.sparepartsrequestId = sparepartsrequestId; }
 public Long getUserId() {
   return userId;
 }
