@@ -21,12 +21,33 @@ public class BranchAggregateRepository {
                 b.branch_name      AS branchName,
                 b.logo_img         AS logoImg,
                 b.branch_cover_img AS branchCoverImg,
-                s.service_name     AS serviceName,
+
+                -- UPDATED: Append price + currency from lmps_service in the format: "ServiceName 100 AED"
+                CASE 
+                    WHEN ls.price IS NOT NULL AND ls.currency IS NOT NULL AND ls.currency <> '' 
+                        THEN (s.service_name || ' ' || ls.price::text || ' ' || ls.currency)
+                    WHEN ls.price IS NOT NULL 
+                        THEN (s.service_name || ' ' || ls.price::text)
+                    ELSE s.service_name
+                END AS serviceName,
+
                 -- NEW: average stars per branch (nullable if no ratings)
                 AVG(re.stars) OVER (PARTITION BY b.branch_id) AS avgStars
+
             FROM branch b
             LEFT JOIN branch_brand_service bbs ON bbs.branch_id = b.branch_id
             LEFT JOIN service_entity s ON s.service_id = bbs.service_id
+
+            -- NEW: pick the latest ACTIVE lmps_service row for the service_id
+            LEFT JOIN LATERAL (
+                SELECT l.price, l.currency
+                FROM lmps_service l
+                WHERE l.service_id = s.service_id
+                  AND LOWER(COALESCE(l.status, '')) = 'active'
+                ORDER BY l.lmps_service_id DESC
+                LIMIT 1
+            ) ls ON TRUE
+
             LEFT JOIN rate_experience re ON re.branch_brand_serviceid = bbs.id
             WHERE b.status = 'approved' OR b.status = 'APPROVED'
             ORDER BY b.branch_id
