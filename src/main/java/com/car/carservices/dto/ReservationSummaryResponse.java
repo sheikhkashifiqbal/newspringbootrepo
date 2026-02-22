@@ -20,5 +20,10 @@ public record ReservationSummaryResponse(
     @JsonProperty("branch_brand_serviceid") Long branchBrandServiceId,
     @JsonProperty("plate_number") String plateNumber,
     @JsonProperty("stars") Integer stars,
+
+    // ✅ NEW FIELDS (from lmps_service)
+    @JsonProperty("price") Double price,
+    @JsonProperty("currency") String currency,
+
     @JsonProperty("reservation_service_sparepart") List<ReservationSparePartLine> spareParts
 ) {}

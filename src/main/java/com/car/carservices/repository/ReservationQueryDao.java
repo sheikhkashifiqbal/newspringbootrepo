@@ -44,7 +44,11 @@ public class ReservationQueryDao {
                 bbs.id                     AS branch_brand_serviceid,
                 cd.plate_number            AS plate_number,
 
-                COALESCE(AVG(re.stars), 0) AS stars
+                COALESCE(AVG(re.stars), 0) AS stars,
+
+                -- ✅ NEW: price + currency from lmps_service (latest ACTIVE row by lmps_service_id)
+                ls.price                   AS price,
+                ls.currency                AS currency
 
             FROM reservation_service_request r
 
@@ -63,6 +67,16 @@ public class ReservationQueryDao {
             JOIN service_entity s
               ON s.service_id = r.service_id
 
+            -- ✅ NEW: LATERAL subquery to fetch latest active pricing per service_id
+            LEFT JOIN LATERAL (
+                SELECT l.price, l.currency
+                FROM lmps_service l
+                WHERE l.service_id = r.service_id
+                  AND LOWER(COALESCE(l.status, '')) = 'active'
+                ORDER BY l.lmps_service_id DESC
+                LIMIT 1
+            ) ls ON TRUE
+
             LEFT JOIN branch_brand_service bbs
               ON bbs.branch_id = r.branch_id
              AND bbs.service_id = r.service_id
@@ -78,7 +92,8 @@ public class ReservationQueryDao {
                 r.reservation_id, r.reservation_date, r.reservation_time,
                 b.branch_name, b.branch_address, b.city, b.logo_img,
                 br.brand_name, m.model_name, s.service_name,
-                r.reservation_status, bbs.id, cd.plate_number
+                r.reservation_status, bbs.id, cd.plate_number,
+                ls.price, ls.currency
 
             ORDER BY r.reservation_date DESC, r.reservation_time DESC
             """;
@@ -111,7 +126,11 @@ public class ReservationQueryDao {
                 bbs.id                     AS branch_brand_serviceid,
                 cd.plate_number            AS plate_number,
 
-                COALESCE(AVG(re.stars), 0) AS stars
+                COALESCE(AVG(re.stars), 0) AS stars,
+
+                -- ✅ NEW: price + currency from lmps_service (latest ACTIVE row)
+                ls.price                   AS price,
+                ls.currency                AS currency
 
             FROM reservation_service_request r
 
@@ -130,6 +149,16 @@ public class ReservationQueryDao {
             JOIN service_entity s
               ON s.service_id = r.service_id
 
+            -- ✅ NEW: LATERAL subquery to fetch latest active pricing per service_id
+            LEFT JOIN LATERAL (
+                SELECT l.price, l.currency
+                FROM lmps_service l
+                WHERE l.service_id = r.service_id
+                  AND LOWER(COALESCE(l.status, '')) = 'active'
+                ORDER BY l.lmps_service_id DESC
+                LIMIT 1
+            ) ls ON TRUE
+
             LEFT JOIN branch_brand_service bbs
               ON bbs.branch_id = r.branch_id
              AND bbs.service_id = r.service_id
@@ -145,7 +174,8 @@ public class ReservationQueryDao {
                 r.reservation_id, r.reservation_date, r.reservation_time,
                 b.branch_name, b.branch_address, b.city, b.logo_img,
                 br.brand_name, m.model_name, s.service_name,
-                r.reservation_status, bbs.id, cd.plate_number
+                r.reservation_status, bbs.id, cd.plate_number,
+                ls.price, ls.currency
 
             ORDER BY r.reservation_date DESC, r.reservation_time DESC
             """;
@@ -215,25 +245,44 @@ public class ReservationQueryDao {
             String reservationStatus,
             Long branchBrandServiceId,
             String plateNumber,
-            Double stars
+            Double stars,
+
+            // ✅ NEW
+            Double price,
+            String currency
     ) {}
 
-    private static final RowMapper<ReservationRowRaw> ROW_MAPPER = (ResultSet rs, int rowNum) ->
-            new ReservationRowRaw(
-                    rs.getLong("user_id"),
-                    rs.getLong("reservation_id"),
-                    rs.getObject("reservation_date", LocalDate.class),
-                    rs.getObject("reservation_time", LocalTime.class),
-                    rs.getString("branch_name"),
-                    rs.getString("address"),          // ✔ returns branch_address
-                    rs.getString("city"),
-                    rs.getString("logo_img"),
-                    rs.getString("brand_name"),
-                    rs.getString("model_name"),
-                    rs.getString("service_name"),
-                    rs.getString("reservation_status"),
-                    (Long) rs.getObject("branch_brand_serviceid"),
-                    rs.getString("plate_number"),
-                    rs.getObject("stars") == null ? 0.0 : ((Number) rs.getObject("stars")).doubleValue()
-            );
+    private static final RowMapper<ReservationRowRaw> ROW_MAPPER = (ResultSet rs, int rowNum) -> {
+        Double starsVal = rs.getObject("stars") == null ? 0.0 : ((Number) rs.getObject("stars")).doubleValue();
+
+        Double priceVal = null;
+        Object p = rs.getObject("price");
+        if (p instanceof Number) {
+            priceVal = ((Number) p).doubleValue();
+        } else if (p != null) {
+            try { priceVal = Double.valueOf(p.toString()); } catch (Exception ignore) {}
+        }
+
+        return new ReservationRowRaw(
+                rs.getLong("user_id"),
+                rs.getLong("reservation_id"),
+                rs.getObject("reservation_date", LocalDate.class),
+                rs.getObject("reservation_time", LocalTime.class),
+                rs.getString("branch_name"),
+                rs.getString("address"),          // ✔ returns branch_address
+                rs.getString("city"),
+                rs.getString("logo_img"),
+                rs.getString("brand_name"),
+                rs.getString("model_name"),
+                rs.getString("service_name"),
+                rs.getString("reservation_status"),
+                (Long) rs.getObject("branch_brand_serviceid"),
+                rs.getString("plate_number"),
+                starsVal,
+
+                // ✅ NEW
+                priceVal,
+                rs.getString("currency")
+        );
+    };
 }

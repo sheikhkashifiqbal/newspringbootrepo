@@ -52,6 +52,11 @@ public class ReservationQueryService {
                     r.branchBrandServiceId(),
                     r.plateNumber(),
                     stars,
+
+                    // ✅ NEW
+                    r.price(),
+                    r.currency(),
+
                     partsByRes.getOrDefault(r.reservationId(), List.of())
             ));
         }
@@ -90,6 +95,11 @@ public class ReservationQueryService {
                     r.branchBrandServiceId(),
                     r.plateNumber(),
                     stars,
+
+                    // ✅ NEW
+                    r.price(),
+                    r.currency(),
+
                     partsByRes.getOrDefault(r.reservationId(), List.of())
             ));
         }
