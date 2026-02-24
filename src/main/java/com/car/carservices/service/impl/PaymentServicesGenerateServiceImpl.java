@@ -83,6 +83,14 @@ public class PaymentServicesGenerateServiceImpl implements PaymentServicesGenera
             BigDecimal earning2 = nz(r.totalEarning()).setScale(2, RoundingMode.HALF_UP);
             BigDecimal commission2 = earning2.multiply(COMMISSION_RATE).setScale(2, RoundingMode.HALF_UP);
 
+            // find stored row to get latest status
+            PaymentServices stored =
+                    paymentRepo.findByBranchIdAndMonthAndYear(r.branchId(), m, y).orElse(null);
+
+            String status = (stored != null && stored.getStatus() != null)
+                    ? stored.getStatus()
+                    : "unpaid";
+
             response.add(new PaymentServicesBranchSummaryDTO(
                     r.companyId(),
                     r.companyName(),
@@ -91,8 +99,9 @@ public class PaymentServicesGenerateServiceImpl implements PaymentServicesGenera
                     earning2,
                     r.currency(),
                     commission2,
-                    month2,  // ✅ formatted
-                    y
+                    month2,
+                    y,
+                    status   // ✅ NEW FIELD
             ));
         }
 
