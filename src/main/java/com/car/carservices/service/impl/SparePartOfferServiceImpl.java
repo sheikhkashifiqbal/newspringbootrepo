@@ -68,6 +68,7 @@ public class SparePartOfferServiceImpl implements SparePartOfferService {
                     n(r.getSparePart()),
                     n(r.getClassType()),
                     r.getQty(),
+                    r.getCurrency(),
                     r.getPrice()
                 ));
             }
@@ -107,6 +108,7 @@ public class SparePartOfferServiceImpl implements SparePartOfferService {
                     n(r.getSparePart()),
                     n(r.getClassType()),
                     r.getQty(),
+                    r.getCurrency(),
                     r.getPrice()
                 ));
             }

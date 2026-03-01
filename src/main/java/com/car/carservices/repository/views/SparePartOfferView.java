@@ -14,6 +14,7 @@ public interface SparePartOfferView {
     String getClassType();
     int    getQty();
     double getPrice();
+    String getCurrency();
     String getManagerMobile();
     Long   getId();             // branch_brand_spare_part.id
 

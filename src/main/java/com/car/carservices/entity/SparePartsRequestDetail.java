@@ -25,6 +25,9 @@ public class SparePartsRequestDetail {
     @Column(name = "qty", nullable = false)
     private Integer qty;
 
+    @Column(name = "currency")
+    private String currency;
+
     @Column(name = "price", nullable = false)
     private BigDecimal price;
 
@@ -40,5 +43,9 @@ public class SparePartsRequestDetail {
     public Integer getQty() { return qty; }
     public void setQty(Integer qty) { this.qty = qty; }
     public BigDecimal getPrice() { return price; }
+
+    public void setCurrency(String currency) { this.currency = currency; }
+    public String getCurrency() { return currency; }
+
     public void setPrice(BigDecimal price) { this.price = price; }
 }

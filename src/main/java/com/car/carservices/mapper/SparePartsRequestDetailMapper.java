@@ -16,6 +16,7 @@ public class SparePartsRequestDetailMapper {
         d.setSparePart(e.getSparePart());
         d.setClassType(e.getClassType());
         d.setQty(e.getQty());
+        d.setCurrency(e.getCurrency());
         d.setPrice(e.getPrice());
         return d;
     }
@@ -28,6 +29,7 @@ public class SparePartsRequestDetailMapper {
         e.setSparePart(d.getSparePart());
         e.setClassType(d.getClassType());
         e.setQty(d.getQty());
+        e.setCurrency(d.getCurrency());
         e.setPrice(d.getPrice());
         return e;
     }

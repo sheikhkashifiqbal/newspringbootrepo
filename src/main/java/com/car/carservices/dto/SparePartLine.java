@@ -9,5 +9,6 @@ public record SparePartLine(
     @JsonProperty("spare_part")            String sparePart,           // sprd.spare_part
     @JsonProperty("class_type")            String classType,           // sprd.class_type
     @JsonProperty("qty")                   int qty,                    // sprd.qty
+    @JsonProperty("currency")              String currency,                    // sprd.qty
     @JsonProperty("price")                 double price                // sprd.price
 ) {}

@@ -27,6 +27,10 @@ public class SparePartsRequestDetailDTO {
     private Integer qty;
 
     @NotNull
+    @JsonProperty("currency")
+    private String currency;
+
+    @NotNull
     @JsonProperty("price")
     private BigDecimal price;
 
@@ -41,6 +45,11 @@ public class SparePartsRequestDetailDTO {
     public void setClassType(String classType) { this.classType = classType; }
     public Integer getQty() { return qty; }
     public void setQty(Integer qty) { this.qty = qty; }
+
+    
+    public String getCurrency() { return currency; }
+    public void setCurrency(String currency) { this.currency = currency; }
+
     public BigDecimal getPrice() { return price; }
     public void setPrice(BigDecimal price) { this.price = price; }
 }

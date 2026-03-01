@@ -55,6 +55,7 @@ public class SparePartsRequestDetailServiceImpl implements SparePartsRequestDeta
         e.setClassType(dto.getClassType());
         e.setQty(dto.getQty());
         e.setPrice(dto.getPrice());
+        e.setCurrency(dto.getCurrency());
         return mapper.toDTO(repo.save(e));
     }
 

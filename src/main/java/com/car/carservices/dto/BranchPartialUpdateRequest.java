@@ -32,6 +32,10 @@ public class BranchPartialUpdateRequest {
     private Double latitude;
     private Double longitude;
 
+    // ✅ NEW: city_id partial update support
+    @JsonProperty("city_id")
+    private Long cityId;
+
     // If you want to reassign branch to another company
     @JsonProperty("company_id")
     private Long companyId;

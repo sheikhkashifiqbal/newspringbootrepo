@@ -36,6 +36,10 @@ public class BranchMapper {
         d.setCity(e.getCity());
         d.setAddress(e.getAddress());
         d.setMobile(e.getMobile());
+
+        // ✅ NEW: city_id
+        d.setCityId(e.getCityId());
+
         return d;
     }
 
@@ -64,6 +68,10 @@ public class BranchMapper {
         e.setCity(d.getCity());
         e.setAddress(d.getAddress());
         e.setMobile(d.getMobile());
+
+        // ✅ NEW: city_id
+        e.setCityId(d.getCityId());
+
         return e;
     }
 }

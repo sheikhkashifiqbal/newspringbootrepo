@@ -42,4 +42,9 @@ public class Branch {
 
     @Column(name = "mobile")   // must match the DB column name
     private String mobile;     // <-- NEW property
+
+    // ✅ NEW DB FIELD: city_id (FK to city table)
+    // Keep it as scalar Long to avoid impacting existing relationships/code.
+    @Column(name = "city_id")
+    private Long cityId;
 }

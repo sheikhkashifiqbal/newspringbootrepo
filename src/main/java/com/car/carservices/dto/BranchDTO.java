@@ -1,7 +1,9 @@
 // com/car/carservices/dto/BranchDTO.java
 package com.car.carservices.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+
 import java.util.List;
 
 @Data
@@ -30,6 +32,10 @@ public class BranchDTO {
     // NEW FIELDS (additive)
     private String city;     // e.g., "Dubai"
     private String address;  // e.g., "Service Center, Deira"
+
+    // ✅ NEW: city_id (FK reference to city table)
+    @JsonProperty("city_id")
+    private Long cityId;
 
     // request/response schedule (stored in work_days)
     private List<String> workDays;  // ["monday", ...]

@@ -42,11 +42,10 @@ public class BranchService {
                 .peek(this::hydrateScheduleFieldsFromDBEnsureDefaults) // NEVER null
                 .collect(Collectors.toList());
     }
-    public boolean isLoginEmailUnique(String email) {
-    return !repo.existsByLoginEmailIgnoreCase(email);
-    }
 
-    
+    public boolean isLoginEmailUnique(String email) {
+        return !repo.existsByLoginEmailIgnoreCase(email);
+    }
 
     public List<BranchDTO> getByCompany(Long companyId) {
         return repo.findByCompanyCompanyId(companyId).stream()
@@ -67,10 +66,8 @@ public class BranchService {
         Branch entity = mapper.toEntity(dto);
 
         if (dto.getLoginEmail() != null && !isLoginEmailUnique(dto.getLoginEmail())) {
-        throw new IllegalArgumentException("Duplicate email address");
+            throw new IllegalArgumentException("Duplicate email address");
         }
-
-           
 
         // Encode password if present
         if (entity.getPassword() != null && !entity.getPassword().isBlank()) {
@@ -86,6 +83,7 @@ public class BranchService {
             }
         }
 
+        // ✅ city_id already mapped by mapper (entity.setCityId(dto.getCityId()))
         Branch saved = repo.save(entity);
 
         // Always replace work_days (defaults if missing)
@@ -122,16 +120,20 @@ public class BranchService {
         // NEW fields (already supported by your mapper/entity)
         entity.setCity(dto.getCity());
         entity.setAddress(dto.getAddress());
+        entity.setMobile(dto.getMobile());
+
+        // ✅ NEW: city_id
+        entity.setCityId(dto.getCityId());
 
         if (dto.getLoginEmail() != null &&
-          repo.existsByLoginEmailIgnoreCaseAndBranchIdNot(dto.getLoginEmail(), id)) {
-          throw new IllegalArgumentException("Duplicate email address");
+                repo.existsByLoginEmailIgnoreCaseAndBranchIdNot(dto.getLoginEmail(), id)) {
+            throw new IllegalArgumentException("Duplicate email address");
         }
         entity.setLoginEmail(dto.getLoginEmail());
 
         if (dto.getPassword() != null && !dto.getPassword().isBlank()) {
             entity.setPassword(passwordEncoder.encode(dto.getPassword())); // encode
-         }
+        }
 
         if ((entity.getLatitude() == null || entity.getLongitude() == null) && dto.getLocation() != null) {
             Double[] coords = LocationUtil.extractLatLon(dto.getLocation());
@@ -175,7 +177,6 @@ public class BranchService {
             b.setPassword(passwordEncoder.encode(req.getPassword())); // encode
         }
 
-
         if (req.getBranchName() != null) b.setBranchName(req.getBranchName());
         if (req.getBranchCode() != null) b.setBranchCode(req.getBranchCode());
 
@@ -189,15 +190,15 @@ public class BranchService {
         if (req.getCity() != null) b.setCity(req.getCity());
         if (req.getLocation() != null) b.setLocation(req.getLocation());
 
-        if (req.getLoginEmail() != null) b.setLoginEmail(req.getLoginEmail());
-        if (req.getPassword() != null) b.setPassword(req.getPassword()); // keep your existing encoding policy
-
         if (req.getLogoImg() != null) b.setLogoImg(req.getLogoImg());
         if (req.getBranchCoverImg() != null) b.setBranchCoverImg(req.getBranchCoverImg());
         if (req.getStatus() != null) b.setStatus(req.getStatus());
 
         if (req.getLatitude() != null) b.setLatitude(req.getLatitude());
         if (req.getLongitude() != null) b.setLongitude(req.getLongitude());
+
+        // ✅ NEW: partial update for city_id
+        if (req.getCityId() != null) b.setCityId(req.getCityId());
 
         // Optional: change company
         if (req.getCompanyId() != null) {
