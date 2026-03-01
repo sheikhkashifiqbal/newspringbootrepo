@@ -3508,3 +3508,599 @@ Caused by: java.lang.IllegalArgumentException: Not a managed type: class java.la
 
 2026-03-01T18:12:01.212+04:00  INFO 23412 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : Starting CarservicesApplication using Java 21.0.7 with PID 23412 (C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices\target\classes started by lenovo in C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices)
 2026-03-01T18:12:01.213+04:00  INFO 23412 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : No active profile set, falling back to 1 default profile: "default"
+2026-03-01T18:12:02.339+04:00  INFO 23412 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-01T18:12:02.791+04:00  INFO 23412 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 449 ms. Found 46 JPA repository interfaces.
+2026-03-01T18:12:03.077+04:00  INFO 23412 --- [carservices] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2026-03-01T18:12:03.080+04:00  INFO 23412 --- [carservices] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-03-01T18:12:03.081+04:00  INFO 23412 --- [carservices] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.40]
+2026-03-01T18:12:03.135+04:00  INFO 23412 --- [carservices] [restartedMain] o.a.c.c.C.[Tomcat-17].[localhost].[/]    : Initializing Spring embedded WebApplicationContext
+2026-03-01T18:12:03.135+04:00  INFO 23412 --- [carservices] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1914 ms
+2026-03-01T18:12:03.269+04:00  INFO 23412 --- [carservices] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-03-01T18:12:03.273+04:00  INFO 23412 --- [carservices] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-03-01T18:12:03.292+04:00  INFO 23412 --- [carservices] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-01T18:12:03.293+04:00  INFO 23412 --- [carservices] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-43 - Starting...
+2026-03-01T18:12:03.366+04:00  INFO 23412 --- [carservices] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-43 - Added connection com.p6spy.engine.wrapper.ConnectionWrapper@2e59dc66
+2026-03-01T18:12:03.367+04:00  INFO 23412 --- [carservices] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-43 - Start completed.
+2026-03-01T18:12:03.387+04:00  WARN 23412 --- [carservices] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-03-01T18:12:03.389+04:00  INFO 23412 --- [carservices] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-43)']
+	Database driver: undefined/unknown
+	Database version: 17.5
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-03-01T18:12:04.142+04:00  INFO 23412 --- [carservices] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-01T18:12:04.165+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772374324165 | took 22ms | statement | connection 1074| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from information_schema.sequences
+select * from information_schema.sequences;
+2026-03-01T18:12:04.246+04:00  INFO 23412 --- [carservices] [restartedMain] t.s.e.i.AbstractInformationExtractorImpl : HHH000475: Cannot locate column information using identifier [lower((manager_email)::text)]; ignoring index [ux_company_manager_email]
+2026-03-01T18:12:04.520+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772374324520 | took 1ms | statement | connection 1074| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."city" where 1=0
+select * from "public"."city" where 1=0;
+2026-03-01T18:12:04.542+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772374324542 | took 4ms | statement | connection 1074| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."company" where 1=0
+select * from "public"."company" where 1=0;
+2026-03-01T18:12:04.856+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772374324856 | took 3ms | statement | connection 1074| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."branch" where 1=0
+select * from "public"."branch" where 1=0;
+2026-03-01T18:12:04.866+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772374324866 | took 1ms | statement | connection 1074| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."brand" where 1=0
+select * from "public"."brand" where 1=0;
+2026-03-01T18:12:04.881+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772374324881 | took 2ms | statement | connection 1074| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."service_entity" where 1=0
+select * from "public"."service_entity" where 1=0;
+2026-03-01T18:12:05.187+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772374325187 | took 0ms | statement | connection 1074| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."branch" where 1=0
+select * from "public"."branch" where 1=0;
+2026-03-01T18:12:05.199+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772374325199 | took 0ms | statement | connection 1074| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."brand" where 1=0
+select * from "public"."brand" where 1=0;
+2026-03-01T18:12:05.219+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772374325219 | took 4ms | statement | connection 1074| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."spare_parts" where 1=0
+select * from "public"."spare_parts" where 1=0;
+2026-03-01T18:12:05.694+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772374325694 | took 0ms | statement | connection 1074| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."brand" where 1=0
+select * from "public"."brand" where 1=0;
+2026-03-01T18:12:06.154+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772374326154 | took 0ms | statement | connection 1074| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."brand" where 1=0
+select * from "public"."brand" where 1=0;
+2026-03-01T18:12:06.207+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772374326207 | took 3ms | statement | connection 1074| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."user_registration" where 1=0
+select * from "public"."user_registration" where 1=0;
+2026-03-01T18:12:06.549+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772374326549 | took 0ms | statement | connection 1074| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."city" where 1=0
+select * from "public"."city" where 1=0;
+2026-03-01T18:12:06.558+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772374326558 | took 0ms | statement | connection 1074| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."service_entity" where 1=0
+select * from "public"."service_entity" where 1=0;
+2026-03-01T18:12:06.834+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772374326834 | took 0ms | statement | connection 1074| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."spare_parts" where 1=0
+select * from "public"."spare_parts" where 1=0;
+2026-03-01T18:12:07.001+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772374327001 | took 0ms | statement | connection 1074| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."company" where 1=0
+select * from "public"."company" where 1=0;
+2026-03-01T18:12:07.165+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772374327165 | took 2ms | statement | connection 1074| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."problem" where 1=0
+select * from "public"."problem" where 1=0;
+2026-03-01T18:12:07.334+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772374327334 | took 0ms | statement | connection 1074| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."branch" where 1=0
+select * from "public"."branch" where 1=0;
+2026-03-01T18:12:07.334+04:00  INFO 23412 --- [carservices] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-01T18:12:09.686+04:00  WARN 23412 --- [carservices] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-01T18:12:10.410+04:00  INFO 23412 --- [carservices] [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:postgresql://localhost:5433/testdb'
+2026-03-01T18:12:10.491+04:00  INFO 23412 --- [carservices] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-03-01T18:12:10.542+04:00  INFO 23412 --- [carservices] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
+2026-03-01T18:12:10.553+04:00  INFO 23412 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : Started CarservicesApplication in 9.441 seconds (process running for 280352.66)
+2026-03-01T18:12:10.557+04:00  INFO 23412 --- [carservices] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2026-03-01T18:12:12.510+04:00  INFO 23412 --- [carservices] [http-nio-8081-exec-5] o.a.c.c.C.[Tomcat-17].[localhost].[/]    : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-03-01T18:12:12.511+04:00  INFO 23412 --- [carservices] [http-nio-8081-exec-5] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-03-01T18:12:12.513+04:00  INFO 23412 --- [carservices] [http-nio-8081-exec-5] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2026-03-01T18:12:12.580+04:00  INFO 23412 --- [carservices] [http-nio-8081-exec-5] p6spy                                    : #1772374332580 | took 10ms | statement | connection 1074| url jdbc:p6spy:postgresql://localhost:5433/testdb
+    SELECT
+        bbsp.id                    AS id,
+        bbsp.branch_id             AS branch_id,
+        bbsp.brand_id              AS brand_id,
+        b.brand_name               AS brand_name,
+        bbsp.status                AS status,
+        bbsp.spareparts_id         AS spareparts_id,
+        sp.spareparts_type         AS spareparts_type,
+        bbsp.state                 AS state
+    FROM branch_brand_spare_part bbsp
+    JOIN brand b
+      ON b.brand_id = bbsp.brand_id
+    JOIN spare_parts sp
+      ON sp.spareparts_id = bbsp.spareparts_id
+    WHERE bbsp.branch_id = ?
+    ORDER BY bbsp.brand_id, bbsp.id
+
+    SELECT
+        bbsp.id                    AS id,
+        bbsp.branch_id             AS branch_id,
+        bbsp.brand_id              AS brand_id,
+        b.brand_name               AS brand_name,
+        bbsp.status                AS status,
+        bbsp.spareparts_id         AS spareparts_id,
+        sp.spareparts_type         AS spareparts_type,
+        bbsp.state                 AS state
+    FROM branch_brand_spare_part bbsp
+    JOIN brand b
+      ON b.brand_id = bbsp.brand_id
+    JOIN spare_parts sp
+      ON sp.spareparts_id = bbsp.spareparts_id
+    WHERE bbsp.branch_id = 1
+    ORDER BY bbsp.brand_id, bbsp.id
+;
+2026-03-01T19:06:44.804+04:00  INFO 23412 --- [carservices] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (1 addition, 0 deletions, 0 modifications)
+2026-03-01T19:06:45.091+04:00  INFO 23412 --- [carservices] [Thread-132] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-03-01T19:06:45.148+04:00  INFO 23412 --- [carservices] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2026-03-01T19:06:45.269+04:00  INFO 23412 --- [carservices] [Thread-132] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-03-01T19:06:45.376+04:00  INFO 23412 --- [carservices] [Thread-132] com.zaxxer.hikari.HikariDataSource       : HikariPool-43 - Shutdown initiated...
+2026-03-01T19:06:45.480+04:00  INFO 23412 --- [carservices] [Thread-132] com.zaxxer.hikari.HikariDataSource       : HikariPool-43 - Shutdown completed.
+2026-03-01T19:06:48.326+04:00  INFO 23412 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : Starting CarservicesApplication using Java 21.0.7 with PID 23412 (C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices\target\classes started by lenovo in C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices)
+2026-03-01T19:06:48.337+04:00  INFO 23412 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : No active profile set, falling back to 1 default profile: "default"
+2026-03-01T19:06:52.176+04:00  INFO 23412 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-01T19:06:52.610+04:00  INFO 23412 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 429 ms. Found 46 JPA repository interfaces.
+2026-03-01T19:06:53.322+04:00  INFO 23412 --- [carservices] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2026-03-01T19:06:53.331+04:00  INFO 23412 --- [carservices] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-03-01T19:06:53.333+04:00  INFO 23412 --- [carservices] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.40]
+2026-03-01T19:06:53.413+04:00  INFO 23412 --- [carservices] [restartedMain] o.a.c.c.C.[Tomcat-17].[localhost].[/]    : Initializing Spring embedded WebApplicationContext
+2026-03-01T19:06:53.414+04:00  INFO 23412 --- [carservices] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 4950 ms
+2026-03-01T19:06:53.629+04:00  INFO 23412 --- [carservices] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-03-01T19:06:53.640+04:00  INFO 23412 --- [carservices] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-03-01T19:06:53.687+04:00  INFO 23412 --- [carservices] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-01T19:06:53.692+04:00  INFO 23412 --- [carservices] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-44 - Starting...
+2026-03-01T19:06:53.804+04:00  INFO 23412 --- [carservices] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-44 - Added connection com.p6spy.engine.wrapper.ConnectionWrapper@d9b9f10
+2026-03-01T19:06:53.805+04:00  INFO 23412 --- [carservices] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-44 - Start completed.
+2026-03-01T19:06:53.837+04:00  WARN 23412 --- [carservices] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-03-01T19:06:53.840+04:00  INFO 23412 --- [carservices] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-44)']
+	Database driver: undefined/unknown
+	Database version: 17.5
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-03-01T19:06:55.037+04:00  INFO 23412 --- [carservices] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-01T19:06:55.064+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377615064 | took 21ms | statement | connection 1094| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from information_schema.sequences
+select * from information_schema.sequences;
+2026-03-01T19:06:55.132+04:00  INFO 23412 --- [carservices] [restartedMain] t.s.e.i.AbstractInformationExtractorImpl : HHH000475: Cannot locate column information using identifier [lower((manager_email)::text)]; ignoring index [ux_company_manager_email]
+2026-03-01T19:06:55.230+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377615230 | took 2ms | statement | connection 1094| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."city" where 1=0
+select * from "public"."city" where 1=0;
+2026-03-01T19:06:55.239+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377615239 | took 3ms | statement | connection 1094| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."company" where 1=0
+select * from "public"."company" where 1=0;
+2026-03-01T19:06:55.321+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377615321 | took 2ms | statement | connection 1094| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."branch" where 1=0
+select * from "public"."branch" where 1=0;
+2026-03-01T19:06:55.329+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377615329 | took 1ms | statement | connection 1094| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."brand" where 1=0
+select * from "public"."brand" where 1=0;
+2026-03-01T19:06:55.335+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377615335 | took 1ms | statement | connection 1094| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."service_entity" where 1=0
+select * from "public"."service_entity" where 1=0;
+2026-03-01T19:06:55.418+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377615418 | took 0ms | statement | connection 1094| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."branch" where 1=0
+select * from "public"."branch" where 1=0;
+2026-03-01T19:06:55.421+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377615421 | took 0ms | statement | connection 1094| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."brand" where 1=0
+select * from "public"."brand" where 1=0;
+2026-03-01T19:06:55.427+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377615427 | took 2ms | statement | connection 1094| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."spare_parts" where 1=0
+select * from "public"."spare_parts" where 1=0;
+2026-03-01T19:06:55.536+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377615536 | took 0ms | statement | connection 1094| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."brand" where 1=0
+select * from "public"."brand" where 1=0;
+2026-03-01T19:06:55.670+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377615670 | took 0ms | statement | connection 1094| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."brand" where 1=0
+select * from "public"."brand" where 1=0;
+2026-03-01T19:06:55.676+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377615676 | took 3ms | statement | connection 1094| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."user_registration" where 1=0
+select * from "public"."user_registration" where 1=0;
+2026-03-01T19:06:55.908+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377615908 | took 0ms | statement | connection 1094| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."city" where 1=0
+select * from "public"."city" where 1=0;
+2026-03-01T19:06:55.913+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377615912 | took 0ms | statement | connection 1094| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."service_entity" where 1=0
+select * from "public"."service_entity" where 1=0;
+2026-03-01T19:06:56.081+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377616081 | took 0ms | statement | connection 1094| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."spare_parts" where 1=0
+select * from "public"."spare_parts" where 1=0;
+2026-03-01T19:06:56.181+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377616181 | took 0ms | statement | connection 1094| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."company" where 1=0
+select * from "public"."company" where 1=0;
+2026-03-01T19:06:56.270+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377616270 | took 1ms | statement | connection 1094| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."problem" where 1=0
+select * from "public"."problem" where 1=0;
+2026-03-01T19:06:56.368+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377616368 | took 0ms | statement | connection 1094| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."branch" where 1=0
+select * from "public"."branch" where 1=0;
+2026-03-01T19:06:56.369+04:00  INFO 23412 --- [carservices] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-01T19:06:58.710+04:00  WARN 23412 --- [carservices] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-01T19:06:59.109+04:00  INFO 23412 --- [carservices] [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:postgresql://localhost:5433/testdb'
+2026-03-01T19:06:59.165+04:00  INFO 23412 --- [carservices] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-03-01T19:06:59.207+04:00  INFO 23412 --- [carservices] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
+2026-03-01T19:06:59.219+04:00  INFO 23412 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : Started CarservicesApplication in 11.736 seconds (process running for 283641.325)
+2026-03-01T19:06:59.223+04:00  INFO 23412 --- [carservices] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2026-03-01T19:08:41.787+04:00  INFO 23412 --- [carservices] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (1 addition, 0 deletions, 0 modifications)
+2026-03-01T19:08:41.796+04:00  INFO 23412 --- [carservices] [Thread-163] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-03-01T19:08:41.806+04:00  INFO 23412 --- [carservices] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2026-03-01T19:08:41.819+04:00  INFO 23412 --- [carservices] [Thread-163] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-03-01T19:08:41.822+04:00  INFO 23412 --- [carservices] [Thread-163] com.zaxxer.hikari.HikariDataSource       : HikariPool-44 - Shutdown initiated...
+2026-03-01T19:08:41.828+04:00  INFO 23412 --- [carservices] [Thread-163] com.zaxxer.hikari.HikariDataSource       : HikariPool-44 - Shutdown completed.
+2026-03-01T19:08:42.028+04:00  INFO 23412 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : Starting CarservicesApplication using Java 21.0.7 with PID 23412 (C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices\target\classes started by lenovo in C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices)
+2026-03-01T19:08:42.030+04:00  INFO 23412 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : No active profile set, falling back to 1 default profile: "default"
+2026-03-01T19:08:43.142+04:00  INFO 23412 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-01T19:08:43.569+04:00  INFO 23412 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 424 ms. Found 46 JPA repository interfaces.
+2026-03-01T19:08:43.924+04:00  INFO 23412 --- [carservices] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2026-03-01T19:08:43.926+04:00  INFO 23412 --- [carservices] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-03-01T19:08:43.927+04:00  INFO 23412 --- [carservices] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.40]
+2026-03-01T19:08:43.971+04:00  INFO 23412 --- [carservices] [restartedMain] o.a.c.c.C.[Tomcat-17].[localhost].[/]    : Initializing Spring embedded WebApplicationContext
+2026-03-01T19:08:43.973+04:00  INFO 23412 --- [carservices] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1935 ms
+2026-03-01T19:08:44.068+04:00  INFO 23412 --- [carservices] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-03-01T19:08:44.073+04:00  INFO 23412 --- [carservices] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-03-01T19:08:44.101+04:00  INFO 23412 --- [carservices] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-01T19:08:44.103+04:00  INFO 23412 --- [carservices] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-45 - Starting...
+2026-03-01T19:08:44.182+04:00  INFO 23412 --- [carservices] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-45 - Added connection com.p6spy.engine.wrapper.ConnectionWrapper@5df63b7
+2026-03-01T19:08:44.182+04:00  INFO 23412 --- [carservices] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-45 - Start completed.
+2026-03-01T19:08:44.197+04:00  WARN 23412 --- [carservices] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-03-01T19:08:44.200+04:00  INFO 23412 --- [carservices] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-45)']
+	Database driver: undefined/unknown
+	Database version: 17.5
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-03-01T19:08:45.104+04:00  INFO 23412 --- [carservices] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-01T19:08:45.114+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377725114 | took 9ms | statement | connection 1104| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from information_schema.sequences
+select * from information_schema.sequences;
+2026-03-01T19:08:45.151+04:00  INFO 23412 --- [carservices] [restartedMain] t.s.e.i.AbstractInformationExtractorImpl : HHH000475: Cannot locate column information using identifier [lower((manager_email)::text)]; ignoring index [ux_company_manager_email]
+2026-03-01T19:08:45.258+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377725258 | took 1ms | statement | connection 1104| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."city" where 1=0
+select * from "public"."city" where 1=0;
+2026-03-01T19:08:45.265+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377725265 | took 1ms | statement | connection 1104| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."company" where 1=0
+select * from "public"."company" where 1=0;
+2026-03-01T19:08:45.347+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377725347 | took 2ms | statement | connection 1104| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."branch" where 1=0
+select * from "public"."branch" where 1=0;
+2026-03-01T19:08:45.353+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377725353 | took 1ms | statement | connection 1104| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."brand" where 1=0
+select * from "public"."brand" where 1=0;
+2026-03-01T19:08:45.360+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377725360 | took 1ms | statement | connection 1104| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."service_entity" where 1=0
+select * from "public"."service_entity" where 1=0;
+2026-03-01T19:08:45.431+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377725431 | took 0ms | statement | connection 1104| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."branch" where 1=0
+select * from "public"."branch" where 1=0;
+2026-03-01T19:08:45.434+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377725434 | took 0ms | statement | connection 1104| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."brand" where 1=0
+select * from "public"."brand" where 1=0;
+2026-03-01T19:08:45.440+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377725440 | took 2ms | statement | connection 1104| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."spare_parts" where 1=0
+select * from "public"."spare_parts" where 1=0;
+2026-03-01T19:08:45.518+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377725518 | took 0ms | statement | connection 1104| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."brand" where 1=0
+select * from "public"."brand" where 1=0;
+2026-03-01T19:08:45.598+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377725598 | took 0ms | statement | connection 1104| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."brand" where 1=0
+select * from "public"."brand" where 1=0;
+2026-03-01T19:08:45.603+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377725603 | took 2ms | statement | connection 1104| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."user_registration" where 1=0
+select * from "public"."user_registration" where 1=0;
+2026-03-01T19:08:45.697+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377725697 | took 0ms | statement | connection 1104| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."city" where 1=0
+select * from "public"."city" where 1=0;
+2026-03-01T19:08:45.700+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377725700 | took 0ms | statement | connection 1104| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."service_entity" where 1=0
+select * from "public"."service_entity" where 1=0;
+2026-03-01T19:08:45.790+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377725790 | took 0ms | statement | connection 1104| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."spare_parts" where 1=0
+select * from "public"."spare_parts" where 1=0;
+2026-03-01T19:08:45.865+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377725865 | took 0ms | statement | connection 1104| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."company" where 1=0
+select * from "public"."company" where 1=0;
+2026-03-01T19:08:46.032+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377726032 | took 2ms | statement | connection 1104| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."problem" where 1=0
+select * from "public"."problem" where 1=0;
+2026-03-01T19:08:46.180+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377726180 | took 0ms | statement | connection 1104| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."branch" where 1=0
+select * from "public"."branch" where 1=0;
+2026-03-01T19:08:46.182+04:00  INFO 23412 --- [carservices] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-01T19:08:48.466+04:00  WARN 23412 --- [carservices] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-01T19:08:48.829+04:00  INFO 23412 --- [carservices] [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:postgresql://localhost:5433/testdb'
+2026-03-01T19:08:48.873+04:00  INFO 23412 --- [carservices] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-03-01T19:08:48.912+04:00  INFO 23412 --- [carservices] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
+2026-03-01T19:08:48.922+04:00  INFO 23412 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : Started CarservicesApplication in 7.01 seconds (process running for 283751.028)
+2026-03-01T19:08:48.927+04:00  INFO 23412 --- [carservices] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2026-03-01T19:09:43.614+04:00  INFO 23412 --- [carservices] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (1 addition, 0 deletions, 0 modifications)
+2026-03-01T19:09:43.675+04:00  INFO 23412 --- [carservices] [Thread-167] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-03-01T19:09:43.794+04:00  INFO 23412 --- [carservices] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2026-03-01T19:09:43.864+04:00  INFO 23412 --- [carservices] [Thread-167] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-03-01T19:09:43.879+04:00  INFO 23412 --- [carservices] [Thread-167] com.zaxxer.hikari.HikariDataSource       : HikariPool-45 - Shutdown initiated...
+2026-03-01T19:09:43.951+04:00  INFO 23412 --- [carservices] [Thread-167] com.zaxxer.hikari.HikariDataSource       : HikariPool-45 - Shutdown completed.
+2026-03-01T19:09:44.576+04:00  INFO 23412 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : Starting CarservicesApplication using Java 21.0.7 with PID 23412 (C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices\target\classes started by lenovo in C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices)
+2026-03-01T19:09:44.581+04:00  INFO 23412 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : No active profile set, falling back to 1 default profile: "default"
+2026-03-01T19:09:46.982+04:00  INFO 23412 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-01T19:09:48.025+04:00  INFO 23412 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 1039 ms. Found 46 JPA repository interfaces.
+2026-03-01T19:09:48.637+04:00  INFO 23412 --- [carservices] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2026-03-01T19:09:48.640+04:00  INFO 23412 --- [carservices] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-03-01T19:09:48.641+04:00  INFO 23412 --- [carservices] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.40]
+2026-03-01T19:09:48.694+04:00  INFO 23412 --- [carservices] [restartedMain] o.a.c.c.C.[Tomcat-17].[localhost].[/]    : Initializing Spring embedded WebApplicationContext
+2026-03-01T19:09:48.694+04:00  INFO 23412 --- [carservices] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 4101 ms
+2026-03-01T19:09:48.844+04:00  INFO 23412 --- [carservices] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-03-01T19:09:48.853+04:00  INFO 23412 --- [carservices] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-03-01T19:09:48.895+04:00  INFO 23412 --- [carservices] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-01T19:09:48.897+04:00  INFO 23412 --- [carservices] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-46 - Starting...
+2026-03-01T19:09:48.993+04:00  INFO 23412 --- [carservices] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-46 - Added connection com.p6spy.engine.wrapper.ConnectionWrapper@3457b9b2
+2026-03-01T19:09:48.994+04:00  INFO 23412 --- [carservices] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-46 - Start completed.
+2026-03-01T19:09:49.007+04:00  WARN 23412 --- [carservices] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-03-01T19:09:49.012+04:00  INFO 23412 --- [carservices] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-46)']
+	Database driver: undefined/unknown
+	Database version: 17.5
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-03-01T19:09:50.474+04:00  INFO 23412 --- [carservices] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-01T19:09:50.484+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377790484 | took 8ms | statement | connection 1114| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from information_schema.sequences
+select * from information_schema.sequences;
+2026-03-01T19:09:50.531+04:00  INFO 23412 --- [carservices] [restartedMain] t.s.e.i.AbstractInformationExtractorImpl : HHH000475: Cannot locate column information using identifier [lower((manager_email)::text)]; ignoring index [ux_company_manager_email]
+2026-03-01T19:09:50.638+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377790637 | took 7ms | statement | connection 1114| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."city" where 1=0
+select * from "public"."city" where 1=0;
+2026-03-01T19:09:50.646+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377790645 | took 2ms | statement | connection 1114| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."company" where 1=0
+select * from "public"."company" where 1=0;
+2026-03-01T19:09:50.742+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377790742 | took 2ms | statement | connection 1114| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."branch" where 1=0
+select * from "public"."branch" where 1=0;
+2026-03-01T19:09:50.751+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377790751 | took 1ms | statement | connection 1114| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."brand" where 1=0
+select * from "public"."brand" where 1=0;
+2026-03-01T19:09:50.759+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377790759 | took 1ms | statement | connection 1114| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."service_entity" where 1=0
+select * from "public"."service_entity" where 1=0;
+2026-03-01T19:09:51.008+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377791008 | took 0ms | statement | connection 1114| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."branch" where 1=0
+select * from "public"."branch" where 1=0;
+2026-03-01T19:09:51.016+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377791016 | took 0ms | statement | connection 1114| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."brand" where 1=0
+select * from "public"."brand" where 1=0;
+2026-03-01T19:09:51.024+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377791024 | took 3ms | statement | connection 1114| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."spare_parts" where 1=0
+select * from "public"."spare_parts" where 1=0;
+2026-03-01T19:09:51.281+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377791281 | took 1ms | statement | connection 1114| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."brand" where 1=0
+select * from "public"."brand" where 1=0;
+2026-03-01T19:09:51.469+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377791469 | took 0ms | statement | connection 1114| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."brand" where 1=0
+select * from "public"."brand" where 1=0;
+2026-03-01T19:09:51.475+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377791475 | took 2ms | statement | connection 1114| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."user_registration" where 1=0
+select * from "public"."user_registration" where 1=0;
+2026-03-01T19:09:51.571+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377791571 | took 0ms | statement | connection 1114| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."city" where 1=0
+select * from "public"."city" where 1=0;
+2026-03-01T19:09:51.574+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377791574 | took 0ms | statement | connection 1114| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."service_entity" where 1=0
+select * from "public"."service_entity" where 1=0;
+2026-03-01T19:09:51.647+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377791647 | took 0ms | statement | connection 1114| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."spare_parts" where 1=0
+select * from "public"."spare_parts" where 1=0;
+2026-03-01T19:09:51.725+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377791725 | took 0ms | statement | connection 1114| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."company" where 1=0
+select * from "public"."company" where 1=0;
+2026-03-01T19:09:51.813+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377791813 | took 1ms | statement | connection 1114| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."problem" where 1=0
+select * from "public"."problem" where 1=0;
+2026-03-01T19:09:51.913+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377791913 | took 0ms | statement | connection 1114| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."branch" where 1=0
+select * from "public"."branch" where 1=0;
+2026-03-01T19:09:51.914+04:00  INFO 23412 --- [carservices] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-01T19:09:54.124+04:00  WARN 23412 --- [carservices] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-01T19:09:54.529+04:00  INFO 23412 --- [carservices] [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:postgresql://localhost:5433/testdb'
+2026-03-01T19:09:54.569+04:00  INFO 23412 --- [carservices] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-03-01T19:09:54.598+04:00  INFO 23412 --- [carservices] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
+2026-03-01T19:09:54.606+04:00  INFO 23412 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : Started CarservicesApplication in 10.437 seconds (process running for 283816.713)
+2026-03-01T19:09:54.609+04:00  INFO 23412 --- [carservices] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2026-03-01T19:10:37.548+04:00  INFO 23412 --- [carservices] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (1 addition, 0 deletions, 0 modifications)
+2026-03-01T19:10:37.628+04:00  INFO 23412 --- [carservices] [Thread-171] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-03-01T19:10:37.855+04:00  INFO 23412 --- [carservices] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2026-03-01T19:10:37.890+04:00  INFO 23412 --- [carservices] [Thread-171] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-03-01T19:10:37.894+04:00  INFO 23412 --- [carservices] [Thread-171] com.zaxxer.hikari.HikariDataSource       : HikariPool-46 - Shutdown initiated...
+2026-03-01T19:10:37.912+04:00  INFO 23412 --- [carservices] [Thread-171] com.zaxxer.hikari.HikariDataSource       : HikariPool-46 - Shutdown completed.
+2026-03-01T19:10:38.310+04:00  INFO 23412 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : Starting CarservicesApplication using Java 21.0.7 with PID 23412 (C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices\target\classes started by lenovo in C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices)
+2026-03-01T19:10:38.316+04:00  INFO 23412 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : No active profile set, falling back to 1 default profile: "default"
+2026-03-01T19:10:39.601+04:00  INFO 23412 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-01T19:10:40.184+04:00  INFO 23412 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 575 ms. Found 46 JPA repository interfaces.
+2026-03-01T19:10:40.870+04:00  INFO 23412 --- [carservices] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2026-03-01T19:10:40.880+04:00  INFO 23412 --- [carservices] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-03-01T19:10:40.893+04:00  INFO 23412 --- [carservices] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.40]
+2026-03-01T19:10:40.965+04:00  INFO 23412 --- [carservices] [restartedMain] o.a.c.c.C.[Tomcat-17].[localhost].[/]    : Initializing Spring embedded WebApplicationContext
+2026-03-01T19:10:40.965+04:00  INFO 23412 --- [carservices] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2624 ms
+2026-03-01T19:10:41.245+04:00  INFO 23412 --- [carservices] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-03-01T19:10:41.260+04:00  INFO 23412 --- [carservices] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-03-01T19:10:41.320+04:00  INFO 23412 --- [carservices] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-01T19:10:41.326+04:00  INFO 23412 --- [carservices] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-47 - Starting...
+2026-03-01T19:10:41.430+04:00  INFO 23412 --- [carservices] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-47 - Added connection com.p6spy.engine.wrapper.ConnectionWrapper@4fee3519
+2026-03-01T19:10:41.433+04:00  INFO 23412 --- [carservices] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-47 - Start completed.
+2026-03-01T19:10:41.454+04:00  WARN 23412 --- [carservices] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-03-01T19:10:41.458+04:00  INFO 23412 --- [carservices] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-47)']
+	Database driver: undefined/unknown
+	Database version: 17.5
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-03-01T19:10:42.798+04:00  INFO 23412 --- [carservices] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-01T19:10:42.811+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377842811 | took 9ms | statement | connection 1124| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from information_schema.sequences
+select * from information_schema.sequences;
+2026-03-01T19:10:42.883+04:00  INFO 23412 --- [carservices] [restartedMain] t.s.e.i.AbstractInformationExtractorImpl : HHH000475: Cannot locate column information using identifier [lower((manager_email)::text)]; ignoring index [ux_company_manager_email]
+2026-03-01T19:10:43.051+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377843051 | took 2ms | statement | connection 1124| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."city" where 1=0
+select * from "public"."city" where 1=0;
+2026-03-01T19:10:43.060+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377843060 | took 4ms | statement | connection 1124| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."company" where 1=0
+select * from "public"."company" where 1=0;
+2026-03-01T19:10:43.214+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377843214 | took 2ms | statement | connection 1124| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."branch" where 1=0
+select * from "public"."branch" where 1=0;
+2026-03-01T19:10:43.220+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377843220 | took 1ms | statement | connection 1124| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."brand" where 1=0
+select * from "public"."brand" where 1=0;
+2026-03-01T19:10:43.229+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377843229 | took 2ms | statement | connection 1124| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."service_entity" where 1=0
+select * from "public"."service_entity" where 1=0;
+2026-03-01T19:10:43.341+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377843341 | took 0ms | statement | connection 1124| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."branch" where 1=0
+select * from "public"."branch" where 1=0;
+2026-03-01T19:10:43.344+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377843344 | took 0ms | statement | connection 1124| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."brand" where 1=0
+select * from "public"."brand" where 1=0;
+2026-03-01T19:10:43.349+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377843349 | took 2ms | statement | connection 1124| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."spare_parts" where 1=0
+select * from "public"."spare_parts" where 1=0;
+2026-03-01T19:10:43.450+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377843450 | took 0ms | statement | connection 1124| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."brand" where 1=0
+select * from "public"."brand" where 1=0;
+2026-03-01T19:10:43.537+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377843537 | took 0ms | statement | connection 1124| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."brand" where 1=0
+select * from "public"."brand" where 1=0;
+2026-03-01T19:10:43.543+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377843543 | took 2ms | statement | connection 1124| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."user_registration" where 1=0
+select * from "public"."user_registration" where 1=0;
+2026-03-01T19:10:43.625+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377843625 | took 0ms | statement | connection 1124| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."city" where 1=0
+select * from "public"."city" where 1=0;
+2026-03-01T19:10:43.628+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377843628 | took 0ms | statement | connection 1124| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."service_entity" where 1=0
+select * from "public"."service_entity" where 1=0;
+2026-03-01T19:10:43.703+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377843703 | took 0ms | statement | connection 1124| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."spare_parts" where 1=0
+select * from "public"."spare_parts" where 1=0;
+2026-03-01T19:10:43.779+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377843779 | took 0ms | statement | connection 1124| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."company" where 1=0
+select * from "public"."company" where 1=0;
+2026-03-01T19:10:43.862+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377843862 | took 1ms | statement | connection 1124| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."problem" where 1=0
+select * from "public"."problem" where 1=0;
+2026-03-01T19:10:43.943+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377843943 | took 0ms | statement | connection 1124| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."branch" where 1=0
+select * from "public"."branch" where 1=0;
+2026-03-01T19:10:43.944+04:00  INFO 23412 --- [carservices] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-01T19:10:45.745+04:00  WARN 23412 --- [carservices] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-01T19:10:46.391+04:00  INFO 23412 --- [carservices] [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:postgresql://localhost:5433/testdb'
+2026-03-01T19:10:46.440+04:00  INFO 23412 --- [carservices] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-03-01T19:10:46.488+04:00  INFO 23412 --- [carservices] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
+2026-03-01T19:10:46.495+04:00  INFO 23412 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : Started CarservicesApplication in 8.428 seconds (process running for 283868.602)
+2026-03-01T19:10:46.498+04:00  INFO 23412 --- [carservices] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2026-03-01T19:11:32.369+04:00  INFO 23412 --- [carservices] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (1 addition, 0 deletions, 0 modifications)
+2026-03-01T19:11:32.372+04:00  INFO 23412 --- [carservices] [Thread-175] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-03-01T19:11:32.378+04:00  INFO 23412 --- [carservices] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2026-03-01T19:11:32.398+04:00  INFO 23412 --- [carservices] [Thread-175] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-03-01T19:11:32.402+04:00  INFO 23412 --- [carservices] [Thread-175] com.zaxxer.hikari.HikariDataSource       : HikariPool-47 - Shutdown initiated...
+2026-03-01T19:11:32.405+04:00  INFO 23412 --- [carservices] [Thread-175] com.zaxxer.hikari.HikariDataSource       : HikariPool-47 - Shutdown completed.
+2026-03-01T19:11:32.642+04:00  INFO 23412 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : Starting CarservicesApplication using Java 21.0.7 with PID 23412 (C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices\target\classes started by lenovo in C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices)
+2026-03-01T19:11:32.642+04:00  INFO 23412 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : No active profile set, falling back to 1 default profile: "default"
+2026-03-01T19:11:34.700+04:00  INFO 23412 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-01T19:11:35.500+04:00  INFO 23412 --- [carservices] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 798 ms. Found 46 JPA repository interfaces.
+2026-03-01T19:11:36.001+04:00  INFO 23412 --- [carservices] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2026-03-01T19:11:36.004+04:00  INFO 23412 --- [carservices] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-03-01T19:11:36.005+04:00  INFO 23412 --- [carservices] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.40]
+2026-03-01T19:11:36.061+04:00  INFO 23412 --- [carservices] [restartedMain] o.a.c.c.C.[Tomcat-17].[localhost].[/]    : Initializing Spring embedded WebApplicationContext
+2026-03-01T19:11:36.061+04:00  INFO 23412 --- [carservices] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 3415 ms
+2026-03-01T19:11:36.203+04:00  INFO 23412 --- [carservices] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-03-01T19:11:36.214+04:00  INFO 23412 --- [carservices] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-03-01T19:11:36.256+04:00  INFO 23412 --- [carservices] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-01T19:11:36.259+04:00  INFO 23412 --- [carservices] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-48 - Starting...
+2026-03-01T19:11:36.352+04:00  INFO 23412 --- [carservices] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-48 - Added connection com.p6spy.engine.wrapper.ConnectionWrapper@672f5bac
+2026-03-01T19:11:36.353+04:00  INFO 23412 --- [carservices] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-48 - Start completed.
+2026-03-01T19:11:36.362+04:00  WARN 23412 --- [carservices] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-03-01T19:11:36.364+04:00  INFO 23412 --- [carservices] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-48)']
+	Database driver: undefined/unknown
+	Database version: 17.5
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-03-01T19:11:38.209+04:00  INFO 23412 --- [carservices] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-01T19:11:38.218+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377898218 | took 6ms | statement | connection 1134| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from information_schema.sequences
+select * from information_schema.sequences;
+2026-03-01T19:11:38.255+04:00  INFO 23412 --- [carservices] [restartedMain] t.s.e.i.AbstractInformationExtractorImpl : HHH000475: Cannot locate column information using identifier [lower((manager_email)::text)]; ignoring index [ux_company_manager_email]
+2026-03-01T19:11:38.354+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377898354 | took 2ms | statement | connection 1134| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."city" where 1=0
+select * from "public"."city" where 1=0;
+2026-03-01T19:11:38.365+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377898365 | took 4ms | statement | connection 1134| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."company" where 1=0
+select * from "public"."company" where 1=0;
+2026-03-01T19:11:38.519+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377898519 | took 3ms | statement | connection 1134| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."branch" where 1=0
+select * from "public"."branch" where 1=0;
+2026-03-01T19:11:38.530+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377898530 | took 2ms | statement | connection 1134| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."brand" where 1=0
+select * from "public"."brand" where 1=0;
+2026-03-01T19:11:38.539+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377898539 | took 1ms | statement | connection 1134| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."service_entity" where 1=0
+select * from "public"."service_entity" where 1=0;
+2026-03-01T19:11:38.740+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377898740 | took 0ms | statement | connection 1134| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."branch" where 1=0
+select * from "public"."branch" where 1=0;
+2026-03-01T19:11:38.745+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377898745 | took 0ms | statement | connection 1134| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."brand" where 1=0
+select * from "public"."brand" where 1=0;
+2026-03-01T19:11:38.753+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377898753 | took 2ms | statement | connection 1134| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."spare_parts" where 1=0
+select * from "public"."spare_parts" where 1=0;
+2026-03-01T19:11:38.965+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377898965 | took 0ms | statement | connection 1134| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."brand" where 1=0
+select * from "public"."brand" where 1=0;
+2026-03-01T19:11:39.056+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377899056 | took 0ms | statement | connection 1134| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."brand" where 1=0
+select * from "public"."brand" where 1=0;
+2026-03-01T19:11:39.061+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377899061 | took 3ms | statement | connection 1134| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."user_registration" where 1=0
+select * from "public"."user_registration" where 1=0;
+2026-03-01T19:11:39.148+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377899148 | took 0ms | statement | connection 1134| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."city" where 1=0
+select * from "public"."city" where 1=0;
+2026-03-01T19:11:39.150+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377899150 | took 0ms | statement | connection 1134| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."service_entity" where 1=0
+select * from "public"."service_entity" where 1=0;
+2026-03-01T19:11:39.226+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377899226 | took 0ms | statement | connection 1134| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."spare_parts" where 1=0
+select * from "public"."spare_parts" where 1=0;
+2026-03-01T19:11:39.333+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377899333 | took 0ms | statement | connection 1134| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."company" where 1=0
+select * from "public"."company" where 1=0;
+2026-03-01T19:11:39.475+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377899475 | took 1ms | statement | connection 1134| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."problem" where 1=0
+select * from "public"."problem" where 1=0;
+2026-03-01T19:11:39.610+04:00  INFO 23412 --- [carservices] [restartedMain] p6spy                                    : #1772377899610 | took 0ms | statement | connection 1134| url jdbc:p6spy:postgresql://localhost:5433/testdb
+select * from "public"."branch" where 1=0
+select * from "public"."branch" where 1=0;
+2026-03-01T19:11:39.611+04:00  INFO 23412 --- [carservices] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-01T19:11:41.888+04:00  WARN 23412 --- [carservices] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-01T19:11:42.316+04:00  INFO 23412 --- [carservices] [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:postgresql://localhost:5433/testdb'
+2026-03-01T19:11:42.377+04:00  INFO 23412 --- [carservices] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-03-01T19:11:42.426+04:00  INFO 23412 --- [carservices] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
+2026-03-01T19:11:42.436+04:00  INFO 23412 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : Started CarservicesApplication in 9.895 seconds (process running for 283924.543)
+2026-03-01T19:11:42.440+04:00  INFO 23412 --- [carservices] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2026-03-01T19:12:51.775+04:00  INFO 23412 --- [carservices] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (1 addition, 0 deletions, 0 modifications)
+2026-03-01T19:12:51.783+04:00  INFO 23412 --- [carservices] [Thread-179] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-03-01T19:12:51.808+04:00  INFO 23412 --- [carservices] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2026-03-01T19:12:51.823+04:00  INFO 23412 --- [carservices] [Thread-179] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-03-01T19:12:51.827+04:00  INFO 23412 --- [carservices] [Thread-179] com.zaxxer.hikari.HikariDataSource       : HikariPool-48 - Shutdown initiated...
+2026-03-01T19:12:51.832+04:00  INFO 23412 --- [carservices] [Thread-179] com.zaxxer.hikari.HikariDataSource       : HikariPool-48 - Shutdown completed.
+2026-03-01T19:12:52.309+04:00  INFO 23412 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : Starting CarservicesApplication using Java 21.0.7 with PID 23412 (C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices\target\classes started by lenovo in C:\Grand BackUp\Sheikh-2\Private\Sheikhkashifiqbal\temp\Spare Parts Project\SpringBoot\car-dev-1\carservices)
+2026-03-01T19:12:52.311+04:00  INFO 23412 --- [carservices] [restartedMain] c.c.carservices.CarservicesApplication   : No active profile set, falling back to 1 default profile: "default"
