@@ -11,6 +11,10 @@ public interface SparePartsRequestDetailService {
     List<SparePartsRequestDetailDTO> getAll();
     List<SparePartsRequestDetailDTO> getByRequestId(Long sparepartsrequestId);
     SparePartsRequestDetailDTO update(Long id, SparePartsRequestDetailDTO dto);
+
+    // ✅ NEW: bulk update payment_status for all rows of one sparepartsrequest_id
+    int updatePaymentStatusByRequestId(Long sparepartsrequestId, String paymentStatus);
+
     void delete(Long id);
     long deleteByRequestId(Long sparepartsrequestId);
 }

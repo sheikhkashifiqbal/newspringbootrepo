@@ -18,6 +18,7 @@ public class SparePartsRequestDetailMapper {
         d.setQty(e.getQty());
         d.setCurrency(e.getCurrency());
         d.setPrice(e.getPrice());
+        d.setPaymentStatus(e.getPaymentStatus());
         return d;
     }
 
@@ -31,6 +32,7 @@ public class SparePartsRequestDetailMapper {
         e.setQty(d.getQty());
         e.setCurrency(d.getCurrency());
         e.setPrice(d.getPrice());
+        e.setPaymentStatus(d.getPaymentStatus());
         return e;
     }
 }

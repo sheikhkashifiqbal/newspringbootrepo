@@ -1,13 +1,16 @@
 // src/main/java/com/car/carservices/controller/SparePartsRequestDetailController.java
 package com.car.carservices.controller;
 
+import com.car.carservices.dto.SparePartsRequestDetailBulkPaymentStatusDTO;
 import com.car.carservices.dto.SparePartsRequestDetailDTO;
 import com.car.carservices.service.SparePartsRequestDetailService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 //@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:3001"})
@@ -42,6 +45,24 @@ public class SparePartsRequestDetailController {
     public ResponseEntity<SparePartsRequestDetailDTO> update(
             @PathVariable Long id, @Valid @RequestBody SparePartsRequestDetailDTO dto) {
         return ResponseEntity.ok(service.update(id, dto));
+    }
+
+    // ✅ NEW POST API: bulk update payment_status by sparepartsrequest_id
+    @PostMapping("/payment-status/by-request")
+    public ResponseEntity<Map<String, Object>> updatePaymentStatusByRequest(
+            @Valid @RequestBody SparePartsRequestDetailBulkPaymentStatusDTO req
+    ) {
+        int updated = service.updatePaymentStatusByRequestId(
+                req.getSparepartsrequestId(),
+                req.getPaymentStatus()
+        );
+
+        Map<String, Object> res = new HashMap<>();
+        res.put("sparepartsrequest_id", req.getSparepartsrequestId());
+        res.put("payment_status", req.getPaymentStatus());
+        res.put("updated_count", updated);
+
+        return ResponseEntity.ok(res);
     }
 
     @DeleteMapping("/{id}")

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Locale;
 
 @Service
 @Transactional
@@ -56,7 +57,26 @@ public class SparePartsRequestDetailServiceImpl implements SparePartsRequestDeta
         e.setQty(dto.getQty());
         e.setPrice(dto.getPrice());
         e.setCurrency(dto.getCurrency());
+        e.setPaymentStatus(dto.getPaymentStatus());
         return mapper.toDTO(repo.save(e));
+    }
+
+    // ✅ NEW: bulk update payment_status for all details rows under one sparepartsrequest_id
+    @Override
+    public int updatePaymentStatusByRequestId(Long sparepartsrequestId, String paymentStatus) {
+        if (sparepartsrequestId == null) {
+            throw new IllegalArgumentException("sparepartsrequest_id is required");
+        }
+        if (paymentStatus == null || paymentStatus.trim().isEmpty()) {
+            throw new IllegalArgumentException("payment_status is required");
+        }
+
+        String status = paymentStatus.trim().toLowerCase(Locale.ROOT);
+        if (!status.equals("paid") && !status.equals("unpaid")) {
+            throw new IllegalArgumentException("payment_status must be 'paid' or 'unpaid'");
+        }
+
+        return repo.updatePaymentStatusByRequestId(sparepartsrequestId, status);
     }
 
     @Override

@@ -34,6 +34,11 @@ public class SparePartsRequestDetailDTO {
     @JsonProperty("price")
     private BigDecimal price;
 
+    
+    @NotNull
+    @JsonProperty("payment_status")
+    private String paymentStatus;
+
     // getters/setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -52,4 +57,8 @@ public class SparePartsRequestDetailDTO {
 
     public BigDecimal getPrice() { return price; }
     public void setPrice(BigDecimal price) { this.price = price; }
+
+    public String getPaymentStatus() { return paymentStatus; }
+    public void setPaymentStatus(String paymentStatus) { this.paymentStatus = paymentStatus; }
 }
+

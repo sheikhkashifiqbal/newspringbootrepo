@@ -31,6 +31,8 @@ public class SparePartsRequestDetail {
     @Column(name = "price", nullable = false)
     private BigDecimal price;
 
+    @Column(name = "payment_status")
+    private String paymentStatus;
     // getters/setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -48,4 +50,8 @@ public class SparePartsRequestDetail {
     public String getCurrency() { return currency; }
 
     public void setPrice(BigDecimal price) { this.price = price; }
+
+    public void setPaymentStatus(String paymentStatus) { this.paymentStatus = paymentStatus; }
+    public String getPaymentStatus() { return paymentStatus; }
 }
+
