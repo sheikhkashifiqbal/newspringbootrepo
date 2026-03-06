@@ -25,9 +25,24 @@ public class SparePartsRequestDetailServiceImpl implements SparePartsRequestDeta
         this.mapper = mapper;
     }
 
+    // ✅ helper: treat missing values as empty string
+    private String emptyIfNull(String v) {
+        return v == null ? "" : v.trim();
+    }
+
     @Override
     public SparePartsRequestDetailDTO create(SparePartsRequestDetailDTO dto) {
-        return mapper.toDTO(repo.save(mapper.toEntity(dto)));
+        // ✅ Apply defaults if not sent in JSON
+        dto.setCurrency(emptyIfNull(dto.getCurrency()));
+        dto.setPaymentStatus(emptyIfNull(dto.getPaymentStatus()));
+
+        SparePartsRequestDetail entity = mapper.toEntity(dto);
+
+        // ✅ Safety: ensure entity also has defaults (in case mapper bypasses dto setters)
+        entity.setCurrency(emptyIfNull(entity.getCurrency()));
+        entity.setPaymentStatus(emptyIfNull(entity.getPaymentStatus()));
+
+        return mapper.toDTO(repo.save(entity));
     }
 
     @Override
@@ -51,13 +66,17 @@ public class SparePartsRequestDetailServiceImpl implements SparePartsRequestDeta
     @Override
     public SparePartsRequestDetailDTO update(Long id, SparePartsRequestDetailDTO dto) {
         SparePartsRequestDetail e = repo.findById(id).orElseThrow();
+
         e.setSparepartsrequestId(dto.getSparepartsrequestId());
         e.setSparePart(dto.getSparePart());
         e.setClassType(dto.getClassType());
         e.setQty(dto.getQty());
         e.setPrice(dto.getPrice());
-        e.setCurrency(dto.getCurrency());
-        e.setPaymentStatus(dto.getPaymentStatus());
+
+        // ✅ Apply defaults if not sent in JSON
+        e.setCurrency(emptyIfNull(dto.getCurrency()));
+        e.setPaymentStatus(emptyIfNull(dto.getPaymentStatus()));
+
         return mapper.toDTO(repo.save(e));
     }
 

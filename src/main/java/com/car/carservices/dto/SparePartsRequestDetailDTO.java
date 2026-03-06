@@ -26,7 +26,6 @@ public class SparePartsRequestDetailDTO {
     @JsonProperty("qty")
     private Integer qty;
 
-    @NotNull
     @JsonProperty("currency")
     private String currency;
 
@@ -35,7 +34,6 @@ public class SparePartsRequestDetailDTO {
     private BigDecimal price;
 
     
-    @NotNull
     @JsonProperty("payment_status")
     private String paymentStatus;
 
