@@ -17,7 +17,7 @@ public class CorsConfig {
 
         // ✅ Your Azure Static Web Apps domain (frontend)
         config.setAllowedOrigins(List.of(
-                "https://gentle-beach-07ba6f81e.2.azurestaticapps.net"
+                "https://javaspringboot-dxdmc8aacfd4dafb.centralindia-01.azurewebsites.net"
                 
         ));
 
