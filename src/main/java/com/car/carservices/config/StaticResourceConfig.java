@@ -10,12 +10,16 @@ import java.util.Optional;
 @Configuration
 public class StaticResourceConfig implements WebMvcConfigurer {
 
+    // Azure-safe directory
     private static final String UPLOAD_BASE_DIR =
-            Optional.ofNullable(System.getenv("UPLOAD_DIR")).orElse("/home/uploads/images");
+            Optional.ofNullable(System.getenv("UPLOAD_DIR"))
+                    .orElse("/home/site/wwwroot/images");
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+
         Path uploadPath = Paths.get(UPLOAD_BASE_DIR).toAbsolutePath().normalize();
+
         String location = "file:" + uploadPath.toString() + "/";
 
         registry.addResourceHandler("/images/**")
