@@ -10,7 +10,7 @@ import java.nio.file.Paths;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    // Read from environment variable UPLOAD_DIR, default to /home/site/wwwroot/images
+    // Read UPLOAD_DIR environment variable; fallback to default if missing
     private static final String imagesDir =
             System.getenv("UPLOAD_DIR") != null ? System.getenv("UPLOAD_DIR") : "/home/site/wwwroot/images";
 
@@ -20,15 +20,19 @@ public class WebConfig implements WebMvcConfigurer {
         // Ensure the folder exists
         try {
             Files.createDirectories(Paths.get(imagesDir));
+            System.out.println("Serving images from directory: " + imagesDir);
         } catch (Exception e) {
+            System.err.println("Failed to create images directory: " + imagesDir);
             e.printStackTrace();
         }
 
+        // Map /images/** URLs to the imagesDir folder
         registry.addResourceHandler("/images/**")
                 .addResourceLocations("file:" + ensureTrailingSlash(imagesDir))
-                .setCachePeriod(3600);
+                .setCachePeriod(3600); // cache for 1 hour
     }
 
+    // Ensure the directory path ends with a slash
     private String ensureTrailingSlash(String path) {
         if (path == null || path.isBlank()) return "";
         return path.endsWith("/") ? path : path + "/";
