@@ -11,7 +11,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 public class BrListController {
-
+    // test
     private final BrListService service;
 
     public BrListController(BrListService service) {
