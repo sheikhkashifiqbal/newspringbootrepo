@@ -17,7 +17,7 @@ public class CorsConfig {
 
         // ✅ Your Azure Static Web Apps domain (frontend)
         config.setAllowedOrigins(List.of(
-                "https://gentle-tree-0b6ce9f1e.1.azurestaticapps.net"
+                "https://www.myscope.vip"
                 
         ));
 
