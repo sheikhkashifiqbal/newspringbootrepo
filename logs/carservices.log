@@ -1,8 +1,0 @@
-2026-03-09T00:23:47.956+04:00  WARN 21512 --- [carservices] [HikariPool-32 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-32 - Thread starvation or clock leap detected (housekeeper delta=1h2m30s408ms933µs100ns).
-2026-03-09T11:14:44.005+04:00  WARN 21512 --- [carservices] [HikariPool-32 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-32 - Thread starvation or clock leap detected (housekeeper delta=10h51m14s625ms277µs800ns).
-2026-03-09T14:41:17.543+04:00  INFO 21512 --- [carservices] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 490 class path changes (0 additions, 490 deletions, 0 modifications)
-2026-03-09T14:41:17.771+04:00  INFO 21512 --- [carservices] [Thread-116] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
-2026-03-09T14:41:17.849+04:00  INFO 21512 --- [carservices] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
-2026-03-09T14:41:17.958+04:00  INFO 21512 --- [carservices] [Thread-116] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2026-03-09T14:41:18.043+04:00  INFO 21512 --- [carservices] [Thread-116] com.zaxxer.hikari.HikariDataSource       : HikariPool-32 - Shutdown initiated...
-2026-03-09T14:41:18.122+04:00  INFO 21512 --- [carservices] [Thread-116] com.zaxxer.hikari.HikariDataSource       : HikariPool-32 - Shutdown completed.
