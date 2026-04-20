@@ -17,7 +17,7 @@ public class CorsConfig {
 
         // ✅ Your Azure Static Web Apps domain (frontend)
         config.setAllowedOrigins(List.of(
-                "https://javaspringboot-dxdmc8aacfd4dafb.centralindia-01.azurewebsites.net"
+                "https://www.myscope.vip"
                 
         ));
 
